@@ -37,9 +37,15 @@ describe('Option', () => {
                 theValue.should.equal('value');
             });
         });
+
+        describe('#map', () => {
+            it('can convert the value with convertion function', () => {
+                same.map(v => 1).get().should.to.equal(1);
+            });  
+        });
     });
 
-    describe('None', () => {    
+    describe('None', () => {
         
         var none;
         beforeEach(() => { none = new Katana.None<string>()});
@@ -67,6 +73,12 @@ describe('Option', () => {
                     }
                 );
                 called.should.be.true;
+            });
+        });
+
+        describe('#map', () => {
+            it('never do anything else but create new None', () => {
+                none.map(v => 1).should.be.instanceof(Katana.None);
             });
         });
     });

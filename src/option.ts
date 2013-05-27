@@ -4,6 +4,7 @@ module Katana {
         get(): A;
         getOrElse(defaultValue: () => A): A;
         match(same:(value: A) => any, none:() => any);
+        map<B>(f: (value: A) => B): Option<B>;
     }
 
     export class Same<A> implements Option<A> {
@@ -21,6 +22,10 @@ module Katana {
         match(same:(value: A) => any, none:() => any) {
             same(this.get());            
         }
+
+        map<B>(f: (value: A) => B): Option<B> {
+            return new Same<B>(f(this.get()));
+        }
     }
 
     export class None<A> implements Option<A> {
@@ -35,6 +40,10 @@ module Katana {
 
         match(same:(value: A) => any, none:() => any) {
             none();
+        }
+
+        map<B>(f: (value: A) => B): Option<B> {
+            return new None<B>();
         }
     }
 }
