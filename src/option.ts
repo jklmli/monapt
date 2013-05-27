@@ -3,11 +3,11 @@ module Katana {
     export interface Option<A> {
         get(): A;
         getOrElse(defaultValue: () => A): A;
-        match(same:(value: A) => any, none:() => any);
+        match(some:(value: A) => any, none:() => any);
         map<B>(f: (value: A) => B): Option<B>;
     }
 
-    export class Same<A> implements Option<A> {
+    export class Some<A> implements Option<A> {
 
         constructor(private value :A) { }
 
@@ -19,13 +19,15 @@ module Katana {
             return this.value;
         }
 
-        match(same:(value: A) => any, none:() => any) {
-            same(this.get());            
+        match(some:(value: A) => any, none:() => any) {
+            some(this.get());            
         }
 
         map<B>(f: (value: A) => B): Option<B> {
-            return new Same<B>(f(this.get()));
+            return new Some<B>(f(this.get()));
         }
+
+
     }
 
     export class None<A> implements Option<A> {
@@ -38,7 +40,7 @@ module Katana {
             return defaultValue();
         }
 
-        match(same:(value: A) => any, none:() => any) {
+        match(some:(value: A) => any, none:() => any) {
             none();
         }
 

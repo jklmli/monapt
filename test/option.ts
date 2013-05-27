@@ -5,28 +5,28 @@
 describe('Option', () => {
     chai.should();
 
-    describe('Same', () => {    
+    describe('Some', () => {    
         
-        var same;
-        beforeEach(() => { same = new Katana.Same('value')});
+        var some;
+        beforeEach(() => { some = new Katana.Some('value')});
 
         describe('#get', () => {
             it('returns the value that binding on constructor', () => {
-                same.get().should.equal('value');
+                some.get().should.equal('value');
             });
         });
 
         describe('#getOrElse', () => {
             it('returns the value that binding on constructor', () => {
-                same.getOrElse(() => 'default').should.equal('value');
+                some.getOrElse(() => 'default').should.equal('value');
             });
         });
 
         describe('#match', () => {
-            it('call same callback with the value', () => {
+            it('call some callback with the value', () => {
                 var called = false;
                 var theValue = null;
-                same.match(
+                some.match(
                     (value) => {
                         called = true;
                         theValue = value;   
@@ -40,7 +40,7 @@ describe('Option', () => {
 
         describe('#map', () => {
             it('can convert the value with convertion function', () => {
-                same.map(v => 1).get().should.to.equal(1);
+                some.map(v => 1).get().should.to.equal(1);
             });  
         });
     });
