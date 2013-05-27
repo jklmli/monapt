@@ -1,39 +1,39 @@
 module Katana {
 
-    export interface Option<T> {
-        get(): T;
-        getOrElse(defaultValue: () => T): T;
-        match(same:(value: T) => any, none:() => any);
+    export interface Option<A> {
+        get(): A;
+        getOrElse(defaultValue: () => A): A;
+        match(same:(value: A) => any, none:() => any);
     }
 
-    export class Same<T> implements Option<T> {
+    export class Same<A> implements Option<A> {
 
-        constructor(private value :T) { }
+        constructor(private value :A) { }
 
-        get(): T {
+        get(): A {
             return this.value;
         }
 
-        getOrElse(defaultValue: () => T): T {
+        getOrElse(defaultValue: () => A): A {
             return this.value;
         }
 
-        match(same:(value: T) => any, none:() => any) {
+        match(same:(value: A) => any, none:() => any) {
             same(this.get());            
         }
     }
 
-    export class None<T> implements Option<T> {
+    export class None<A> implements Option<A> {
 
-        get(): T {
+        get(): A {
             throw new Error('No such element.');
         }
 
-        getOrElse(defaultValue: () => T): T {
+        getOrElse(defaultValue: () => A): A {
             return defaultValue();
         }
 
-        match(same:(value: T) => any, none:() => any) {
+        match(same:(value: A) => any, none:() => any) {
             none();
         }
     }
