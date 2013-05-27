@@ -1,0 +1,12 @@
+{
+    "framework" : "mocha+chai",
+    "before_tests" : "grunt compile",
+    "src_files" : [
+        "src/**/*.ts",
+        "test/**/*.ts"
+    ],
+    "serve_files" : [
+        "compiled/src/**/*.js",
+        "compiled/test/**/*.js"
+    ]
+}
