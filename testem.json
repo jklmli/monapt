@@ -8,5 +8,6 @@
     "serve_files" : [
         "compiled/src/**/*.js",
         "compiled/test/**/*.js"
-    ]
+    ],
+    "ignore_browsers": ["Safari"]
 }
