@@ -35,8 +35,8 @@ module Katana {
 
         flatten<B>(): Option<B> {
             if (this.value instanceof Some) {
-                var v = <Some<B>>this.value;
-                return new Some<B>(v.get());
+                // :-|
+                return <Some<B>>(<any>this.value);
             }
             else if (this.value instanceof None) {
                 return new None<B>();
