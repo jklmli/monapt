@@ -26,13 +26,13 @@ describe('Option', () => {
             it('call some callback with the value', () => {
                 var called = false;
                 var theValue = null;
-                some.match(
-                    (value) => {
+                some.match({
+                    Some: (value) => {
                         called = true;
-                        theValue = value;   
+                        theValue = value;
                     },
-                    () => {}
-                );
+                    None: () => {}
+                });
                 called.should.be.true;
                 theValue.should.equal('value');
             });
@@ -93,13 +93,12 @@ describe('Option', () => {
         describe('#match', () => {
             it('call none callback', () => {
                 var called = false;
-                none.match(
-                    (value) => { 
-                    },
-                    () => {
+                none.match({
+                    Some: (value) => { },
+                    None: () => {
                         called = true;
                     }
-                );
+                });
                 called.should.be.true;
             });
         });

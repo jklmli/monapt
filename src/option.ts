@@ -1,9 +1,14 @@
 module Katana {
 
+    export interface IOptionMatcher<A> {
+        Some(value: A): void;
+        None(): void;
+    }
+
     export interface Option<A> {
         get(): A;
         getOrElse(defaultValue: () => A): A;
-        match(some:(value: A) => any, none:() => any);
+        match(matcher: IOptionMatcher<A>);
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
         flatten<B>(): Option<B>;
@@ -21,8 +26,10 @@ module Katana {
             return this.value;
         }
 
-        match(some:(value: A) => any, none:() => any) {
-            some(this.get());            
+        match(matcher: IOptionMatcher<A>) {
+            if (matcher.Some) {
+                matcher.Some(this.value);
+            }
         }
 
         map<B>(f: (value: A) => B): Option<B> {
@@ -60,8 +67,10 @@ module Katana {
             return defaultValue();
         }
 
-        match(some:(value: A) => any, none:() => any) {
-            none();
+        match(matcher: IOptionMatcher<A>) {
+            if (matcher.None) {
+                matcher.None();
+            }
         }
 
         map<B>(f: (value: A) => B): Option<B> {
