@@ -40,5 +40,37 @@ module Katana.Spec {
                 map.get('hoge').get.should.throw('No such element.');   
             });
         });
-    });    
+
+        describe('when initialized three key/value pairs', () => {
+ 
+            var map: Map<string, string>;
+            beforeEach(() => {
+                map = new Katana.Map('key1', 'value1',
+                                     'key2', 'value2',
+                                     'key3', 'value3');
+            });
+
+            describe('#get', () => {
+                it('returns Some<V> if contains key', () => {
+                    map.get('key1').should.be.instanceof(Katana.Some);
+                    map.get('key1').get().should.equal('value1');
+                });
+
+                it('retruns None if not contains key', () => {
+                    map.get('any').should.be.instanceof(Katana.None);
+                });
+            });
+
+
+            describe('#getOrElse', () => {
+                it('returns value if contains key', () => {
+                    map.getOrElse('key1', () => 'a').should.equal('value1');
+                });
+
+                it('retruns defaultValue if not contains key', () => {
+                    map.getOrElse('any', () => 'none').should.equal('none');
+                });
+            });
+        });
+    });
 }
