@@ -3,8 +3,42 @@
 
 module Katana {
 
-    export class Map<K, V> {
+    export interface IHashable {
+        hash?(): string;
+    }
+
+    module Selector {
+
+        export interface Selector<K> {
+            register(k: K, index: number): Option[number]:
+            index(k: K): number;
+        }
+
+        export class StringSelector implements Selector<string> {
+            private table = {};
+            index(k: string): number {
+                return new Some<number>(<number>this.table[k]);
+            }
+
+        }
+
+        export class HashableSelector<K extends IHashable> implements Selector<K> {
+            private table = {};
+            index(k: K): number {
+                return new Some<number>(<number>this.table[k.hash()]);
+            }
+        }
+
+        export class ObjetSelector implements Selector<Object> {
+            index(k: Object): number {
+                return new None<number>();
+            }
+        }
+    }
+
+    export class Map<K extends IHashable, V> {
         private real: Array<Tuple2<K, V>> = [];
+        private selector: Selector.ISelector;
 
         constructor(key: K, value: V, ...keysAndValues: Array<any>);
         constructor(raw: Object);
