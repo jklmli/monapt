@@ -1,14 +1,10 @@
 /// <reference path="./option.ts" />
+/// <reference path="./tuple.ts" />
 
 module Katana {
 
-    export interface IMapObject<K, V> {
-        key: K;
-        value: V;
-    }
-
     export class Map<K, V> {
-        private real: Array<IMapObject<K, V>> = [];
+        private real: Array<Tuple2<K, V>> = [];
 
         constructor(key: K, value: V, ...keysAndValues: Array<any>);
         constructor(raw: Object);
@@ -34,11 +30,11 @@ module Katana {
         }
 
         private add(key: K, value: V) {
-            this.real.push({ key: key, value: value });
+            this.real.push(Tuple2(key, value));
         }
 
         foreach(f: (key: K, value: V) => void) {
-            this.real.forEach((value, index, array) => f(value.key, value.value));
+            this.real.forEach((value, index, array) => f(value._1, value._2));
         }
 
 /* WIP
@@ -72,24 +68,24 @@ module Katana {
             return this.filter((k, v) => !f(k, v));
         }
 
-        find(f: (key: K, value: V) => boolean): Option<IMapObject<K, V>> {
+        find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {
             return this.filter(f).head();
         }
 
         get(key: K): Option<V> {
-            return this.find((k, v) => k == key).map(obj => obj.value);
+            return this.find((k, v) => k == key).map(obj => obj._2);
         }
 
         getOrElse(key: K, defaultValue: () => V): V {
             return this.get(key).getOrElse(defaultValue);
         }
 
-        head(): Option<IMapObject<K, V>> {
+        head(): Option<Tuple2<K, V>> {
             if (this.real.length > 0) {
                 return new Some(this.real[0])
             }
             else {
-                return new None<IMapObject<K, V>>();
+                return new None<Tuple2<K, V>>();
             }
         }
     }
