@@ -1,8 +1,8 @@
 module Katana {
 
     export interface IOptionMatcher<A> {
-        Some(value: A): void;
-        None(): void;
+        Some?(value: A): void;
+        None?(): void;
     }
 
     export interface Option<A> {

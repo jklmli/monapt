@@ -30,8 +30,7 @@ describe('Option', () => {
                     Some: (value) => {
                         called = true;
                         theValue = value;
-                    },
-                    None: () => {}
+                    }
                 });
                 called.should.be.true;
                 theValue.should.equal('value');
