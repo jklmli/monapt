@@ -41,6 +41,12 @@ module Katana {
             this.real.forEach((value, index, array) => f(value.key, value.value));
         }
 
+/* WIP
+        // :\
+        flatMap<T, U>(f: (key: K, value: V) => Array<any>): Map<T, U> {
+            return null;
+        }
+
         map<U>(f: (key: K, value: V) => U): U[] {
             return this.real.map<U>((value, index, array) => f(value.key, value.value));
         }
@@ -52,6 +58,7 @@ module Katana {
             });
             return result;
         }
+*/
 
         filter(f: (key: K, value: V) => boolean):  Map<K, V> {
             var result = new Map<K, V>();
