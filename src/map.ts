@@ -10,8 +10,27 @@ module Katana {
     export class Map<K, V> {
         private real: Array<IMapObject<K, V>> = [];
 
-        constructor(raw: Object = {}) {
-
+        constructor(key: K, value: V, ...keysAndValues: Array<any>);
+        constructor(raw: Object);
+        constructor();
+        constructor(key?: any, value?: V, ...keysAndValues: Array<any>) {
+            if (value) {
+                if (keysAndValues.length != 0 && keysAndValues.length % 2 != 0) {
+                    throw new Error(keysAndValues[keysAndValues.length-1] + ' has not value.');
+                }
+                else {
+                    this.add(key, value);
+                    for (var i = 0, l = keysAndValues.length; i < l; i += 2) {
+                        this.add(keysAndValues[i], keysAndValues[i+1]);
+                    }
+                }
+            }
+            else if (key){
+                var obj: Object = key;
+                for (var k in obj) {
+                    this.add(k, obj[k]);
+                }
+            }
         }
 
         private add(key: K, value: V) {
@@ -51,11 +70,12 @@ module Katana {
         }
 
         head(): Option<IMapObject<K, V>> {
-            if (this.real.length > 0) return new Some(this.real[0])
-            else return new None<IMapObject<K, V>>();
+            if (this.real.length > 0) {
+                return new Some(this.real[0])
+            }
+            else {
+                return new None<IMapObject<K, V>>();
+            }
         }
     }
 }
-
-var map = new Katana.Map<string, number>();
-var s = map.filter((k,v) => true).head().map(x => "").get();
