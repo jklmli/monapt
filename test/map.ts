@@ -71,6 +71,18 @@ module Katana.Spec {
                     map.getOrElse('any', () => 'none').should.equal('none');
                 });
             });
+
+            describe('#foreach', () => {
+                it('can iterate key/value pairs', () => {
+                    var counter = 0;
+                    map.foreach((k, v) => {
+                        map.get(k).get().should.equal(v);
+                        counter++;
+                    });
+                    counter.should.equal(3);
+                });
+            });
+
         });
     });
 }
