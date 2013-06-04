@@ -9,28 +9,51 @@ module Katana {
 
     module Selector {
 
-        export interface Selector<K> {
-            register(k: K, index: number): Option[number]:
-            index(k: K): number;
+        export interface ISelector<K> {
+            register(k: K, index: number): void;
+            index(k: K): Option<number>;
         }
 
-        export class StringSelector implements Selector<string> {
+        export class StringSelector implements ISelector<string> {
             private table = {};
-            index(k: string): number {
-                return new Some<number>(<number>this.table[k]);
+
+            register(k: string, index: number) {
+                this.table[k] = index;
             }
 
-        }
-
-        export class HashableSelector<K extends IHashable> implements Selector<K> {
-            private table = {};
-            index(k: K): number {
-                return new Some<number>(<number>this.table[k.hash()]);
+            index(k: string): Option<number> { 
+                if (this.table[k]) {
+                    return new Some<number>(<number>this.table[k]);
+                }
+                else {
+                    return new None<number>();
+                }
             }
         }
 
-        export class ObjetSelector implements Selector<Object> {
-            index(k: Object): number {
+        export class HashableSelector<K extends IHashable> implements ISelector<K> {
+            private table = {};
+
+            register(k: K, index: number) {
+                this.table[k.hash()] = index;
+            }
+
+            index(k: K): Option<number> {
+                var hash = k.hash();
+                if (this.table[hash]) {
+                    return new Some<number>(<number>this.table[hash]);
+                }
+                else {
+                    return new None<number>();
+                }
+            }
+        }
+
+        export class ObjectSelector implements ISelector<any> {
+
+            register(k: any, index: number) { }
+
+            index(k: Object): Option<number> {
                 return new None<number>();
             }
         }
@@ -38,7 +61,7 @@ module Katana {
 
     export class Map<K extends IHashable, V> {
         private real: Array<Tuple2<K, V>> = [];
-        private selector: Selector.ISelector;
+        private selector: Selector.ISelector<K>;
 
         constructor(key: K, value: V, ...keysAndValues: Array<any>);
         constructor(raw: Object);
@@ -49,6 +72,7 @@ module Katana {
                     throw new Error(keysAndValues[keysAndValues.length-1] + ' has not value.');
                 }
                 else {
+                    this.ensureSelector(key);
                     this.add(key, value);
                     for (var i = 0, l = keysAndValues.length; i < l; i += 2) {
                         this.add(keysAndValues[i], keysAndValues[i+1]);
@@ -58,13 +82,35 @@ module Katana {
             else if (key){
                 var obj: Object = key;
                 for (var k in obj) {
+                    this.ensureSelector(k);
                     this.add(k, obj[k]);
                 }
             }
+
+            this.ensureSelector();
+        }
+
+        private ensureSelector(hint: K = null) {
+            if (this.selector) { return }
+            
+            if (!hint){
+                this.selector = new Selector.ObjectSelector();
+            }
+            else if (typeof hint == 'string') {
+                this.selector = new Selector.StringSelector();
+            }
+            else if (hint.hash) {
+                this.selector = new Selector.HashableSelector<K>();
+            }
+            else {
+                this.selector = new Selector.ObjectSelector();
+            }
+            
         }
 
         private add(key: K, value: V) {
             this.real.push(Tuple2(key, value));
+            this.selector.register(key, this.real.length - 1);
         }
 
         foreach(f: (key: K, value: V) => void) {
@@ -107,7 +153,13 @@ module Katana {
         }
 
         get(key: K): Option<V> {
-            return this.find((k, v) => k == key).map(obj => obj._2);
+            return this.selector.index(key).map<V>(index => {
+                return this.real[index]._2;
+            }).orElse(() => {
+                return this.find((k, v) => k == key).map<V>(tuple => {
+                    return tuple._2;
+                }).orElse(() => new None<V>());
+            });
         }
 
         getOrElse(key: K, defaultValue: () => V): V {

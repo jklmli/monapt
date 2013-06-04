@@ -8,6 +8,7 @@ module Katana {
     export interface Option<A> {
         get(): A;
         getOrElse(defaultValue: () => A): A;
+        orElse(alternative: () => Option<A>): Option<A>;
         match(matcher: IOptionMatcher<A>);
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
@@ -24,6 +25,10 @@ module Katana {
 
         getOrElse(defaultValue: () => A): A {
             return this.value;
+        }
+
+        orElse(alternative: () => Option<A>): Option<A> {
+            return this;
         }
 
         match(matcher: IOptionMatcher<A>) {
@@ -65,6 +70,10 @@ module Katana {
 
         getOrElse(defaultValue: () => A): A {
             return defaultValue();
+        }
+
+        orElse(alternative: () => Option<A>): Option<A> {
+            return alternative();
         }
 
         match(matcher: IOptionMatcher<A>) {
