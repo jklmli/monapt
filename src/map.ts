@@ -148,7 +148,7 @@ module Katana {
             return this.filter((k, v) => !f(k, v));
         }
 
-        find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {
+        private find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {
             return this.filter(f).head();
         }
 
@@ -158,7 +158,7 @@ module Katana {
             }).orElse(() => {
                 return this.find((k, v) => k == key).map<V>(tuple => {
                     return tuple._2;
-                }).orElse(() => new None<V>());
+                }).orElse(() => new None<K>());
             });
         }
 
