@@ -148,7 +148,7 @@ module Katana {
             return this.filter((k, v) => !f(k, v));
         }
 
-        private find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {
+        find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {
             return this.filter(f).head();
         }
 
