@@ -1,6 +1,6 @@
 module Katana {
 
-    var asIntanceOf = <T>(v: any): T => {
+    var asInstanceOf = <T>(v: any): T => {
         return <T>v;
     }
 
@@ -51,7 +51,7 @@ module Katana {
 
         flatten<B>(): Option<B> {
             if (this.value instanceof Some) {
-                return asIntanceOf<Some<B>>(this.value);
+                return asInstanceOf<Some<B>>(this.value);
             }
             else if (this.value instanceof None) {
                 return new None<B>();
