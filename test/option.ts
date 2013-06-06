@@ -22,6 +22,12 @@ describe('Option', () => {
             });
         });
 
+        describe('#orElse', () => {
+            it('returns that', () => {
+                some.orElse(() => new Katana.Some('alternative')).get().should.equal('value');
+            });
+        });
+
         describe('#match', () => {
             it('call some callback with the value', () => {
                 var called = false;
@@ -88,6 +94,13 @@ describe('Option', () => {
                 none.getOrElse(() => 'default').should.equal('default');
             });
         });
+
+        describe('#orElse', () => {
+            it('returns alternative', () => {
+                none.orElse(() => new Katana.Some('alternative')).get().should.equal('alternative');
+            });
+        });
+
 
         describe('#match', () => {
             it('call none callback', () => {
