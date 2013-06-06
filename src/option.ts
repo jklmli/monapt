@@ -1,5 +1,9 @@
 module Katana {
 
+    var asIntanceOf = <T>(v: any): T => {
+        return <T>v;
+    }
+
     export interface IOptionMatcher<A> {
         Some?(value: A): void;
         None?(): void;
@@ -47,8 +51,7 @@ module Katana {
 
         flatten<B>(): Option<B> {
             if (this.value instanceof Some) {
-                // :-|
-                return <Some<B>>(<any>this.value);
+                return asIntanceOf<Some<B>>(this.value);
             }
             else if (this.value instanceof None) {
                 return new None<B>();
