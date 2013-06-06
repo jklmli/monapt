@@ -34,6 +34,14 @@ module Katana.Spec {
                 success = new Katana.Success(100);
             });
 
+            it('is success', () => {
+                success.isSuccess.should.be.true;
+            });
+
+            it('is not failure', () => {
+                success.isFailure.should.be.false;
+            });
+
             describe('#get', () => {
                 it('returns the value', () => {
                     success.get().should.equal(100);
@@ -46,6 +54,14 @@ module Katana.Spec {
             var failure: Katana.Failure<number>;
             beforeEach(() => {
                 failure = new Katana.Failure(new Error('Error.'));    
+            });
+
+            it('is not success', () => {
+                failure.isSuccess.should.be.false;
+            });
+
+            it('is failure', () => {
+                failure.isFailure.should.be.true;
             });
 
             describe('#get', () => {

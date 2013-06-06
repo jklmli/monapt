@@ -10,10 +10,14 @@ module Katana {
     }
 */
     export interface Try<T> {
+        isSuccess: boolean;
+        isFailure: boolean;
         get(): T;
     }
 
     export class Success<T> implements Try<T> {
+        isSuccess = true;
+        isFailure = false;
 
         constructor(private value: T) { }
 
@@ -23,6 +27,8 @@ module Katana {
     }
 
     export class Failure<T> implements Try<T> {
+        isSuccess = false;
+        isFailure = true;
 
         constructor(private error: Error) { }
 
