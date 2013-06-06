@@ -15,19 +15,20 @@ module Katana {
 
     export class Success<T> implements Try<T> {
 
-        constructor(public value: T) {
+        constructor(private value: T) { }
 
+        get(): T { 
+            return this.value;
         }
-
-        get(): T { return null; }
     }
 
     export class Failure<T> implements Try<T> {
 
-        constructor(public error: Error) {
+        constructor(private error: Error) { }
 
+        get(): T {
+            throw this.error;
         }
-        get(): T { return null; }
 
     }
 
