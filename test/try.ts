@@ -10,14 +10,14 @@ module Katana.Spec {
         describe('TryOn', () => {
 
             it('returns Success instacne if not throws error on f', () => {
-                var trier = Katana.TryOn(() => {
+                var trier = Katana.Try(() => {
                     return 1;
                 });
                 trier.should.instanceof(Katana.Success);
             });
 
             it('returns Failure instacne if throws error on f', () => {
-                var trier = Katana.TryOn(() => {
+                var trier = Katana.Try(() => {
                     (() => {
                         throw new Error('Some Error.');
                     })();
@@ -48,6 +48,37 @@ module Katana.Spec {
                 });
             });
 
+            describe('#map', () => {
+                it('returns a Success containing the result of applying func', () => {
+                    var mapped = success.map(v => v.toString() + ' HELLO');
+                    mapped.should.instanceof(Katana.Success);
+                    mapped.get().should.equal('100 HELLO');
+                });
+
+                it('returns a Failure if func throws error', () => {
+                    (() => {
+                        success.map(v => {
+                            throw new Error(v.toString() + ' Error.');
+                            return 'HELLO'
+                        }).get();                       
+                    }).should.throw('100 Error.');
+                });
+            });
+
+            describe('#flatMap', () => {
+                it('returns the result of applying func', () => {
+                    success.flatMap((v) => new Katana.Success(v.toString() + ' HELLO')).get().should.equal('100 HELLO');
+                });
+
+                it('returns a Failure if func throws error', () => {
+                    (() => {
+                        success.flatMap(v => {
+                            throw new Error(v.toString() + ' Error.');
+                            return new Katana.Success('');
+                        }).get();
+                    }).should.throw('100 Error.');
+                });
+            });
         });
 
         describe('Failure', () => {
@@ -67,6 +98,22 @@ module Katana.Spec {
             describe('#get', () => {
                 it('throws error.', () => {
                     (() => failure.get()).should.throw('Error.');
+                });
+            });
+
+            describe('#map', () => {
+                it('never do anything', () => {
+                    failure.map<string>((v) => {
+                        return 'HELLO';    
+                    }).should.instanceof(Katana.Failure);
+                });
+            });
+
+            describe('#flatMap', () => {
+                it('never do anything', () => {
+                    failure.flatMap<string>((v) => {
+                        return new Katana.Success('HELLO');
+                    }).should.instanceof(Katana.Failure);
                 });
             });
         });

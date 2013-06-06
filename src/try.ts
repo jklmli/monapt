@@ -9,10 +9,17 @@ module Katana {
         flatten<B>(): Option<B>;
     }
 */
+
+    var asInstanceOf = <T>(v: any): T => {
+        return <T>v;
+    }
+
     export interface Try<T> {
         isSuccess: boolean;
         isFailure: boolean;
         get(): T;
+        map<U>(f: (value: T) => U): Try<U>;
+        flatMap<U>(f: (value: T) => Try<U>): Try<U>;
     }
 
     export class Success<T> implements Try<T> {
@@ -23,6 +30,19 @@ module Katana {
 
         get(): T { 
             return this.value;
+        }
+
+        map<U>(f: (value: T) => U): Try<U> {
+            return Try(() => f(this.value));
+        }
+
+        flatMap<U>(f: (value: T) => Try<U>): Try<U> {
+            try {
+                return f(this.value);
+            }
+            catch (e) {
+                return new Failure<U>(e);
+            }
         }
     }
 
@@ -36,9 +56,17 @@ module Katana {
             throw this.error;
         }
 
+        map<U>(f: (value: T) => U): Try<U> {
+            return asInstanceOf<Try<U>>(this);
+        }
+
+        flatMap<U>(f: (value: T) => Try<U>): Try<U> {
+            return asInstanceOf<Try<U>>(this);
+        }
+
     }
 
-    export var TryOn = <T>(f: () => T): Try<T> => {
+    export var Try = <T>(f: () => T): Try<T> => {
         try {
             return new Success<T>(f());
         }
