@@ -67,7 +67,7 @@ describe('Option', () => {
             })
 
             it('cannot prove if its value isnt Option', () => {
-                some.flatten.should.throw('Cannot prove that.');
+                (() => some.flatten()).should.throw('Cannot prove that.');
             });
         })
     });
@@ -79,7 +79,7 @@ describe('Option', () => {
 
         describe('#get', () => {
             it('throws No such element Exception', () => {
-                none.get.should.throw('No such element.');
+                (() => none.get()).should.throw('No such element.');
             });
         });
 

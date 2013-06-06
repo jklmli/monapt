@@ -37,7 +37,7 @@ module Katana.Spec {
 
             it('can initialize with any arugment', () => {
                 var map = new Katana.Map<string, string>();
-                map.get('hoge').get.should.throw('No such element.');   
+                (() => map.get('hoge').get()).should.throw('No such element.');   
             });
         });
 
