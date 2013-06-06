@@ -18,6 +18,8 @@ module Katana {
         isSuccess: boolean;
         isFailure: boolean;
         get(): T;
+        getOrElse(defaultValue: () => T): T;
+        orElse(alternative: () => Try<T>): Try<T>;
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
     }
@@ -30,6 +32,14 @@ module Katana {
 
         get(): T { 
             return this.value;
+        }
+
+        getOrElse(defaultValue: () => T): T {
+            return this.get();
+        }
+
+        orElse(alternative: () => Try<T>): Try<T> {
+            return this;
         }
 
         map<U>(f: (value: T) => U): Try<U> {
@@ -54,6 +64,14 @@ module Katana {
 
         get(): T {
             throw this.error;
+        }
+
+        getOrElse(defaultValue: () => T): T {
+            return defaultValue();
+        }
+
+        orElse(alternative: () => Try<T>): Try<T> {
+            return alternative();
         }
 
         map<U>(f: (value: T) => U): Try<U> {

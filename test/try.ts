@@ -7,31 +7,28 @@ module Katana.Spec {
     describe('Try', () => {
         chai.should();
     
-        describe('TryOn', () => {
-
-            it('returns Success instacne if not throws error on f', () => {
-                var trier = Katana.Try(() => {
-                    return 1;
-                });
-                trier.should.instanceof(Katana.Success);
+        it('returns Success instacne if not throws error on f', () => {
+            var trier = Katana.Try(() => {
+                return 1;
             });
+            trier.should.instanceof(Katana.Success);
+        });
 
-            it('returns Failure instacne if throws error on f', () => {
-                var trier = Katana.Try(() => {
-                    (() => {
-                        throw new Error('Some Error.');
-                    })();
-                    return 1;
-                });
-                trier.should.instanceof(Katana.Failure);
+        it('returns Failure instacne if throws error on f', () => {
+            var trier = Katana.Try(() => {
+                (() => {
+                    throw new Error('Some Error.');
+                })();
+                return 1;
             });
+            trier.should.instanceof(Katana.Failure);
         });
 
         describe('Success', () => {
 
-            var success: Katana.Success<number>;
+            var success: Katana.Success<string>;
             beforeEach(() => {
-                success = new Katana.Success(100);
+                success = new Katana.Success('value');
             });
 
             it('is success', () => {
@@ -44,47 +41,59 @@ module Katana.Spec {
 
             describe('#get', () => {
                 it('returns the value', () => {
-                    success.get().should.equal(100);
+                    success.get().should.equal('value');
+                });
+            });
+
+            describe('#getOrElse', () => {
+                it('returns the value', () => {
+                    success.getOrElse(() => 'default').should.equal('value');
+                });
+            });
+
+            describe('#orElse', () => {
+                it('returns this', () => {
+                    success.orElse(() => new Katana.Success('alternative')).get().should.equal('value');
                 });
             });
 
             describe('#map', () => {
                 it('returns a Success containing the result of applying func', () => {
-                    var mapped = success.map(v => v.toString() + ' HELLO');
+                    var mapped = success.map(v => v + ' HELLO');
                     mapped.should.instanceof(Katana.Success);
-                    mapped.get().should.equal('100 HELLO');
+                    mapped.get().should.equal('value HELLO');
                 });
 
                 it('returns a Failure if func throws error', () => {
                     (() => {
                         success.map(v => {
-                            throw new Error(v.toString() + ' Error.');
+                            throw new Error(v + ' Error.');
                             return 'HELLO'
                         }).get();                       
-                    }).should.throw('100 Error.');
+                    }).should.throw('value Error.');
                 });
             });
 
             describe('#flatMap', () => {
                 it('returns the result of applying func', () => {
-                    success.flatMap((v) => new Katana.Success(v.toString() + ' HELLO')).get().should.equal('100 HELLO');
+                    success.flatMap((v) => new Katana.Success(v + ' HELLO')).get().should.equal('value HELLO');
                 });
 
                 it('returns a Failure if func throws error', () => {
                     (() => {
                         success.flatMap(v => {
-                            throw new Error(v.toString() + ' Error.');
+                            throw new Error(v + ' Error.');
                             return new Katana.Success('');
                         }).get();
-                    }).should.throw('100 Error.');
+                    }).should.throw('value Error.');
                 });
             });
         });
 
         describe('Failure', () => {
-            var failure: Katana.Failure<number>;
+            var failure: Katana.Failure<string>;
             beforeEach(() => {
-                failure = new Katana.Failure(new Error('Error.'));    
+                failure = new Katana.Failure<string>(new Error('Error.'));    
             });
 
             it('is not success', () => {
@@ -98,6 +107,18 @@ module Katana.Spec {
             describe('#get', () => {
                 it('throws error.', () => {
                     (() => failure.get()).should.throw('Error.');
+                });
+            });
+
+            describe('#getOrElse', () => {
+                it('returns default value', () => {
+                    failure.getOrElse(() => 'default').should.equal('default');
+                });
+            });
+
+            describe('#orElse', () => {
+                it('returns alternative', () => {
+                    failure.orElse(() => new Katana.Success('alternative')).get().should.equal('alternative');
                 });
             });
 
