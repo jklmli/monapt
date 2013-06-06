@@ -1,17 +1,12 @@
 module Katana {
-/*
-    export interface Either<L, R> {
-        getOrElse(defaultValue: () => A): A;
-        orElse(alternative: () => Option<A>): Option<A>;
-        match(matcher: IOptionMatcher<A>);
-        map<B>(f: (value: A) => B): Option<B>;
-        flatMap<B>(f: (value: A) => Option<B>): Option<B>;
-        flatten<B>(): Option<B>;
-    }
-*/
 
     var asInstanceOf = <T>(v: any): T => {
         return <T>v;
+    }
+
+    export interface ITryMatcher<T> {
+        Success?(value: T): void;
+        Failure?(error: Error): void;
     }
 
     export interface Try<T> {
@@ -22,6 +17,7 @@ module Katana {
         orElse(alternative: () => Try<T>): Try<T>;
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
+        match(matcher: ITryMatcher<T>);
     }
 
     export class Success<T> implements Try<T> {
@@ -54,6 +50,10 @@ module Katana {
                 return new Failure<U>(e);
             }
         }
+
+        match(matcher: ITryMatcher<T>) {
+            if (matcher.Success) matcher.Success(this.get());
+        }
     }
 
     export class Failure<T> implements Try<T> {
@@ -80,6 +80,10 @@ module Katana {
 
         flatMap<U>(f: (value: T) => Try<U>): Try<U> {
             return asInstanceOf<Try<U>>(this);
+        }
+
+        match(matcher: ITryMatcher<T>) {
+            if (matcher.Failure) matcher.Failure(this.error);
         }
 
     }

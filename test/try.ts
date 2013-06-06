@@ -88,6 +88,21 @@ module Katana.Spec {
                     }).should.throw('value Error.');
                 });
             });
+
+            describe('#match', () => {
+                it('call Success callback with the value', () => {
+                    var called = false;
+                    var theValue = null;
+                    success.match({
+                        Success: (v) => {
+                            called = true;
+                            theValue = v;
+                        }
+                    });
+                    called.should.be.true;
+                    theValue.should.equal('value');
+                });
+            });
         });
 
         describe('Failure', () => {
@@ -135,6 +150,23 @@ module Katana.Spec {
                     failure.flatMap<string>((v) => {
                         return new Katana.Success('HELLO');
                     }).should.instanceof(Katana.Failure);
+                });
+            });
+
+            describe('#match', () => {
+                it('call Failure callback with the error', () => {
+                    var called = false;
+                    var theError = null;
+                    failure.match({
+                        Success: (v) => {
+                        },
+                        Failure: (e) => {
+                            called = true;
+                            theError = e;
+                        }
+                    });
+                    called.should.be.true;
+                    theError.message.should.equal('Error.');
                 });
             });
         });
