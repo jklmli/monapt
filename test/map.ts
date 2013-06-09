@@ -72,6 +72,16 @@ module Katana.Spec {
                 });
             });
 
+            describe('#find', () => {
+                it('returns Some<Tuple<K, V>> if matching', () => {
+                    map.find((k, v) => k == 'key1').get()._2.should.equal('value1');
+                });
+
+                it('returns None if not matching', () => {
+                  (() => map.find((k, v) => k == 'any').get()).should.throw('No such element.');
+                });
+            });
+
             describe('#foreach', () => {
                 it('can iterate key/value pairs', () => {
                     var counter = 0;
