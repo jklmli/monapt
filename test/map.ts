@@ -85,10 +85,19 @@ module Katana.Spec {
 
             describe('#filter', () => {
                 it('returns Map containing results of applying filter func', () => {
-                    var mapped = map.filter((k, v) => k == 'key1');
-                    mapped.get('key1').get().should.equal('value1');
-                    (() => mapped.get('key2').get()).should.throw('No such element.');
-                    (() => mapped.get('key3').get()).should.throw('No such element.');
+                    var filtered = map.filter((k, v) => k == 'key1');
+                    filtered.get('key1').get().should.equal('value1');
+                    (() => filtered.get('key2').get()).should.throw('No such element.');
+                    (() => filtered.get('key3').get()).should.throw('No such element.');
+                });
+            });
+
+            describe('reject', () => {
+                it('returns Map containing results of applying reject func', () => {
+                    var filtered = map.reject((k, v) => k == 'key1');
+                    (() => filtered.get('key1').get()).should.throw('No such element.');
+                    filtered.get('key2').get().should.equal('value2');
+                    filtered.get('key3').get().should.equal('value3');
                 });
             });
         });
