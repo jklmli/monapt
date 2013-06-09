@@ -83,6 +83,14 @@ module Katana.Spec {
                 });
             });
 
+            describe('#filter', () => {
+                it('returns Map containing results of applying filter func', () => {
+                    var mapped = map.filter((k, v) => k == 'key1');
+                    mapped.get('key1').get().should.equal('value1');
+                    (() => mapped.get('key2').get()).should.throw('No such element.');
+                    (() => mapped.get('key3').get()).should.throw('No such element.');
+                });
+            });
         });
     });
 }
