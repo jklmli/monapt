@@ -56,7 +56,7 @@ module Katana.Spec {
                     map.get('key1').get().should.equal('value1');
                 });
 
-                it('retruns None if not contains key', () => {
+                it('returns None if not contains key', () => {
                     map.get('any').should.be.instanceof(Katana.None);
                 });
             });
