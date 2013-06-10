@@ -63,6 +63,28 @@ describe('Option', () => {
             });
         });
 
+        describe('#filter', () => {
+            it('returns that if matched filter func', () => {
+                some.filter(v => true).get().should.equal('value');
+            });
+
+            it('returns None if unmatched filter func', () => {
+                var none = some.filter(v => false);
+                none.should.instanceof(Katana.None);
+            });
+        });
+
+        describe('#reject', () => {
+            it('returns that if unmatched reject func', () => {
+                some.reject(v => false).get().should.equal('value');
+            });
+
+            it('returns None if matched reject func', () => {
+                var none = some.reject(v => true);
+                none.should.instanceof(Katana.None);
+            });
+        });
+
         describe('#foreach', () => {
             it('apply f with value', () => {
                 var value = null;
@@ -120,6 +142,18 @@ describe('Option', () => {
         describe('#flatMap', () => {
             it('never do anything', () => {
                 none.flatMap(v => new Katana.Some(1)).should.be.instanceof(Katana.None);
+            });
+        });
+
+        describe('#filter', () => {
+            it('never do anything', () => {
+                none.filter(v => true).should.eql(none);
+            });
+        });
+
+        describe('#reject', () => {
+            it('never do anything', () => {
+                none.reject(v => true).should.eql(none);
             });
         });
 
