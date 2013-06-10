@@ -11,12 +11,16 @@ module Katana {
 
     export interface Option<A> {
         isEmpty: boolean;
+
         get(): A;
         getOrElse(defaultValue: () => A): A;
         orElse(alternative: () => Option<A>): Option<A>;
+
         match(matcher: IOptionMatcher<A>);
+        
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
+        
         foreach(f: (value: A) => void): void;
     }
 

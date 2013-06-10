@@ -12,14 +12,19 @@ module Katana {
     export interface Try<T> {
         isSuccess: boolean;
         isFailure: boolean;
+
         get(): T;
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;
+
+        match(matcher: ITryMatcher<T>);
+
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
-        match(matcher: ITryMatcher<T>);
+
         filter(f: (value: T) => boolean): Try<T>;
         reject(f: (value: T) => boolean): Try<T>;
+        
         foreach(f: (value: T) => void): void;
     }
 
@@ -41,6 +46,10 @@ module Katana {
             return this;
         }
 
+        match(matcher: ITryMatcher<T>) {
+            if (matcher.Success) matcher.Success(this.get());
+        }
+
         map<U>(f: (value: T) => U): Try<U> {
             return Try(() => f(this.value));
         }
@@ -52,10 +61,6 @@ module Katana {
             catch (e) {
                 return new Failure<U>(e);
             }
-        }
-
-        match(matcher: ITryMatcher<T>) {
-            if (matcher.Success) matcher.Success(this.get());
         }
 
         filter(f: (value: T) => boolean): Try<T> {
@@ -98,16 +103,16 @@ module Katana {
             return alternative();
         }
 
+        match(matcher: ITryMatcher<T>) {
+            if (matcher.Failure) matcher.Failure(this.error);
+        }
+
         map<U>(f: (value: T) => U): Try<U> {
             return asInstanceOf<Try<U>>(this);
         }
 
         flatMap<U>(f: (value: T) => Try<U>): Try<U> {
             return asInstanceOf<Try<U>>(this);
-        }
-
-        match(matcher: ITryMatcher<T>) {
-            if (matcher.Failure) matcher.Failure(this.error);
         }
 
         filter(f: (value: T) => boolean): Try<T> {
