@@ -18,6 +18,8 @@ module Katana {
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
         match(matcher: ITryMatcher<T>);
+        filter(f: (value: T) => boolean): Try<T>;
+        reject(f: (value: T) => boolean): Try<T>;
     }
 
     export class Success<T> implements Try<T> {
@@ -54,6 +56,23 @@ module Katana {
         match(matcher: ITryMatcher<T>) {
             if (matcher.Success) matcher.Success(this.get());
         }
+
+        filter(f: (value: T) => boolean): Try<T> {
+            try {
+                if (f(this.value)) {
+                    return this;
+                }
+                else {
+                    return new Failure(new Error('Predicate does not hold for ' + this.value));
+                }
+            } catch(e) {
+                return new Failure(e);
+            }
+        }
+
+        reject(f: (value: T) => boolean): Try<T> {
+            return this.filter((v) => !f(v));
+        }
     }
 
     export class Failure<T> implements Try<T> {
@@ -84,6 +103,14 @@ module Katana {
 
         match(matcher: ITryMatcher<T>) {
             if (matcher.Failure) matcher.Failure(this.error);
+        }
+
+        filter(f: (value: T) => boolean): Try<T> {
+            return this;
+        }
+
+        reject(f: (value: T) => boolean): Try<T> {
+            return this;
         }
 
     }

@@ -103,6 +103,29 @@ module Katana.Spec {
                     theValue.should.equal('value');
                 });
             });
+
+            describe('#filter', () => {
+                it('returns that if matched filter func', () => {
+                    success.filter(v => true).get().should.equal('value');
+                });
+
+                it('returns Failure if unmatched filter func', () => {
+                    var failure = success.filter(v => false);
+                    failure.should.instanceof(Katana.Failure);
+                });
+            });
+
+            describe('#reject', () => {
+                it('returns that if unmatched reject func', () => {
+                    success.reject(v => false).get().should.equal('value');
+                });
+
+                it('returns Failure if matched reject func', () => {
+                    var failure = success.reject(v => true);
+                    failure.should.instanceof(Katana.Failure);
+                });
+            });
+
         });
 
         describe('Failure', () => {
@@ -167,6 +190,18 @@ module Katana.Spec {
                     });
                     called.should.be.true;
                     theError.message.should.equal('Error.');
+                });
+            });
+
+            describe('#filter', () => {
+                it('never do anything', () => {
+                    failure.filter(v => true).should.eql(failure);
+                });
+            });
+
+            describe('#reject', () => {
+                it('never do anything', () => {
+                    failure.reject(v => true).should.eql(failure);
                 });
             });
         });
