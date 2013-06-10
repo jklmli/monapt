@@ -102,7 +102,7 @@ module Katana.Spec {
                 });
             });
 
-            describe('reject', () => {
+            describe('#reject', () => {
                 it('returns Map containing results of applying reject func', () => {
                     var filtered = map.reject((k, v) => k == 'key1');
                     (() => filtered.get('key1').get()).should.throw('No such element.');
