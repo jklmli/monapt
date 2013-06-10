@@ -126,6 +126,13 @@ module Katana.Spec {
                 });
             });
 
+            describe('#foreach', () => {
+                it('apply func with value', () => {
+                    var value: string;
+                    success.foreach(v => value = v);
+                    value.should.equal('value');
+                });
+            });
         });
 
         describe('Failure', () => {
@@ -202,6 +209,14 @@ module Katana.Spec {
             describe('#reject', () => {
                 it('never do anything', () => {
                     failure.reject(v => true).should.eql(failure);
+                });
+            });
+
+            describe('#foreach', () => {
+                it('never do anythig', () => {
+                    var counter = 0;
+                    failure.foreach(v => counter++);
+                    counter.should.equal(0);
                 });
             });
         });

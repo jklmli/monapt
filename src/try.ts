@@ -20,6 +20,7 @@ module Katana {
         match(matcher: ITryMatcher<T>);
         filter(f: (value: T) => boolean): Try<T>;
         reject(f: (value: T) => boolean): Try<T>;
+        foreach(f: (value: T) => void): void;
     }
 
     export class Success<T> implements Try<T> {
@@ -73,6 +74,10 @@ module Katana {
         reject(f: (value: T) => boolean): Try<T> {
             return this.filter((v) => !f(v));
         }
+
+        foreach(f: (value: T) => void) {
+            f(this.value);
+        }
     }
 
     export class Failure<T> implements Try<T> {
@@ -111,6 +116,10 @@ module Katana {
 
         reject(f: (value: T) => boolean): Try<T> {
             return this;
+        }
+
+        foreach(f: (value: T) => void) {
+            return;
         }
 
     }
