@@ -63,22 +63,6 @@ describe('Option', () => {
             });
         });
 
-        describe('#flatten', () => {
-            it('returns a Some if its value is Same', () => {
-                var flat = some.map(v => new Katana.Some('a')).flatten();
-                flat.should.be.instanceof(Katana.Some);
-                flat.get().should.equal('a');
-            });
-
-            it('returns None if its value is None', () => {
-                some.map(v => new Katana.None<string>()).flatten().should.be.instanceof(Katana.None);    
-            })
-
-            it('cannot prove if its value isnt Option', () => {
-                (() => some.flatten()).should.throw('Cannot prove that.');
-            });
-        });
-
         describe('#foreach', () => {
             it('apply f with value', () => {
                 var value = null;
@@ -136,12 +120,6 @@ describe('Option', () => {
         describe('#flatMap', () => {
             it('never do anything', () => {
                 none.flatMap(v => new Katana.Some(1)).should.be.instanceof(Katana.None);
-            });
-        });
-
-        describe('#flatten', () => {
-            it('never do anything', () => {
-                none.flatten().should.be.instanceof(Katana.None);
             });
         });
 
