@@ -84,11 +84,11 @@ module Katana {
         }
 
         map<B>(f: (value: A) => B): Option<B> {
-            return new None<B>();
+            return asInstanceOf<None<B>>(this);
         }
 
         flatMap<B>(f: (value: A) => Option<B>): Option<B> {
-            return new None<B>();
+            return asInstanceOf<None<B>>(this);
         }
 
         foreach(f: (value: A) => void) {
