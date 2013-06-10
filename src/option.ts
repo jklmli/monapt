@@ -10,6 +10,7 @@ module Katana {
     }
 
     export interface Option<A> {
+        isEmpty: boolean;
         get(): A;
         getOrElse(defaultValue: () => A): A;
         orElse(alternative: () => Option<A>): Option<A>;
@@ -20,6 +21,7 @@ module Katana {
     }
 
     export class Some<A> implements Option<A> {
+        isEmpty = false;
 
         constructor(private value :A) { }
 
@@ -66,6 +68,7 @@ module Katana {
     
 
     export class None<A> implements Option<A> {
+        isEmpty = true;
 
         get(): A {
             throw new Error('No such element.');

@@ -10,6 +10,8 @@ describe('Option', () => {
         var some: Katana.Some<string>;
         beforeEach(() => { some = new Katana.Some('value') });
 
+        it('is not empty', () => some.isEmpty.should.be.false);
+        
         describe('#get', () => {
             it('returns the value that binding on constructor', () => {
                 some.get().should.equal('value');
@@ -82,6 +84,8 @@ describe('Option', () => {
         
         var none: Katana.None<string>;
         beforeEach(() => { none = new Katana.None<string>() });
+
+        it('is empty', () => none.isEmpty.should.be.true);
 
         describe('#get', () => {
             it('throws No such element Exception', () => {
