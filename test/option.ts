@@ -77,7 +77,15 @@ describe('Option', () => {
             it('cannot prove if its value isnt Option', () => {
                 (() => some.flatten()).should.throw('Cannot prove that.');
             });
-        })
+        });
+
+        describe('#foreach', () => {
+            it('apply f with value', () => {
+                var value = null;
+                some.foreach(v => { value = v });
+                value.should.equal('value');
+            });
+        });
     });
 
     describe('None', () => {
@@ -134,6 +142,14 @@ describe('Option', () => {
         describe('#flatten', () => {
             it('never do anything', () => {
                 none.flatten().should.be.instanceof(Katana.None);
+            });
+        });
+
+        describe('#foreach', () => {
+            it('never do anything', () => {
+                var counter = 0;
+                none.foreach(v => { counter++ });
+                counter.should.equal(0);
             });
         });
     });

@@ -18,6 +18,7 @@ module Katana {
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
         flatten<B>(): Option<B>;
+        foreach(f: (value: A) => void): void;
     }
 
     export class Some<A> implements Option<A> {
@@ -63,6 +64,10 @@ module Katana {
             }
             return null;
         }
+
+        foreach(f: (value: A) => void) {
+            f(this.value);
+        }
         
     }
     
@@ -98,6 +103,10 @@ module Katana {
 
         flatten<B>(): Option<B> {
             return new None<B>();
+        }
+
+        foreach(f: (value: A) => void) {
+            return;
         }
     }
     
