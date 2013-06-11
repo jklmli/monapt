@@ -1,17 +1,138 @@
 var Katana;
 (function (Katana) {
-    var Left = (function () {
-        function Left() {
+    var Cracker = (function () {
+        function Cracker() {
+            this.fired = false;
+            this.callbacks = new Array();
         }
-        return Left;
+        Cracker.prototype.fire = function (producer) {
+            this.producer = producer;
+            if (this.fired) {
+                throw new Error('Does fired.');
+            } else {
+                this.fireAll();
+            }
+        };
+
+        Cracker.prototype.fireAll = function () {
+            var _this = this;
+            this.fired = true;
+            this.callbacks.forEach(function (fn) {
+                return _this.producer(fn);
+            });
+        };
+
+        Cracker.prototype.add = function (fn) {
+            if (this.fired) {
+                this.producer(fn);
+            } else {
+                this.callbacks.push(fn);
+            }
+        };
+        return Cracker;
     })();
-    Katana.Left = Left;
-    var Right = (function () {
-        function Right() {
+    Katana.Cracker = Cracker;
+})(Katana || (Katana = {}));
+;var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Katana;
+(function (Katana) {
+    var Future = (function () {
+        function Future(future) {
+            var _this = this;
+            this.cracker = new Katana.Cracker();
+            future(function (v) {
+                return _this.success(v);
+            }, function (e) {
+                return _this.failure(e);
+            });
         }
-        return Right;
+        Future.prototype.success = function (value) {
+            this.cracker.fire(function (fn) {
+                return fn(new Katana.Success(value));
+            });
+        };
+
+        Future.prototype.failure = function (error) {
+            this.cracker.fire(function (fn) {
+                return fn(new Katana.Failure(error));
+            });
+        };
+
+        Future.prototype.onComplete = function (callback) {
+            this.cracker.add(callback);
+        };
+
+        Future.prototype.onSuccess = function (callback) {
+            this.onComplete(function (r) {
+                r.match({
+                    Success: function (v) {
+                        return callback(v);
+                    }
+                });
+            });
+        };
+
+        Future.prototype.onFailure = function (callback) {
+            this.onComplete(function (r) {
+                r.match({
+                    Failure: function (error) {
+                        return callback(error);
+                    }
+                });
+            });
+        };
+
+        Future.prototype.filter = function (f) {
+            var promise = new Promise();
+            this.onComplete(function (r) {
+                r.match({
+                    Success: function (v) {
+                        try  {
+                            if (f(v)) {
+                                promise.success(v);
+                            } else {
+                                promise.failure(new Error('No such element.'));
+                            }
+                        } catch (e) {
+                            promise.failure(e);
+                        }
+                    }
+                });
+            });
+            return promise.future();
+        };
+        return Future;
     })();
-    Katana.Right = Right;
+    Katana.Future = Future;
+
+    var Promise = (function (_super) {
+        __extends(Promise, _super);
+        function Promise() {
+            _super.call(this, function (s, f) {
+            });
+            this.isComplete = false;
+        }
+        Promise.prototype.success = function (value) {
+            this.isComplete = true;
+            _super.prototype.success.call(this, value);
+        };
+
+        Promise.prototype.failure = function (error) {
+            this.isComplete = true;
+            _super.prototype.failure.call(this, error);
+        };
+
+        Promise.prototype.future = function () {
+            return this;
+        };
+        return Promise;
+    })(Future);
+    Katana.Promise = Promise;
 })(Katana || (Katana = {}));
 ;var Katana;
 (function (Katana) {
@@ -183,6 +304,7 @@ var Katana;
     var Some = (function () {
         function Some(value) {
             this.value = value;
+            this.isEmpty = false;
         }
         Some.prototype.get = function () {
             return this.value;
@@ -210,15 +332,22 @@ var Katana;
             return f(this.get());
         };
 
-        Some.prototype.flatten = function () {
-            if (this.value instanceof Some) {
-                return asInstanceOf(this.value);
-            } else if (this.value instanceof None) {
-                return new None();
+        Some.prototype.filter = function (f) {
+            if (f(this.value)) {
+                return this;
             } else {
-                throw new Error('Cannot prove that.');
+                return new None();
             }
-            return null;
+        };
+
+        Some.prototype.reject = function (f) {
+            return this.filter(function (v) {
+                return !f(v);
+            });
+        };
+
+        Some.prototype.foreach = function (f) {
+            f(this.value);
         };
         return Some;
     })();
@@ -226,6 +355,7 @@ var Katana;
 
     var None = (function () {
         function None() {
+            this.isEmpty = true;
         }
         None.prototype.get = function () {
             throw new Error('No such element.');
@@ -246,21 +376,29 @@ var Katana;
         };
 
         None.prototype.map = function (f) {
-            return new None();
+            return asInstanceOf(this);
         };
 
         None.prototype.flatMap = function (f) {
-            return new None();
+            return asInstanceOf(this);
         };
 
-        None.prototype.flatten = function () {
-            return new None();
+        None.prototype.filter = function (f) {
+            return this;
+        };
+
+        None.prototype.reject = function (f) {
+            return this;
+        };
+
+        None.prototype.foreach = function (f) {
+            return;
         };
         return None;
     })();
     Katana.None = None;
 })(Katana || (Katana = {}));
-;var Katana;
+;;var Katana;
 (function (Katana) {
     var asInstanceOf = function (v) {
         return v;
@@ -284,6 +422,11 @@ var Katana;
             return this;
         };
 
+        Success.prototype.match = function (matcher) {
+            if (matcher.Success)
+                matcher.Success(this.get());
+        };
+
         Success.prototype.map = function (f) {
             var _this = this;
             return Katana.Try(function () {
@@ -299,9 +442,26 @@ var Katana;
             }
         };
 
-        Success.prototype.match = function (matcher) {
-            if (matcher.Success)
-                matcher.Success(this.get());
+        Success.prototype.filter = function (f) {
+            try  {
+                if (f(this.value)) {
+                    return this;
+                } else {
+                    return new Failure(new Error('Predicate does not hold for ' + this.value));
+                }
+            } catch (e) {
+                return new Failure(e);
+            }
+        };
+
+        Success.prototype.reject = function (f) {
+            return this.filter(function (v) {
+                return !f(v);
+            });
+        };
+
+        Success.prototype.foreach = function (f) {
+            f(this.value);
         };
         return Success;
     })();
@@ -325,6 +485,11 @@ var Katana;
             return alternative();
         };
 
+        Failure.prototype.match = function (matcher) {
+            if (matcher.Failure)
+                matcher.Failure(this.error);
+        };
+
         Failure.prototype.map = function (f) {
             return asInstanceOf(this);
         };
@@ -333,9 +498,16 @@ var Katana;
             return asInstanceOf(this);
         };
 
-        Failure.prototype.match = function (matcher) {
-            if (matcher.Failure)
-                matcher.Failure(this.error);
+        Failure.prototype.filter = function (f) {
+            return this;
+        };
+
+        Failure.prototype.reject = function (f) {
+            return this;
+        };
+
+        Failure.prototype.foreach = function (f) {
+            return;
         };
         return Failure;
     })();
