@@ -17,20 +17,14 @@ module Katana.Spec {
         it('can fire callbacks', () => {
             var cracker = new Katana.Cracker<ITestFunc>();
             var counter = 0;
-            cracker.add(() => {
-                counter++;
-            });
-            cracker.add(() => {
-                counter++;    
-            });
+            cracker.add(() => counter++);
+            cracker.add(() => counter++);
             counter.should.equal(0);
             
             cracker.fire(fn => fn());
             counter.should.equal(2);
 
-            cracker.add(() => {
-                counter++;    
-            });
+            cracker.add(() => counter++);
             counter.should.equal(3);
         });
 
