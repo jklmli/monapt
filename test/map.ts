@@ -93,8 +93,17 @@ module Katana.Spec {
                 });
             });
 
+            describe('#map', () => {
+                it('returns new Map containing result of applying function', () => {
+                    var mapped = map.map((k: string, v: string) => Katana.Tuple2(v, k));
+                    mapped.get('value1').get().should.equal('key1');
+                    mapped.get('value2').get().should.equal('key2');
+                    mapped.get('value3').get().should.equal('key3');
+                });
+            });
+
             describe('#mapValues', () => {
-                it('fetch values that result of appling function', () => {
+                it('returns fetched values that result of applying function', () => {
                     var valueMapped = map.mapValues(v => v.length);
                     valueMapped.get('key1').get().should.equal(6);
                     valueMapped.get('key2').get().should.equal(6);

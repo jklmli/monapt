@@ -122,11 +122,16 @@ module Katana {
         flatMap<T, U>(f: (key: K, value: V) => Array<any>): Map<T, U> {
             return null;
         }
-
-        map<U>(f: (key: K, value: V) => U): U[] {
-            return this.real.map<U>((value, index, array) => f(value.key, value.value));
-        }
 */
+        map<K2, V2>(f: (key: K, value: V) => Tuple2<K2, V2>): Map<K2, V2> {
+            var result = new Map<K2, V2>();
+            this.foreach((k: K, v: V) => {
+                var t = f(k, v);
+                result.add(t._1, t._2);
+            });
+            return result;
+        }
+
         mapValues<U>(f: (value: V) => U): Map<K, U> {
             var result = new Map<K, U>();
             this.foreach((k, v) => {
