@@ -49,6 +49,7 @@ module Katana {
             var promise = new Promise<T>();
             this.onComplete(r => {
                 r.match({
+                    Failure: e => { promise.failure(e) },
                     Success: v => {
                         try {
                             if (f(v)) { promise.success(v) } 
@@ -60,6 +61,10 @@ module Katana {
                 })
             });
             return promise.future();
+        }
+
+        reject(f: (value: T) => boolean): Future<T> {
+            return this.filter(v => !f(v));
         }
     }
 

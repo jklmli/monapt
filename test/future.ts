@@ -68,6 +68,38 @@ module Katana.Spec {
                     called.should.be.false;
                 });
             });
+
+            describe('#filter', () => {
+                it('promises success and pass to next if matcher function returns true', (ok) => {
+                    future.filter(v => true).onSuccess(v => {
+                        v.should.equal('value');
+                        ok();    
+                    });
+                });
+
+                it('promises failure if matcher function retuns false', (ok) => {
+                    future.filter(v => false).onFailure(e => {
+                        e.message.should.equal('No such element.');
+                        ok();
+                    });
+                });
+            });
+
+            describe('#reject', () => {
+                it('promises failure if matcher function returns true', (ok) => {
+                    future.reject(v => true).onFailure(e => {
+                        e.message.should.equal('No such element.');
+                        ok();
+                    });
+                });
+
+                it('promises success and pass to next if matcher function retuns false', (ok) => {
+                    future.reject(v => false).onSuccess(v => {
+                        v.should.equal('value');
+                        ok();    
+                    });
+                });
+            });
         });
 
         describe('When failed', () => {
@@ -95,11 +127,29 @@ module Katana.Spec {
                     });
                 });
             });
+
+            describe('#filter', () => {
+                it('never do anything', (ok) => {
+                    future.filter(v => true).onFailure(e => {
+                        e.message.should.equal('Some error.');
+                        ok()
+                    });
+                });
+            });
+
+            describe('#reject', () => {
+                it('never do anything', (ok) => {
+                    future.reject(v => false).onFailure(e => {
+                        e.message.should.equal('Some error.');
+                        ok()
+                    });
+                });
+            });
         });
     });
 
     describe('Promise', () => {
-    
+        
     });
 
 }
