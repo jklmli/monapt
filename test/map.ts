@@ -93,6 +93,15 @@ module Katana.Spec {
                 });
             });
 
+            describe('#mapValues', () => {
+                it('fetch values that result of appling function', () => {
+                    var valueMapped = map.mapValues(v => v.length);
+                    valueMapped.get('key1').get().should.equal(6);
+                    valueMapped.get('key2').get().should.equal(6);
+                    valueMapped.get('key3').get().should.equal(6);
+                });
+            });
+
             describe('#filter', () => {
                 it('returns Map containing results of applying filter func', () => {
                     var filtered = map.filter((k, v) => k == 'key1');

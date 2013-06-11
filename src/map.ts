@@ -126,15 +126,15 @@ module Katana {
         map<U>(f: (key: K, value: V) => U): U[] {
             return this.real.map<U>((value, index, array) => f(value.key, value.value));
         }
-
+*/
         mapValues<U>(f: (value: V) => U): Map<K, U> {
             var result = new Map<K, U>();
             this.foreach((k, v) => {
-                this.add(k, f(v));
+                result.add(k, f(v));
             });
             return result;
         }
-*/
+
 
         filter(f: (key: K, value: V) => boolean):  Map<K, V> {
             var result = new Map<K, V>();
