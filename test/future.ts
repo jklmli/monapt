@@ -42,6 +42,60 @@ module Katana.Spec {
                 ok();
             });
         });
+
+        describe('When succeed', () => {
+            var future: Katana.Future<string>;
+            before(() => {
+                future = new Katana.Future<string>((success, failure) => {
+                    success('value');
+                });
+            });
+
+            describe('#onSuccess', () => {
+                it('should callback with value', (ok) => {
+                    var value: string;
+                    future.onSuccess(v => {
+                        v.should.equal('value');
+                        ok();
+                    });
+                });
+            });
+
+            describe('#onFailure', () => {
+                it('should not callback', () => {
+                    var called = false;
+                    future.onFailure(e => called = true);
+                    called.should.be.false;
+                });
+            });
+        });
+
+        describe('When failed', () => {
+            var future: Katana.Future<string>;
+            before(() => {
+                future = new Katana.Future<string>((success, failure) => {
+                    failure(new Error('Some error.'));
+                });
+            });
+
+            describe('#onSuccess', () => {
+                it('should not callback', () => {
+                    var called = false;
+                    future.onSuccess(v => called = true);
+                    called.should.be.false;
+                });
+            });
+
+            describe('#onFailure', () => {
+                it('should callback with Error', (ok) => {
+                    var error: Error;
+                    future.onFailure(e => { 
+                        e.message.should.equal('Some error.');
+                        ok();
+                    });
+                });
+            });
+        });
     });
 
     describe('Promise', () => {

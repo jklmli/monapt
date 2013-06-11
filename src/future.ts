@@ -29,6 +29,22 @@ module Katana {
             this.cracker.add(callback);
         }
 
+        onSuccess(callback: (value: T) => void) {
+            this.onComplete(r => {
+                r.match({
+                    Success: v => callback(v)
+                });
+            });
+        }
+
+        onFailure(callback: (error: Error) => void) {
+            this.onComplete(r => {
+                r.match({
+                    Failure: error => callback(error)
+                });
+            });
+        }
+
         filter(f: (value: T) => boolean): Future<T> {
             var promise = new Promise<T>();
             this.onComplete(r => {
