@@ -94,11 +94,30 @@ module Katana.Spec {
             });
 
             describe('#map', () => {
-                it('returns new Map containing result of applying function', () => {
+                it('returns new Map containing result of applying func', () => {
                     var mapped = map.map((k: string, v: string) => Katana.Tuple2(v, k));
                     mapped.get('value1').get().should.equal('key1');
                     mapped.get('value2').get().should.equal('key2');
                     mapped.get('value3').get().should.equal('key3');
+                });
+            });
+
+            describe('#flatMap', () => {
+                it('returns new Map flat containing result of applying func', () => {
+                    var flatMapped = map.flatMap((k: string, v: string) => new Katana.Map(v, k));
+                    flatMapped.get('value1').get().should.equal('key1');
+                    flatMapped.get('value2').get().should.equal('key2');
+                    flatMapped.get('value3').get().should.equal('key3');                    
+                });
+
+                it('can flatten nested Map', () => {
+                    var nested = new Katana.Map('1', new Katana.Map('k1', 'v1'),
+                                                '2', new Katana.Map('k2', 'v2'));
+                    var flatMapped = nested.flatMap((k: string, v: Katana.Map<string, string>) => {
+                        return v.map((k, v) => Katana.Tuple2(v, k));    
+                    });
+                    flatMapped.get('v1').get().should.equal('k1');
+                    flatMapped.get('v2').get().should.equal('k2');
                 });
             });
 
