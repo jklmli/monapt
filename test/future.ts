@@ -78,17 +78,37 @@ module Katana.Spec {
                         ok();    
                     });
                 });
+
+                it('returns failed Future if func apply failure', (ok) => {
+                    future.map<number>((v, success, failure) => {
+                        failure(new Error('Some error.'));
+                    }).onFailure(e => {
+                        e.message.should.equal('Some error.');
+                        ok();
+                    });                    
+                });
             });
-/*
+
             describe('#flatMap', () => {
-                it('never do anything', (ok) => {
-                    var a = future.flatMap(v => new Katana.Future<number>((success, failure) => success(100))).onFailure(e => {
-                        e.message.should.equal('Some error.');   
+                it('eturns mixed Future that create by func', (ok) => {
+                    var a = future.flatMap(v => new Katana.Future<number>((success, failure) => success(100)))
+                    .onSuccess(v => {
+                        v.should.equal(100);
                         ok();
                     });
                 });
+
+                it('returns failed Future if new future fails', (ok) => {
+                    var a = future.flatMap(v => new Katana.Future<number>((success, failure) => {
+                        failure(new Error('Some error.'));
+                    })).onFailure(e => {
+                        e.message.should.equal('Some error.');
+                        ok();
+                    });              
+                });
+
             });
-*/
+
 
             describe('#filter', () => {
                 it('promises success and pass to next if matcher function returns true', (ok) => {
