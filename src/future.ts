@@ -11,13 +11,19 @@ module Katana {
         (trier: Try<T>): void;
     }
 
+    export interface IFutureSuccess<T> {
+        (value: T): void;
+    }
+
+    export interface IFutureFailure<T> {
+        (error: Error): void;
+    }
+
     export class Future<T> {
 
         private cracker = new Cracker<ICompleteFucntion<T>>();
 
-        constructor(future: (success:(value: T) => void,
-                             failure:(error: Error) => void)
-                                => void) {
+        constructor(future: (success: IFutureSuccess<T>, failure: IFutureFailure<T>) => void) {
             future(v => this.success(v), e => this.failure(e));
         }
 
@@ -49,7 +55,7 @@ module Katana {
             });
         }
 
-        map<U>(f: (value: T, success: (value: U) => void, failure: (error: Error) => void) => void): Future<U> {
+        map<U>(f: (value: T, success: IFutureSuccess<U>, failure: IFutureFailure<U>) => void): Future<U> {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({

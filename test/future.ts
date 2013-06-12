@@ -128,6 +128,26 @@ module Katana.Spec {
                 });
             });
 
+            describe('#map', () => {
+                it('never do anything', (ok) => {
+                    var a = future.map<number>((v, success, failure) => {
+                        success(100);
+                    }).onFailure(e => {
+                        e.message.should.equal('Some error.');
+                        ok();    
+                    });
+                });
+            });
+
+            describe('#flatMap', () => {
+                it('never do anything', (ok) => {
+                    future.flatMap(v => new Katana.Future((success, failure) => success(100))).onFailure(e => {
+                        e.message.should.equal('Some error.');   
+                        ok();
+                    });
+                });
+            });
+
             describe('#filter', () => {
                 it('never do anything', (ok) => {
                     future.filter(v => true).onFailure(e => {
