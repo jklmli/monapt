@@ -3,6 +3,10 @@
 
 module Katana {
 
+    var asInstanceOf = <T>(v: any): T => {
+        return <T>v;
+    }
+
     export interface ICompleteFucntion<T> {
         (trier: Try<T>): void;
     }
@@ -43,6 +47,36 @@ module Katana {
                     Failure: error => callback(error)
                 });
             });
+        }
+
+        map<U>(f: (value: T, success: (value: U), failure: (error: Error)) => void): Future<U> {
+            var promise = new Promise<U>();
+            this.onComplete(r => {
+                r.match({
+                    Failure: e => promise.failure(e)
+                    Success: v => f(v, (v: U) => promise.success(v), (e: Error) => promise.failure(e))
+                });
+            });
+
+            return promise.future();
+        }
+
+        flatMap<U>(f: (value: T) => Future<U>): Future<U> {
+            var promise = new Promise<U>();
+            this.onComplete(r => {
+                r.match({
+                    Failure: e => promise.failure(e)
+                    Success: v => {
+                        f(v).onComplete(fr => {
+                            fr.match({
+                                Success: v => promise.success(e)
+                                Failure: e => promise.failure(e)    
+                            })
+                        });
+                    }    
+                })
+            });
+            return promise.future();
         }
 
         filter(f: (value: T) => boolean): Future<T> {
