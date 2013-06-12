@@ -57,7 +57,6 @@ module Katana {
                     Success: v => f(v, (v: U) => promise.success(v), (e: Error) => promise.failure(e))
                 });
             });
-
             return promise.future();
         }
 
