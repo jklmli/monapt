@@ -69,6 +69,27 @@ module Katana.Spec {
                 });
             });
 
+            describe('#map', () => {
+                it('returns mixed Future that create by func', (ok) => {
+                    future.map<number>((v, success, failure) => {
+                        success(100);
+                    }).onSuccess((v: number) => {
+                        v.should.equal(100);
+                        ok();    
+                    });
+                });
+            });
+/*
+            describe('#flatMap', () => {
+                it('never do anything', (ok) => {
+                    var a = future.flatMap(v => new Katana.Future<number>((success, failure) => success(100))).onFailure(e => {
+                        e.message.should.equal('Some error.');   
+                        ok();
+                    });
+                });
+            });
+*/
+
             describe('#filter', () => {
                 it('promises success and pass to next if matcher function returns true', (ok) => {
                     future.filter(v => true).onSuccess(v => {
@@ -130,7 +151,7 @@ module Katana.Spec {
 
             describe('#map', () => {
                 it('never do anything', (ok) => {
-                    var a = future.map<number>((v, success, failure) => {
+                    future.map<number>((v, success, failure) => {
                         success(100);
                     }).onFailure(e => {
                         e.message.should.equal('Some error.');
@@ -141,7 +162,7 @@ module Katana.Spec {
 
             describe('#flatMap', () => {
                 it('never do anything', (ok) => {
-                    future.flatMap(v => new Katana.Future((success, failure) => success(100))).onFailure(e => {
+                    future.flatMap(v => new Katana.Future<number>((success, failure) => success(100))).onFailure(e => {
                         e.message.should.equal('Some error.');   
                         ok();
                     });
