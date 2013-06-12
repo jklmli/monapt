@@ -149,7 +149,24 @@ module Katana.Spec {
     });
 
     describe('Promise', () => {
-        
-    });
+        it('can complete the future by success', (ok) => {
+            var p = new Katana.Promise<string>();
+            var f = p.future();
+            f.onSuccess(v => {
+                v.should.equal('value');
+                ok();
+            });
+            p.success('value');
+        });
 
+        it('can complete the future by failure', (ok) => {
+            var p = new Katana.Promise<string>();
+            var f = p.future();
+            f.onFailure(e => {
+                e.message.should.equal('Some error.');
+                ok();
+            });
+            p.failure(new Error('Some error.'));
+        });
+    });
 }
