@@ -49,11 +49,11 @@ module Katana {
             });
         }
 
-        map<U>(f: (value: T, success: (value: U), failure: (error: Error)) => void): Future<U> {
+        map<U>(f: (value: T, success: (value: U) => void, failure: (error: Error) => void) => void): Future<U> {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({
-                    Failure: e => promise.failure(e)
+                    Failure: e => promise.failure(e),
                     Success: v => f(v, (v: U) => promise.success(v), (e: Error) => promise.failure(e))
                 });
             });
@@ -64,12 +64,12 @@ module Katana {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({
-                    Failure: e => promise.failure(e)
+                    Failure: e => promise.failure(e),
                     Success: v => {
                         f(v).onComplete(fr => {
                             fr.match({
-                                Success: v => promise.success(e)
-                                Failure: e => promise.failure(e)    
+                                Success: v => promise.success(v),
+                                Failure: e => promise.failure(e)
                             })
                         });
                     }    
