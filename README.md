@@ -1,7 +1,7 @@
-# katana
+katana
+============
 
 Like Scala APIs for TypeScript and JavaScript
-============
 
 ## Setup
 
