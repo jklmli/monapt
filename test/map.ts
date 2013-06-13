@@ -131,7 +131,7 @@ module Katana.Spec {
             });
 
             describe('#filter', () => {
-                it('returns Map containing results of applying filter func', () => {
+                it('returns Map containing results of applying predicater', () => {
                     var filtered = map.filter((k, v) => k == 'key1');
                     filtered.get('key1').get().should.equal('value1');
                     (() => filtered.get('key2').get()).should.throw('No such element.');
@@ -140,7 +140,7 @@ module Katana.Spec {
             });
 
             describe('#reject', () => {
-                it('returns Map containing results of applying reject func', () => {
+                it('returns Map containing results of applying predicater', () => {
                     var filtered = map.reject((k, v) => k == 'key1');
                     (() => filtered.get('key1').get()).should.throw('No such element.');
                     filtered.get('key2').get().should.equal('value2');

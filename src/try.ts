@@ -22,8 +22,8 @@ module Katana {
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
 
-        filter(f: (value: T) => boolean): Try<T>;
-        reject(f: (value: T) => boolean): Try<T>;
+        filter(predicate: (value: T) => boolean): Try<T>;
+        reject(predicate: (value: T) => boolean): Try<T>;
         
         foreach(f: (value: T) => void): void;
     }
@@ -63,9 +63,9 @@ module Katana {
             }
         }
 
-        filter(f: (value: T) => boolean): Try<T> {
+        filter(predicate: (value: T) => boolean): Try<T> {
             try {
-                if (f(this.value)) {
+                if (predicate(this.value)) {
                     return this;
                 }
                 else {
@@ -76,8 +76,8 @@ module Katana {
             }
         }
 
-        reject(f: (value: T) => boolean): Try<T> {
-            return this.filter((v) => !f(v));
+        reject(predicate: (value: T) => boolean): Try<T> {
+            return this.filter((v) => !predicate(v));
         }
 
         foreach(f: (value: T) => void) {
@@ -115,11 +115,11 @@ module Katana {
             return asInstanceOf<Try<U>>(this);
         }
 
-        filter(f: (value: T) => boolean): Try<T> {
+        filter(predicate: (value: T) => boolean): Try<T> {
             return this;
         }
 
-        reject(f: (value: T) => boolean): Try<T> {
+        reject(predicate: (value: T) => boolean): Try<T> {
             return this;
         }
 

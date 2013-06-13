@@ -111,14 +111,14 @@ module Katana.Spec {
 
 
             describe('#filter', () => {
-                it('promises success and pass to next if matcher function returns true', (ok) => {
+                it('promises success and pass to next if predicator returns true', (ok) => {
                     future.filter(v => true).onSuccess(v => {
                         v.should.equal('value');
                         ok();    
                     });
                 });
 
-                it('promises failure if matcher function retuns false', (ok) => {
+                it('promises failure if predicator returns false', (ok) => {
                     future.filter(v => false).onFailure(e => {
                         e.message.should.equal('No such element.');
                         ok();
@@ -127,14 +127,14 @@ module Katana.Spec {
             });
 
             describe('#reject', () => {
-                it('promises failure if matcher function returns true', (ok) => {
+                it('promises failure if predicater returns true', (ok) => {
                     future.reject(v => true).onFailure(e => {
                         e.message.should.equal('No such element.');
                         ok();
                     });
                 });
 
-                it('promises success and pass to next if matcher function retuns false', (ok) => {
+                it('promises success and pass to next if predicater retuns false', (ok) => {
                     future.reject(v => false).onSuccess(v => {
                         v.should.equal('value');
                         ok();    

@@ -84,14 +84,14 @@ module Katana {
             return promise.future();
         }
 
-        filter(f: (value: T) => boolean): Future<T> {
+        filter(predicate: (value: T) => boolean): Future<T> {
             var promise = new Promise<T>();
             this.onComplete(r => {
                 r.match({
                     Failure: e => { promise.failure(e) },
                     Success: v => {
                         try {
-                            if (f(v)) { promise.success(v) } 
+                            if (predicate(v)) { promise.success(v) } 
                             else { promise.failure(new Error('No such element.')) }
                         } catch(e) {
                             promise.failure(e);
@@ -102,8 +102,8 @@ module Katana {
             return promise.future();
         }
 
-        reject(f: (value: T) => boolean): Future<T> {
-            return this.filter(v => !f(v));
+        reject(predicate: (value: T) => boolean): Future<T> {
+            return this.filter(v => !predicate(v));
         }
     }
 

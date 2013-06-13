@@ -144,16 +144,16 @@ module Katana {
         }
 
 
-        filter(f: (key: K, value: V) => boolean):  Map<K, V> {
+        filter(predicate: (key: K, value: V) => boolean):  Map<K, V> {
             var result = new Map<K, V>();
             this.foreach((k, v) => {
-                if (f(k, v)) result.add(k, v); 
+                if (predicate(k, v)) result.add(k, v); 
             });
             return result;
         }
 
-        reject(f: (key: K, value: V) => boolean): Map<K, V> {
-            return this.filter((k, v) => !f(k, v));
+        reject(predicate: (key: K, value: V) => boolean): Map<K, V> {
+            return this.filter((k, v) => !predicate(k, v));
         }
 
         find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>> {

@@ -21,8 +21,8 @@ module Katana {
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
 
-        filter(f: (value: A) => boolean): Option<A>;
-        reject(f: (value: A) => boolean): Option<A>;
+        filter(predicate: (value: A) => boolean): Option<A>;
+        reject(predicate: (value: A) => boolean): Option<A>;
 
         foreach(f: (value: A) => void): void;
     }
@@ -58,8 +58,8 @@ module Katana {
             return f(this.get());
         }
 
-        filter(f: (value: A) => boolean): Option<A> {
-            if (f(this.value)) {
+        filter(predicate: (value: A) => boolean): Option<A> {
+            if (predicate(this.value)) {
                 return this;
             }
             else {
@@ -67,8 +67,8 @@ module Katana {
             }
         }
 
-        reject(f: (value: A) => boolean): Option<A> {
-            return this.filter(v => !f(v));
+        reject(predicate: (value: A) => boolean): Option<A> {
+            return this.filter(v => !predicate(v));
         }
 
         foreach(f: (value: A) => void) {
@@ -107,11 +107,11 @@ module Katana {
             return asInstanceOf<None<B>>(this);
         }
 
-        filter(f: (value: A) => boolean): Option<A> {
+        filter(predicate: (value: A) => boolean): Option<A> {
             return this;
         }
 
-        reject(f: (value: A) => boolean): Option<A> {
+        reject(predicate: (value: A) => boolean): Option<A> {
             return this;
         }
 

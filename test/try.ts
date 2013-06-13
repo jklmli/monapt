@@ -105,22 +105,22 @@ module Katana.Spec {
             });
 
             describe('#filter', () => {
-                it('returns that if matched filter func', () => {
+                it('returns that if predicater returns true', () => {
                     success.filter(v => true).get().should.equal('value');
                 });
 
-                it('returns Failure if unmatched filter func', () => {
+                it('returns Failure if predicater returns false', () => {
                     var failure = success.filter(v => false);
                     failure.should.instanceof(Katana.Failure);
                 });
             });
 
             describe('#reject', () => {
-                it('returns that if unmatched reject func', () => {
+                it('returns that if predicater returns false', () => {
                     success.reject(v => false).get().should.equal('value');
                 });
 
-                it('returns Failure if matched reject func', () => {
+                it('returns Failure if predicater returns true', () => {
                     var failure = success.reject(v => true);
                     failure.should.instanceof(Katana.Failure);
                 });

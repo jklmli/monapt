@@ -64,22 +64,22 @@ describe('Option', () => {
         });
 
         describe('#filter', () => {
-            it('returns that if matched filter func', () => {
+            it('returns that if predicater returns ture', () => {
                 some.filter(v => true).get().should.equal('value');
             });
 
-            it('returns None if unmatched filter func', () => {
+            it('returns None if predicater returns false', () => {
                 var none = some.filter(v => false);
                 none.should.instanceof(Katana.None);
             });
         });
 
         describe('#reject', () => {
-            it('returns that if unmatched reject func', () => {
+            it('returns that if predicater returns false', () => {
                 some.reject(v => false).get().should.equal('value');
             });
 
-            it('returns None if matched reject func', () => {
+            it('returns None if predicater returns true', () => {
                 var none = some.reject(v => true);
                 none.should.instanceof(Katana.None);
             });
