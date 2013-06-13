@@ -7,6 +7,7 @@
     "katana.d.ts"
   ],
   "ignore": [
+    "katana.ts",
     "Gruntfile.coffee",
     ".gitattriute",
     ".gitignore",
