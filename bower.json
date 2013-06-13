@@ -17,6 +17,6 @@
     "components",
     "node_modules",
     "src/",
-    "test/",
-  ],
+    "test/"
+  ]
 }
