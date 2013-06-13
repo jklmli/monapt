@@ -1,20 +1,20 @@
-var Katana;
-(function (Katana) {
-    Katana.Tuple1 = function (a) {
+var katana;
+(function (katana) {
+    katana.Tuple1 = function (a) {
         return {
             _1: a
         };
     };
 
-    Katana.Tuple2 = function (a, b) {
+    katana.Tuple2 = function (a, b) {
         return {
             _1: a,
             _2: b
         };
     };
-})(Katana || (Katana = {}));
-var Katana;
-(function (Katana) {
+})(katana || (katana = {}));
+var katana;
+(function (katana) {
     var asInstanceOf = function (v) {
         return v;
     };
@@ -69,7 +69,7 @@ var Katana;
         };
         return Some;
     })();
-    Katana.Some = Some;
+    katana.Some = Some;
 
     var None = (function () {
         function None() {
@@ -114,10 +114,10 @@ var Katana;
         };
         return None;
     })();
-    Katana.None = None;
-})(Katana || (Katana = {}));
-var Katana;
-(function (Katana) {
+    katana.None = None;
+})(katana || (katana = {}));
+var katana;
+(function (katana) {
     var asInstanceOf = function (v) {
         return v;
     };
@@ -147,7 +147,7 @@ var Katana;
 
         Success.prototype.map = function (f) {
             var _this = this;
-            return Katana.Try(function () {
+            return katana.Try(function () {
                 return f(_this.value);
             });
         };
@@ -183,7 +183,7 @@ var Katana;
         };
         return Success;
     })();
-    Katana.Success = Success;
+    katana.Success = Success;
 
     var Failure = (function () {
         function Failure(error) {
@@ -229,18 +229,18 @@ var Katana;
         };
         return Failure;
     })();
-    Katana.Failure = Failure;
+    katana.Failure = Failure;
 
-    Katana.Try = function (f) {
+    katana.Try = function (f) {
         try  {
             return new Success(f());
         } catch (e) {
             return new Failure(e);
         }
     };
-})(Katana || (Katana = {}));
-var Katana;
-(function (Katana) {
+})(katana || (katana = {}));
+var katana;
+(function (katana) {
     var Cracker = (function () {
         function Cracker() {
             this.fired = false;
@@ -272,16 +272,16 @@ var Katana;
         };
         return Cracker;
     })();
-    Katana.Cracker = Cracker;
-})(Katana || (Katana = {}));
+    katana.Cracker = Cracker;
+})(katana || (katana = {}));
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var Katana;
-(function (Katana) {
+var katana;
+(function (katana) {
     var asInstanceOf = function (v) {
         return v;
     };
@@ -289,7 +289,7 @@ var Katana;
     var Future = (function () {
         function Future(future) {
             var _this = this;
-            this.cracker = new Katana.Cracker();
+            this.cracker = new katana.Cracker();
             future(function (v) {
                 return _this.success(v);
             }, function (e) {
@@ -298,13 +298,13 @@ var Katana;
         }
         Future.prototype.success = function (value) {
             this.cracker.fire(function (fn) {
-                return fn(new Katana.Success(value));
+                return fn(new katana.Success(value));
             });
         };
 
         Future.prototype.failure = function (error) {
             this.cracker.fire(function (fn) {
-                return fn(new Katana.Failure(error));
+                return fn(new katana.Failure(error));
             });
         };
 
@@ -405,7 +405,7 @@ var Katana;
         };
         return Future;
     })();
-    Katana.Future = Future;
+    katana.Future = Future;
 
     var Promise = (function (_super) {
         __extends(Promise, _super);
@@ -429,10 +429,10 @@ var Katana;
         };
         return Promise;
     })(Future);
-    Katana.Promise = Promise;
-})(Katana || (Katana = {}));
-var Katana;
-(function (Katana) {
+    katana.Promise = Promise;
+})(katana || (katana = {}));
+var katana;
+(function (katana) {
     var Selector;
     (function (Selector) {
         var StringSelector = (function () {
@@ -445,9 +445,9 @@ var Katana;
 
             StringSelector.prototype.index = function (k) {
                 if (this.table[k]) {
-                    return new Katana.Some(this.table[k]);
+                    return new katana.Some(this.table[k]);
                 } else {
-                    return new Katana.None();
+                    return new katana.None();
                 }
             };
             return StringSelector;
@@ -465,9 +465,9 @@ var Katana;
             HashableSelector.prototype.index = function (k) {
                 var hash = k.hash();
                 if (this.table[hash]) {
-                    return new Katana.Some(this.table[hash]);
+                    return new katana.Some(this.table[hash]);
                 } else {
-                    return new Katana.None();
+                    return new katana.None();
                 }
             };
             return HashableSelector;
@@ -481,7 +481,7 @@ var Katana;
             };
 
             ObjectSelector.prototype.index = function (k) {
-                return new Katana.None();
+                return new katana.None();
             };
             return ObjectSelector;
         })();
@@ -533,7 +533,7 @@ var Katana;
         };
 
         Map.prototype.add = function (key, value) {
-            this.real.push(Katana.Tuple2(key, value));
+            this.real.push(katana.Tuple2(key, value));
             this.selector.register(key, this.real.length - 1);
         };
 
@@ -600,7 +600,7 @@ var Katana;
                 }).map(function (tuple) {
                     return tuple._2;
                 }).orElse(function () {
-                    return new Katana.None();
+                    return new katana.None();
                 });
             });
         };
@@ -611,12 +611,12 @@ var Katana;
 
         Map.prototype.head = function () {
             if (this.real.length > 0) {
-                return new Katana.Some(this.real[0]);
+                return new katana.Some(this.real[0]);
             } else {
-                return new Katana.None();
+                return new katana.None();
             }
         };
         return Map;
     })();
-    Katana.Map = Map;
-})(Katana || (Katana = {}));
+    katana.Map = Map;
+})(katana || (katana = {}));

@@ -1,4 +1,4 @@
-module Katana {
+module katana {
 
     export interface ICrackerProducer<F> {
         (f: F): void;

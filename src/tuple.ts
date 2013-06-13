@@ -1,4 +1,4 @@
-module Katana {
+module katana {
 
     export interface Tuple1<A> {
         _1: A;

@@ -1,4 +1,4 @@
-declare module Katana {
+declare module katana {
     interface Tuple1<A> {
         _1: A;
     }
@@ -9,7 +9,7 @@ declare module Katana {
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
 }
-declare module Katana {
+declare module katana {
     interface IOptionMatcher<A> {
         Some? (value: A): void;
         None? (): void;
@@ -53,7 +53,7 @@ declare module Katana {
         public foreach(f: (value: A) => void): void;
     }
 }
-declare module Katana {
+declare module katana {
     interface ITryMatcher<T> {
         Success? (value: T): void;
         Failure? (error: Error): void;
@@ -103,7 +103,7 @@ declare module Katana {
     }
     var Try: <T>(f: () => T) => Try<T>;
 }
-declare module Katana {
+declare module katana {
     interface ICrackerProducer<F> {
         (f: F): void;
     }
@@ -116,9 +116,9 @@ declare module Katana {
         public add(fn: F): void;
     }
 }
-declare module Katana {
+declare module katana {
     interface ICompleteFucntion<T> {
-        (trier: Katana.Try<T>): void;
+        (trier: katana.Try<T>): void;
     }
     interface IFutureSuccess<T> {
         (value: T): void;
@@ -147,11 +147,11 @@ declare module Katana {
         public future(): Future<T>;
     }
 }
-declare module Katana {
+declare module katana {
     interface IHashable {
         hash? (): string;
     }
-    class Map<K extends Katana.IHashable, V> {
+    class Map<K extends katana.IHashable, V> {
         private real;
         private selector;
         constructor(key: K, value: V, ...keysAndValues: any[]);
@@ -160,14 +160,14 @@ declare module Katana {
         private ensureSelector(hint?);
         private add(key, value);
         public foreach(f: (key: K, value: V) => void): void;
-        public map<K2, V2>(f: (key: K, value: V) => Katana.Tuple2<K2, V2>): Map<K2, V2>;
+        public map<K2, V2>(f: (key: K, value: V) => katana.Tuple2<K2, V2>): Map<K2, V2>;
         public flatMap<K2, V2>(f: (key: K, value: V) => Map<K2, V2>): Map<K2, V2>;
         public mapValues<U>(f: (value: V) => U): Map<K, U>;
         public filter(predicate: (key: K, value: V) => boolean): Map<K, V>;
         public reject(predicate: (key: K, value: V) => boolean): Map<K, V>;
-        public find(f: (key: K, value: V) => boolean): Katana.Option<Katana.Tuple2<K, V>>;
-        public get(key: K): Katana.Option<V>;
+        public find(f: (key: K, value: V) => boolean): katana.Option<katana.Tuple2<K, V>>;
+        public get(key: K): katana.Option<V>;
         public getOrElse(key: K, defaultValue: () => V): V;
-        public head(): Katana.Option<Katana.Tuple2<K, V>>;
+        public head(): katana.Option<katana.Tuple2<K, V>>;
     }
 }

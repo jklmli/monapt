@@ -1,7 +1,7 @@
 /// <reference path="./option.ts" />
 /// <reference path="./tuple.ts" />
 
-module Katana {
+module katana {
 
     export interface IHashable {
         hash?(): string;

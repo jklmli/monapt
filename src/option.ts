@@ -1,4 +1,4 @@
-module Katana {
+module katana {
 
     var asInstanceOf = <T>(v: any): T => {
         return <T>v;
