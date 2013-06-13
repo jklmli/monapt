@@ -1,66 +1,66 @@
-# TypeScript Project Template
+# katana
 
-## What's included
+Like Scala APIs for TypeScript and JavaScript
+============
 
-* Gruntfile for TypeScript
-* Mocha+chai testing with Testem
-* jQuery d.ts
-* Default gitignore and attributes
+## Setup
 
-## Usage
-
-Clone this
-```
-$ git clone https://github.com/yaakaito/typescript-proj.git
-```
-
-Delete `.git` :/
-```
-$ rm -rf .git
-```
-
-Install modules
-```
-$ npm install
-$ bower install
-```
-
-## Grunt commands
-
-### compile
-
-Compile `src/**/*.ts` and `test/**/*.ts`.
+With Bower:
 
 ```
-$ grunt compile
+$ bower install git://github.com/yaakaito/katana.git --save
 ```
 
-### build
+## APIs
 
-Concat and uglify.
+## katana.Option<A>
 
-```
-$ grunt build
-```
-
-### generate
-
-Generate website.
-
-```
-$ grunt generate
+```javascript
+var valueOption = map.get('key');
+valueOption.getOrElse(() => 'defaultValue');
 ```
 
-### preview
 
-```
-$ grunt preview
+```javascript
+valueOption.map(v => v * 2).filter(v => v > 10).match({
+    Some: v  => console.log(v),
+    None: () => console.log('None!')
+})
 ```
 
-## Testing
+### katana.Some / katana.None
 
-Run with testem.
+```javascript
+new katana.Some('value')
+new katana.None<string>()
+```
 
+### Properties / Methods
+
+* `isEmpty: boolean`
+* `get(): A`
+* `getOrElse(defaultValue: () => A): A`
+* `orElse(alternative: () => Option<A>): Option<A>`
+* `match(matcher: IOptionMatcher<A>): void`
+* `map<B>(f: (value: A) => B): Option<B>`
+* `flatMap<B>(f: (value: A) => Option<B>): Option<B>`
+* `filter(predicate: (value: A) => boolean): Option<A>`
+* `reject(predicate: (value: A) => boolean): Option<A>`
+* `foreach(f: (value: A) => void): void`
+
+
+#### katana.IOptionMatcher<A>
+
+```javascript
+interface IOptionMatcher<A> {
+    Some?(value: A): void;
+    None?(): void;
+}
 ```
-$ testem
-```
+
+## katana.Try<T>
+
+### katana.Success / katana.Failure
+
+
+## katana.
