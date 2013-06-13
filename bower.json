@@ -1,0 +1,9 @@
+{
+  "name": "katana",
+  "version": "0.0.1",
+  "main": [
+    "build/katana.js",
+    "build/katana.min.js",
+    "build/katana.d.ts"
+  ]
+}
