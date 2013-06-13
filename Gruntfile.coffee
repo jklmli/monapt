@@ -10,18 +10,18 @@ module.exports = (grunt) ->
             test:
                 cmd: -> "#{tsc} --out compiled/test test/*.ts"
             build:
-                cmd: -> "#{tsc} --out build/katana.js --declaration ./katana.ts"
+                cmd: -> "#{tsc} --out katana.js --declaration ./katana.ts"
 
         clean:
             type:
-                src: ['compiled/**/*.js', 'compiled/*']
+                src: ['compiled/**/*.js', 'compiled/**/*']
             build:
-                src: ['build/**/*.js']
+                src: ['katana.js', 'katana.min.js', 'katana.d.ts']
 
         uglify:
             min:
                 files:
-                    'build/katana.min.js': ['build/katana.js']
+                    'katana.min.js': ['katana.js']
             ###
             options:
                 mangle:
