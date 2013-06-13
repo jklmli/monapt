@@ -2,8 +2,21 @@
   "name": "katana",
   "version": "0.0.1",
   "main": [
-    "build/katana.js",
-    "build/katana.min.js",
-    "build/katana.d.ts"
-  ]
+    "katana.js",
+    "katana.min.js",
+    "katana.d.ts"
+  ],
+  "ignore": [
+    "Gruntfile.coffee",
+    ".gitattriute",
+    ".gitignore",
+    "package.json",
+    "testem.json",
+    "compiled",
+    "d.ts",
+    "components",
+    "node_modules",
+    "src/",
+    "test/",
+  ],
 }
