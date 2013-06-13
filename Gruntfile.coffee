@@ -1,6 +1,7 @@
 tsc = "~/.typescript/bin/tsc"
 
 module.exports = (grunt) ->
+
     grunt.initConfig
         pkg: grunt.file.readJSON 'package.json'
         exec:
@@ -8,6 +9,8 @@ module.exports = (grunt) ->
                 cmd: -> "#{tsc} --out compiled/src --declaration src/*.ts"
             test:
                 cmd: -> "#{tsc} --out compiled/test test/*.ts"
+            build:
+                cmd: -> "#{tsc} --out build/katana.js --declaration ./katana.ts"
 
         clean:
             type:
@@ -15,17 +18,10 @@ module.exports = (grunt) ->
             build:
                 src: ['build/**/*.js']
 
-        concat:
-            dist:
-                src: ['compiled/src/**/*.js']
-                dest: 'build/index.js'
-            options:
-                separator: ';'
-
         uglify:
             min:
                 files:
-                    'build/index.min.js': ['build/index.js']
+                    'build/katana.min.js': ['build/katana.js']
             ###
             options:
                 mangle:
@@ -68,7 +64,7 @@ module.exports = (grunt) ->
 
     grunt.registerTask 'compile', ['exec:compile', 'exec:test']
     grunt.registerTask 'default', ['compile']
-    grunt.registerTask 'build', ['compile', 'concat', 'uglify']
+    grunt.registerTask 'build', ['exec:build', 'uglify']
     grunt.registerTask 'generate', ['compile', 'build', 'copy:public']
     grunt.registerTask 'preview', ['generate', 'connect:preview', 'regarde']
 
