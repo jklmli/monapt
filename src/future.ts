@@ -23,8 +23,11 @@ module katana {
 
         private cracker = new Cracker<ICompleteFucntion<T>>();
 
-        constructor(future: (success: IFutureSuccess<T>, failure: IFutureFailure<T>) => void) {
-            future(v => this.success(v), e => this.failure(e));
+        constructor(future: (promise: { success: IFutureSuccess<T>; failure: IFutureFailure<T>; }) => void) {
+            future({
+                success: v => this.success(v),
+                failure: e => this.failure(e)
+             });
         }
 
         public/*protected*/ success(value: T) {
@@ -55,12 +58,12 @@ module katana {
             });
         }
 
-        map<U>(f: (value: T, success: IFutureSuccess<U>, failure: IFutureFailure<U>) => void): Future<U> {
+        map<U>(f: (value: T, promise: { success: IFutureSuccess<T>; failure: IFutureFailure<T>; }) => void): Future<U> {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({
                     Failure: e => promise.failure(e),
-                    Success: v => f(v, (v: U) => promise.success(v), (e: Error) => promise.failure(e))
+                    Success: v => f(v, {success: v => this.success(v), failure: e => this.failure(e)})
                 });
             });
             return promise.future();
@@ -112,7 +115,7 @@ module katana {
         isComplete = false;
 
         constructor() {
-            super((s, f) => {});
+            super((p) => {});
         }
 
         success(value: T) {
