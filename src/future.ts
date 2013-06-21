@@ -19,11 +19,16 @@ module katana {
         (error: Error): void;
     }
 
+    export interface IFuturePromiseLike<T> {
+        success: IFutureSuccess<T>;
+        failure: IFutureFailure<T>;
+    }
+
     export class Future<T> {
 
         private cracker = new Cracker<ICompleteFucntion<T>>();
 
-        constructor(future: (promise: { success: IFutureSuccess<T>; failure: IFutureFailure<T>; }) => void) {
+        constructor(future: (promise: IFuturePromiseLike<T>) => void) {
             future({
                 success: v => this.success(v),
                 failure: e => this.failure(e)
@@ -58,12 +63,12 @@ module katana {
             });
         }
 
-        map<U>(f: (value: T, promise: { success: IFutureSuccess<T>; failure: IFutureFailure<T>; }) => void): Future<U> {
+        map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U> {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({
                     Failure: e => promise.failure(e),
-                    Success: v => f(v, {success: v => this.success(v), failure: e => this.failure(e)})
+                    Success: v => f(v, {success: v => promise.success(v), failure: e => promise.failure(e)})
                 });
             });
             return promise.future();

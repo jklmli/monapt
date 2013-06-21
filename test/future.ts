@@ -8,8 +8,8 @@ module katana.Spec {
 
     describe('Future', () => {
         it('should callback onComplete with Success if success', (ok) => {
-            new katana.Future<number>((success, failure) => {
-                success(1);
+            new katana.Future<number>(promise => {
+                promise.success(1);
             }).onComplete(r => {
                 r.should.instanceof(katana.Success);
                 ok();
@@ -17,8 +17,8 @@ module katana.Spec {
         });
 
         it('should callback onComplete with Success if success on other context', (ok) => {
-            new katana.Future<number>((success, failure) => {
-                setTimeout(() => success(1), 100);
+            new katana.Future<number>(promise => {
+                setTimeout(() => promise.success(1), 100);
             }).onComplete(r => {
                 r.should.instanceof(katana.Success);
                 ok();
@@ -26,8 +26,8 @@ module katana.Spec {
         });
 
         it('should callback onComplete with Failure if failure', (ok) => {
-            new katana.Future<number>((success, failure) => {
-                failure(new Error());
+            new katana.Future<number>(promise => {
+                promise.failure(new Error());
             }).onComplete(r => {
                 r.should.instanceof(katana.Failure);
                 ok();
@@ -35,8 +35,8 @@ module katana.Spec {
         });
 
         it('should callback onComplete with Failure if failure on other context', (ok) => {
-            new katana.Future<number>((success, failure) => {
-                setTimeout(() => failure(new Error()), 100);
+            new katana.Future<number>(promise => {
+                setTimeout(() => promise.failure(new Error()), 100);
             }).onComplete(r => {
                 r.should.instanceof(katana.Failure);
                 ok();
@@ -46,8 +46,8 @@ module katana.Spec {
         describe('When succeed', () => {
             var future: katana.Future<string>;
             before(() => {
-                future = new katana.Future<string>((success, failure) => {
-                    success('value');
+                future = new katana.Future<string>(promise => {
+                    promise.success('value');
                 });
             });
 
@@ -71,8 +71,8 @@ module katana.Spec {
 
             describe('#map', () => {
                 it('returns mixed Future that create by func', (ok) => {
-                    future.map<number>((v, success, failure) => {
-                        success(100);
+                    future.map<number>((v, promise) => {
+                        promise.success(100);
                     }).onSuccess((v: number) => {
                         v.should.equal(100);
                         ok();    
@@ -80,8 +80,8 @@ module katana.Spec {
                 });
 
                 it('returns failed Future if func apply failure', (ok) => {
-                    future.map<number>((v, success, failure) => {
-                        failure(new Error('Some error.'));
+                    future.map<number>((v, promise) => {
+                        promise.failure(new Error('Some error.'));
                     }).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok();
@@ -91,7 +91,7 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('eturns mixed Future that create by func', (ok) => {
-                    var a = future.flatMap(v => new katana.Future<number>((success, failure) => success(100)))
+                    var a = future.flatMap(v => new katana.Future<number>(promise => promise.success(100)))
                     .onSuccess(v => {
                         v.should.equal(100);
                         ok();
@@ -99,8 +99,8 @@ module katana.Spec {
                 });
 
                 it('returns failed Future if new future fails', (ok) => {
-                    var a = future.flatMap(v => new katana.Future<number>((success, failure) => {
-                        failure(new Error('Some error.'));
+                    var a = future.flatMap(v => new katana.Future<number>(promise => {
+                        promise.failure(new Error('Some error.'));
                     })).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok();
@@ -146,8 +146,8 @@ module katana.Spec {
         describe('When failed', () => {
             var future: katana.Future<string>;
             before(() => {
-                future = new katana.Future<string>((success, failure) => {
-                    failure(new Error('Some error.'));
+                future = new katana.Future<string>(promise => {
+                    promise.failure(new Error('Some error.'));
                 });
             });
 
@@ -171,8 +171,8 @@ module katana.Spec {
 
             describe('#map', () => {
                 it('never do anything', (ok) => {
-                    future.map<number>((v, success, failure) => {
-                        success(100);
+                    future.map<number>((v, promise) => {
+                        promise.success(100);
                     }).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok();    
@@ -182,7 +182,7 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('never do anything', (ok) => {
-                    future.flatMap(v => new katana.Future<number>((success, failure) => success(100))).onFailure(e => {
+                    future.flatMap(v => new katana.Future<number>(promise => promise.success(100))).onFailure(e => {
                         e.message.should.equal('Some error.');   
                         ok();
                     });
