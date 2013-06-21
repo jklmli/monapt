@@ -137,4 +137,16 @@ module katana {
             return this;
         }
     }
+
+    export var future = <T>(f: (promise: IFuturePromiseLike<T>) => void): Future<T> => {
+        var p = new Promise<T>();
+        // :(
+        try {
+            f(p);
+        }
+        catch (e) {
+            p.failure(e);
+        }
+        return p.future();
+    }
 }

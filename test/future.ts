@@ -46,7 +46,7 @@ module katana.Spec {
         describe('When succeed', () => {
             var future: katana.Future<string>;
             before(() => {
-                future = new katana.Future<string>(promise => {
+                future = katana.future<string>(promise => {
                     promise.success('value');
                 });
             });
@@ -107,6 +107,22 @@ module katana.Spec {
                     });              
                 });
 
+                it('can mix completed two futures', (ok) => {
+                    var left = katana.future<number>(promise => {
+                        promise.success(100);    
+                    });
+                    setTimeout(() => {
+                        var mixed = future.flatMap<string>(v => {
+                            return left.map<string>((lv, promise) => {
+                                promise.success(v + ' ' + lv);
+                            });
+                        });
+                        mixed.onSuccess(v => {
+                            v.should.equal('value 100');
+                            ok();    
+                        });
+                    }, 50);
+                });
             });
 
 
