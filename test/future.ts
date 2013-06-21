@@ -246,4 +246,5 @@ module katana.Spec {
             p.failure(new Error('Some error.'));
         });
     });
+
 }

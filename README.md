@@ -63,4 +63,45 @@ interface IOptionMatcher<A> {
 ### katana.Success / katana.Failure
 
 
-## katana.
+## katana.Future<T>
+
+```javascript
+katana.future<string>(promise => {
+    api.get((error, value) => {
+        if (error) {
+            promise.failure(error);
+        }
+        else {
+          promise.success(value);
+        }
+    });
+}).onComplete({
+    Success: v => console.log(v),
+    Failure: e => console.log(e)
+})
+```
+
+Mix futures:
+```javascript
+var macbook = katana.future<string>(promise => {
+    setTimeout(() => {
+        promise.success('MacBook');
+    }, 100);
+});
+ 
+var pro = katana.future<string>(promise => {
+    setTimeout(() => {
+        promise.success('Pro');
+    }, 100);
+});
+ 
+var macbookPro = macbook.flatMap<string>(mb => {
+    return pro.map<string>((pro, promise) => {
+        promise.success(mb + pro);
+    });
+});
+ 
+macbookPro.onSuccess(v => {
+    console.log(v); // MacBookPro
+});
+```
