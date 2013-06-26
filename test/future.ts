@@ -2,51 +2,51 @@
 /// <reference path="../d.ts/mocha.d.ts" />
 /// <reference path="../d.ts/chai.d.ts" />
 
-module katana.Spec {
+module monapt.Spec {
 
     chai.should();
 
     describe('Future', () => {
         it('should callback onComplete with Success if success', (ok) => {
-            new katana.Future<number>(promise => {
+            new monapt.Future<number>(promise => {
                 promise.success(1);
             }).onComplete(r => {
-                r.should.instanceof(katana.Success);
+                r.should.instanceof(monapt.Success);
                 ok();
             });
         });
 
         it('should callback onComplete with Success if success on other context', (ok) => {
-            new katana.Future<number>(promise => {
+            new monapt.Future<number>(promise => {
                 setTimeout(() => promise.success(1), 100);
             }).onComplete(r => {
-                r.should.instanceof(katana.Success);
+                r.should.instanceof(monapt.Success);
                 ok();
             });
         });
 
         it('should callback onComplete with Failure if failure', (ok) => {
-            new katana.Future<number>(promise => {
+            new monapt.Future<number>(promise => {
                 promise.failure(new Error());
             }).onComplete(r => {
-                r.should.instanceof(katana.Failure);
+                r.should.instanceof(monapt.Failure);
                 ok();
             });
         });
 
         it('should callback onComplete with Failure if failure on other context', (ok) => {
-            new katana.Future<number>(promise => {
+            new monapt.Future<number>(promise => {
                 setTimeout(() => promise.failure(new Error()), 100);
             }).onComplete(r => {
-                r.should.instanceof(katana.Failure);
+                r.should.instanceof(monapt.Failure);
                 ok();
             });
         });
 
         describe('When succeed', () => {
-            var future: katana.Future<string>;
+            var future: monapt.Future<string>;
             before(() => {
-                future = katana.future<string>(promise => {
+                future = monapt.future<string>(promise => {
                     promise.success('value');
                 });
             });
@@ -91,7 +91,7 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('eturns mixed Future that create by func', (ok) => {
-                    var a = future.flatMap(v => new katana.Future<number>(promise => promise.success(100)))
+                    var a = future.flatMap(v => new monapt.Future<number>(promise => promise.success(100)))
                     .onSuccess(v => {
                         v.should.equal(100);
                         ok();
@@ -99,7 +99,7 @@ module katana.Spec {
                 });
 
                 it('returns failed Future if new future fails', (ok) => {
-                    var a = future.flatMap(v => new katana.Future<number>(promise => {
+                    var a = future.flatMap(v => new monapt.Future<number>(promise => {
                         promise.failure(new Error('Some error.'));
                     })).onFailure(e => {
                         e.message.should.equal('Some error.');
@@ -108,7 +108,7 @@ module katana.Spec {
                 });
 
                 it('can mix completed two futures', (ok) => {
-                    var left = katana.future<number>(promise => {
+                    var left = monapt.future<number>(promise => {
                         promise.success(100);    
                     });
                     setTimeout(() => {
@@ -160,9 +160,9 @@ module katana.Spec {
         });
 
         describe('When failed', () => {
-            var future: katana.Future<string>;
+            var future: monapt.Future<string>;
             before(() => {
-                future = new katana.Future<string>(promise => {
+                future = new monapt.Future<string>(promise => {
                     promise.failure(new Error('Some error.'));
                 });
             });
@@ -198,7 +198,7 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('never do anything', (ok) => {
-                    future.flatMap(v => new katana.Future<number>(promise => promise.success(100))).onFailure(e => {
+                    future.flatMap(v => new monapt.Future<number>(promise => promise.success(100))).onFailure(e => {
                         e.message.should.equal('Some error.');   
                         ok();
                     });
@@ -227,7 +227,7 @@ module katana.Spec {
 
     describe('Promise', () => {
         it('can complete the future by success', (ok) => {
-            var p = new katana.Promise<string>();
+            var p = new monapt.Promise<string>();
             var f = p.future();
             f.onSuccess(v => {
                 v.should.equal('value');
@@ -237,7 +237,7 @@ module katana.Spec {
         });
 
         it('can complete the future by failure', (ok) => {
-            var p = new katana.Promise<string>();
+            var p = new monapt.Promise<string>();
             var f = p.future();
             f.onFailure(e => {
                 e.message.should.equal('Some error.');

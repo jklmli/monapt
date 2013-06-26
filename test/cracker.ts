@@ -2,7 +2,7 @@
 /// <reference path="../d.ts/mocha.d.ts" />
 /// <reference path="../d.ts/chai.d.ts" />
 
-module katana.Spec {
+module monapt.Spec {
     chai.should();
 
     interface ITestFunc {
@@ -15,7 +15,7 @@ module katana.Spec {
 
     describe('Cracker', () => {
         it('can fire callbacks', () => {
-            var cracker = new katana.Cracker<ITestFunc>();
+            var cracker = new monapt.Cracker<ITestFunc>();
             var counter = 0;
             cracker.add(() => counter++);
             cracker.add(() => counter++);
@@ -29,7 +29,7 @@ module katana.Spec {
         });
 
         it('should apply function with binding context', () => {
-            var cracker = new katana.Cracker<ITestFunc2>();
+            var cracker = new monapt.Cracker<ITestFunc2>();
             var counter = 0;
 
             cracker.add(num => counter += num);

@@ -7,8 +7,8 @@ describe('Option', () => {
 
     describe('Some', () => {    
         
-        var some: katana.Some<string>;
-        beforeEach(() => { some = new katana.Some('value') });
+        var some: monapt.Some<string>;
+        beforeEach(() => { some = new monapt.Some('value') });
 
         it('is not empty', () => some.isEmpty.should.be.false);
         
@@ -26,7 +26,7 @@ describe('Option', () => {
 
         describe('#orElse', () => {
             it('returns that', () => {
-                some.orElse(() => new katana.Some('alternative')).get().should.equal('value');
+                some.orElse(() => new monapt.Some('alternative')).get().should.equal('value');
             });
         });
 
@@ -53,13 +53,13 @@ describe('Option', () => {
 
         describe('#flatMap', () => {
             it('returns the result of applying func if it is a Some', () => {
-                var mapped = some.flatMap(v => new katana.Some(1));
-                mapped.should.be.instanceof(katana.Some);
+                var mapped = some.flatMap(v => new monapt.Some(1));
+                mapped.should.be.instanceof(monapt.Some);
                 mapped.get().should.equal(1);
             });
 
             it('returns a None if result of applying func that is None', () => {
-                some.flatMap(v => new katana.None<number>()).should.be.instanceof(katana.None);
+                some.flatMap(v => new monapt.None<number>()).should.be.instanceof(monapt.None);
             });
         });
 
@@ -70,7 +70,7 @@ describe('Option', () => {
 
             it('returns None if predicater returns false', () => {
                 var none = some.filter(v => false);
-                none.should.instanceof(katana.None);
+                none.should.instanceof(monapt.None);
             });
         });
 
@@ -81,7 +81,7 @@ describe('Option', () => {
 
             it('returns None if predicater returns true', () => {
                 var none = some.reject(v => true);
-                none.should.instanceof(katana.None);
+                none.should.instanceof(monapt.None);
             });
         });
 
@@ -96,8 +96,8 @@ describe('Option', () => {
 
     describe('None', () => {
         
-        var none: katana.None<string>;
-        beforeEach(() => { none = new katana.None<string>() });
+        var none: monapt.None<string>;
+        beforeEach(() => { none = new monapt.None<string>() });
 
         it('is empty', () => none.isEmpty.should.be.true);
 
@@ -115,7 +115,7 @@ describe('Option', () => {
 
         describe('#orElse', () => {
             it('returns alternative', () => {
-                none.orElse(() => new katana.Some('alternative')).get().should.equal('alternative');
+                none.orElse(() => new monapt.Some('alternative')).get().should.equal('alternative');
             });
         });
 
@@ -135,13 +135,13 @@ describe('Option', () => {
 
         describe('#map', () => {
             it('never do anything', () => {
-                none.map(v => 1).should.be.instanceof(katana.None);
+                none.map(v => 1).should.be.instanceof(monapt.None);
             });
         });
 
         describe('#flatMap', () => {
             it('never do anything', () => {
-                none.flatMap(v => new katana.Some(1)).should.be.instanceof(katana.None);
+                none.flatMap(v => new monapt.Some(1)).should.be.instanceof(monapt.None);
             });
         });
 

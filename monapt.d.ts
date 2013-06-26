@@ -1,4 +1,4 @@
-declare module katana {
+declare module monapt {
     interface Tuple1<A> {
         _1: A;
     }
@@ -9,7 +9,7 @@ declare module katana {
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
 }
-declare module katana {
+declare module monapt {
     interface IOptionMatcher<A> {
         Some? (value: A): void;
         None? (): void;
@@ -53,7 +53,7 @@ declare module katana {
         public foreach(f: (value: A) => void): void;
     }
 }
-declare module katana {
+declare module monapt {
     interface ITryMatcher<T> {
         Success? (value: T): void;
         Failure? (error: Error): void;
@@ -103,7 +103,7 @@ declare module katana {
     }
     var Try: <T>(f: () => T) => Try<T>;
 }
-declare module katana {
+declare module monapt {
     interface ICrackerProducer<F> {
         (f: F): void;
     }
@@ -116,9 +116,9 @@ declare module katana {
         public add(fn: F): void;
     }
 }
-declare module katana {
+declare module monapt {
     interface ICompleteFucntion<T> {
-        (trier: katana.Try<T>): void;
+        (trier: monapt.Try<T>): void;
     }
     interface IFutureSuccess<T> {
         (value: T): void;
@@ -126,15 +126,19 @@ declare module katana {
     interface IFutureFailure<T> {
         (error: Error): void;
     }
+    interface IFuturePromiseLike<T> {
+        success: IFutureSuccess<T>;
+        failure: IFutureFailure<T>;
+    }
     class Future<T> {
         private cracker;
-        constructor(future: (success: IFutureSuccess<T>, failure: IFutureFailure<T>) => void);
+        constructor(future: (promise: IFuturePromiseLike<T>) => void);
         public success(value: T): void;
         public failure(error: Error): void;
         public onComplete(callback: ICompleteFucntion<T>): void;
         public onSuccess(callback: (value: T) => void): void;
         public onFailure(callback: (error: Error) => void): void;
-        public map<U>(f: (value: T, success: IFutureSuccess<U>, failure: IFutureFailure<U>) => void): Future<U>;
+        public map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>;
         public flatMap<U>(f: (value: T) => Future<U>): Future<U>;
         public filter(predicate: (value: T) => boolean): Future<T>;
         public reject(predicate: (value: T) => boolean): Future<T>;
@@ -146,12 +150,13 @@ declare module katana {
         public failure(error: Error): void;
         public future(): Future<T>;
     }
+    var future: <T>(f: (promise: IFuturePromiseLike<T>) => void) => Future<T>;
 }
-declare module katana {
+declare module monapt {
     interface IHashable {
         hash? (): string;
     }
-    class Map<K extends katana.IHashable, V> {
+    class Map<K extends monapt.IHashable, V> {
         private real;
         private selector;
         constructor(key: K, value: V, ...keysAndValues: any[]);
@@ -160,14 +165,14 @@ declare module katana {
         private ensureSelector(hint?);
         private add(key, value);
         public foreach(f: (key: K, value: V) => void): void;
-        public map<K2, V2>(f: (key: K, value: V) => katana.Tuple2<K2, V2>): Map<K2, V2>;
+        public map<K2, V2>(f: (key: K, value: V) => monapt.Tuple2<K2, V2>): Map<K2, V2>;
         public flatMap<K2, V2>(f: (key: K, value: V) => Map<K2, V2>): Map<K2, V2>;
         public mapValues<U>(f: (value: V) => U): Map<K, U>;
         public filter(predicate: (key: K, value: V) => boolean): Map<K, V>;
         public reject(predicate: (key: K, value: V) => boolean): Map<K, V>;
-        public find(f: (key: K, value: V) => boolean): katana.Option<katana.Tuple2<K, V>>;
-        public get(key: K): katana.Option<V>;
+        public find(f: (key: K, value: V) => boolean): monapt.Option<monapt.Tuple2<K, V>>;
+        public get(key: K): monapt.Option<V>;
         public getOrElse(key: K, defaultValue: () => V): V;
-        public head(): katana.Option<katana.Tuple2<K, V>>;
+        public head(): monapt.Option<monapt.Tuple2<K, V>>;
     }
 }

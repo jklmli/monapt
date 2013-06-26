@@ -1,13 +1,13 @@
 {
-  "name": "katana",
+  "name": "monapt",
   "version": "0.0.1",
   "main": [
-    "katana.js",
-    "katana.min.js",
-    "katana.d.ts"
+    "monapt.js",
+    "monapt.min.js",
+    "monapt.d.ts"
   ],
   "ignore": [
-    "katana.ts",
+    "monapt.ts",
     "Gruntfile.coffee",
     ".gitattriute",
     ".gitignore",

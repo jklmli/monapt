@@ -2,33 +2,33 @@
 /// <reference path="../d.ts/mocha.d.ts" />
 /// <reference path="../d.ts/chai.d.ts" />
 
-module katana.Spec {
+module monapt.Spec {
 
     describe('Try', () => {
         chai.should();
     
         it('returns Success instacne if not throws error on f', () => {
-            var trier = katana.Try(() => {
+            var trier = monapt.Try(() => {
                 return 1;
             });
-            trier.should.instanceof(katana.Success);
+            trier.should.instanceof(monapt.Success);
         });
 
         it('returns Failure instacne if throws error on f', () => {
-            var trier = katana.Try(() => {
+            var trier = monapt.Try(() => {
                 (() => {
                     throw new Error('Some Error.');
                 })();
                 return 1;
             });
-            trier.should.instanceof(katana.Failure);
+            trier.should.instanceof(monapt.Failure);
         });
 
         describe('Success', () => {
 
-            var success: katana.Success<string>;
+            var success: monapt.Success<string>;
             beforeEach(() => {
-                success = new katana.Success('value');
+                success = new monapt.Success('value');
             });
 
             it('is success', () => {
@@ -53,7 +53,7 @@ module katana.Spec {
 
             describe('#orElse', () => {
                 it('returns this', () => {
-                    success.orElse(() => new katana.Success('alternative')).get().should.equal('value');
+                    success.orElse(() => new monapt.Success('alternative')).get().should.equal('value');
                 });
             });
 
@@ -75,7 +75,7 @@ module katana.Spec {
             describe('#map', () => {
                 it('returns a Success containing the result of applying func', () => {
                     var mapped = success.map(v => v + ' HELLO');
-                    mapped.should.instanceof(katana.Success);
+                    mapped.should.instanceof(monapt.Success);
                     mapped.get().should.equal('value HELLO');
                 });
 
@@ -91,14 +91,14 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('returns the result of applying func', () => {
-                    success.flatMap((v) => new katana.Success(v + ' HELLO')).get().should.equal('value HELLO');
+                    success.flatMap((v) => new monapt.Success(v + ' HELLO')).get().should.equal('value HELLO');
                 });
 
                 it('returns a Failure if func throws error', () => {
                     (() => {
                         success.flatMap(v => {
                             throw new Error(v + ' Error.');
-                            return new katana.Success('');
+                            return new monapt.Success('');
                         }).get();
                     }).should.throw('value Error.');
                 });
@@ -111,7 +111,7 @@ module katana.Spec {
 
                 it('returns Failure if predicater returns false', () => {
                     var failure = success.filter(v => false);
-                    failure.should.instanceof(katana.Failure);
+                    failure.should.instanceof(monapt.Failure);
                 });
             });
 
@@ -122,7 +122,7 @@ module katana.Spec {
 
                 it('returns Failure if predicater returns true', () => {
                     var failure = success.reject(v => true);
-                    failure.should.instanceof(katana.Failure);
+                    failure.should.instanceof(monapt.Failure);
                 });
             });
 
@@ -136,9 +136,9 @@ module katana.Spec {
         });
 
         describe('Failure', () => {
-            var failure: katana.Failure<string>;
+            var failure: monapt.Failure<string>;
             beforeEach(() => {
-                failure = new katana.Failure<string>(new Error('Error.'));    
+                failure = new monapt.Failure<string>(new Error('Error.'));    
             });
 
             it('is not success', () => {
@@ -163,7 +163,7 @@ module katana.Spec {
 
             describe('#orElse', () => {
                 it('returns alternative', () => {
-                    failure.orElse(() => new katana.Success('alternative')).get().should.equal('alternative');
+                    failure.orElse(() => new monapt.Success('alternative')).get().should.equal('alternative');
                 });
             });
             
@@ -188,15 +188,15 @@ module katana.Spec {
                 it('never do anything', () => {
                     failure.map<string>((v) => {
                         return 'HELLO';    
-                    }).should.instanceof(katana.Failure);
+                    }).should.instanceof(monapt.Failure);
                 });
             });
 
             describe('#flatMap', () => {
                 it('never do anything', () => {
                     failure.flatMap<string>((v) => {
-                        return new katana.Success('HELLO');
-                    }).should.instanceof(katana.Failure);
+                        return new monapt.Success('HELLO');
+                    }).should.instanceof(monapt.Failure);
                 });
             });
 

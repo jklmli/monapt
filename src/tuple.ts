@@ -1,4 +1,4 @@
-module katana {
+module monapt {
 
     export interface Tuple1<A> {
         _1: A;

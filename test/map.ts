@@ -2,7 +2,7 @@
 /// <reference path="../d.ts/mocha.d.ts" />
 /// <reference path="../d.ts/chai.d.ts" />
 
-module katana.Spec {
+module monapt.Spec {
 
     describe('Map', () => {
         chai.should();
@@ -10,7 +10,7 @@ module katana.Spec {
         describe('#constructor', () => {
 
             it('can initialize with key/value pairs', () => {
-                var map = new katana.Map('key1', 'value1',
+                var map = new monapt.Map('key1', 'value1',
                                          'key2', 'value2');
 
                 map.get('key1').get().should.be.equal('value1');
@@ -19,14 +19,14 @@ module katana.Spec {
 
             it('cannot initialize with invalid key/value paires', () => {
                 var f = () => {
-                    new katana.Map('key1', 'value1',
+                    new monapt.Map('key1', 'value1',
                                    'key2');
                 }
                 f.should.throw('key2 has not value.');
             });
 
             it('can initialize with Object', () => {
-                var map = new katana.Map<string, string>({
+                var map = new monapt.Map<string, string>({
                     'key1': 'value1',
                     'key2': 'value2'
                 });
@@ -36,7 +36,7 @@ module katana.Spec {
             });
 
             it('can initialize with any argument', () => {
-                var map = new katana.Map<string, string>();
+                var map = new monapt.Map<string, string>();
                 (() => map.get('hoge').get()).should.throw('No such element.');   
             });
         });
@@ -45,19 +45,19 @@ module katana.Spec {
  
             var map: Map<string, string>;
             beforeEach(() => {
-                map = new katana.Map('key1', 'value1',
+                map = new monapt.Map('key1', 'value1',
                                      'key2', 'value2',
                                      'key3', 'value3');
             });
 
             describe('#get', () => {
                 it('returns Some<V> if contains key', () => {
-                    map.get('key1').should.be.instanceof(katana.Some);
+                    map.get('key1').should.be.instanceof(monapt.Some);
                     map.get('key1').get().should.equal('value1');
                 });
 
                 it('returns None if not contains key', () => {
-                    map.get('any').should.be.instanceof(katana.None);
+                    map.get('any').should.be.instanceof(monapt.None);
                 });
             });
 
@@ -95,7 +95,7 @@ module katana.Spec {
 
             describe('#map', () => {
                 it('returns new Map containing result of applying func', () => {
-                    var mapped = map.map((k: string, v: string) => katana.Tuple2(v, k));
+                    var mapped = map.map((k: string, v: string) => monapt.Tuple2(v, k));
                     mapped.get('value1').get().should.equal('key1');
                     mapped.get('value2').get().should.equal('key2');
                     mapped.get('value3').get().should.equal('key3');
@@ -104,17 +104,17 @@ module katana.Spec {
 
             describe('#flatMap', () => {
                 it('returns new Map flat containing result of applying func', () => {
-                    var flatMapped = map.flatMap((k: string, v: string) => new katana.Map(v, k));
+                    var flatMapped = map.flatMap((k: string, v: string) => new monapt.Map(v, k));
                     flatMapped.get('value1').get().should.equal('key1');
                     flatMapped.get('value2').get().should.equal('key2');
                     flatMapped.get('value3').get().should.equal('key3');                    
                 });
 
                 it('can flatten nested Map', () => {
-                    var nested = new katana.Map('1', new katana.Map('k1', 'v1'),
-                                                '2', new katana.Map('k2', 'v2'));
-                    var flatMapped = nested.flatMap((k: string, v: katana.Map<string, string>) => {
-                        return v.map((k, v) => katana.Tuple2(v, k));    
+                    var nested = new monapt.Map('1', new monapt.Map('k1', 'v1'),
+                                                '2', new monapt.Map('k2', 'v2'));
+                    var flatMapped = nested.flatMap((k: string, v: monapt.Map<string, string>) => {
+                        return v.map((k, v) => monapt.Tuple2(v, k));    
                     });
                     flatMapped.get('v1').get().should.equal('k1');
                     flatMapped.get('v2').get().should.equal('k2');

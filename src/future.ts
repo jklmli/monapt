@@ -1,7 +1,7 @@
 /// <reference path="./cracker.ts" />
 /// <reference path="./try.ts" />
 
-module katana {
+module monapt {
 
     var asInstanceOf = <T>(v: any): T => {
         return <T>v;
@@ -36,11 +36,11 @@ module katana {
         }
 
         public/*protected*/ success(value: T) {
-            this.cracker.fire(fn => fn(new katana.Success<T>(value)));
+            this.cracker.fire(fn => fn(new monapt.Success<T>(value)));
         }
 
         public/*protected*/ failure(error: Error) {
-            this.cracker.fire(fn => fn(new katana.Failure<T>(error)));
+            this.cracker.fire(fn => fn(new monapt.Failure<T>(error)));
         }
 
         onComplete(callback: ICompleteFucntion<T>) {

@@ -1,4 +1,4 @@
-module katana {
+module monapt {
 
     export interface ICrackerProducer<F> {
         (f: F): void;
