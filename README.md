@@ -58,10 +58,42 @@ interface IOptionMatcher<A> {
 }
 ```
 
+```javascript
+trier.match({
+    Success: v => console.log(v),
+    Failrue: e => console.log(e.message)
+});
+```
+
 ## monapt.Try<T>
+
+```javascript
+var trier = monapt.Try(() => {
+    return parse(aValue);
+});
+trier.getOrElse(() => 'defaultValue');
+```
 
 ### monapt.Success / monapt.Failure
 
+```javascript
+new monapt.Success('value')
+new monapt.Failure<string>(new Error());
+```
+
+### Properties / Methods
+
+* `isSuccess: boolean`
+* `isFailure: boolean`
+* `get(): T`
+* `getOrElse(defaultValue: () => T): T`
+* `orElse(alternative: () => Try<T>): Try<T>`
+* `match(matcher: ITryMatcher<T>)`
+* `map<U>(f: (value: T) => U): Try<U>`
+* `flatMap<U>(f: (value: T) => Try<U>): Try<U>`
+* `filter(predicate: (value: T) => boolean): Try<T>`
+* `reject(predicate: (value: T) => boolean): Try<T>`
+* `foreach(f: (value: T) => void): void`
 
 ## monapt.Future<T>
 
@@ -105,3 +137,13 @@ macbookPro.onSuccess(v => {
     console.log(v); // MacBookPro
 });
 ```
+
+### Properties / Methods
+
+* `onComplete(callback: ICompleteFucntion<T>): void`
+* `onSuccess(callback: (value: T) => void): void`
+* `onFailure(callback: (error: Error) => void): void`
+* `map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>`
+* `flatMap<U>(f: (value: T) => Future<U>): Future<U>`
+* `filter(predicate: (value: T) => boolean): Future<T>`
+* `reject(predicate: (value: T) => boolean): Future<T>`
