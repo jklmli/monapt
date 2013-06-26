@@ -1,19 +1,19 @@
-katana
+Monapt
 ============
 
-Like Scala APIs for TypeScript and JavaScript
+Like Scala Monads for TypeScript and JavaScript
 
 ## Setup
 
 With Bower:
 
 ```
-$ bower install git://github.com/yaakaito/katana.git --save
+$ bower install git://github.com/yaakaito/monapt.git --save
 ```
 
 ## APIs
 
-## katana.Option<A>
+## monapt.Option<A>
 
 ```javascript
 var valueOption = map.get('key');
@@ -28,11 +28,11 @@ valueOption.map(v => v * 2).filter(v => v > 10).match({
 })
 ```
 
-### katana.Some / katana.None
+### monapt.Some / monapt.None
 
 ```javascript
-new katana.Some('value')
-new katana.None<string>()
+new monapt.Some('value')
+new monapt.None<string>()
 ```
 
 ### Properties / Methods
@@ -49,7 +49,7 @@ new katana.None<string>()
 * `foreach(f: (value: A) => void): void`
 
 
-#### katana.IOptionMatcher<A>
+#### monapt.IOptionMatcher<A>
 
 ```javascript
 interface IOptionMatcher<A> {
@@ -58,15 +58,15 @@ interface IOptionMatcher<A> {
 }
 ```
 
-## katana.Try<T>
+## monapt.Try<T>
 
-### katana.Success / katana.Failure
+### monapt.Success / monapt.Failure
 
 
-## katana.Future<T>
+## monapt.Future<T>
 
 ```javascript
-katana.future<string>(promise => {
+monapt.future<string>(promise => {
     api.get((error, value) => {
         if (error) {
             promise.failure(error);
@@ -83,13 +83,13 @@ katana.future<string>(promise => {
 
 Mix futures:
 ```javascript
-var macbook = katana.future<string>(promise => {
+var macbook = monapt.future<string>(promise => {
     setTimeout(() => {
         promise.success('MacBook');
     }, 100);
 });
  
-var pro = katana.future<string>(promise => {
+var pro = monapt.future<string>(promise => {
     setTimeout(() => {
         promise.success('Pro');
     }, 100);
