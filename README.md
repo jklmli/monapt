@@ -94,6 +94,8 @@ new monapt.Failure<string>(new Error());
 * `filter(predicate: (value: T) => boolean): Try<T>`
 * `reject(predicate: (value: T) => boolean): Try<T>`
 * `foreach(f: (value: T) => void): void`
+* `recover(fn: (error: Error) => T): Try<T>`
+* `recoverWith(fn: (error: Error) => Try<T>): Try<T>`
 
 ## monapt.Future<T>
 
@@ -147,3 +149,5 @@ macbookPro.onSuccess(v => {
 * `flatMap<U>(f: (value: T) => Future<U>): Future<U>`
 * `filter(predicate: (value: T) => boolean): Future<T>`
 * `reject(predicate: (value: T) => boolean): Future<T>`
+* `recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T>`
+* `recoverWith(fn: (e: Error) => Future<T>): Future<T>`
