@@ -90,7 +90,7 @@ module monapt.Spec {
             });
 
             describe('#flatMap', () => {
-                it('eturns mixed Future that create by func', (ok) => {
+                it('returns mixed Future that create by func', (ok) => {
                     var a = future.flatMap(v => new monapt.Future<number>(promise => promise.success(100)))
                     .onSuccess(v => {
                         v.should.equal(100);
@@ -157,6 +157,24 @@ module monapt.Spec {
                     });
                 });
             });
+
+            describe('#recover', () => {
+                it('returns copied self', (ok) => {
+                    future.recover((error, promise) => promise.success('recovered')).onSuccess(v => {
+                        v.should.equal('value');
+                        ok();
+                    });;
+                });
+            });
+
+            describe('#recoverWith', () => {
+                it('returns copied self', (ok) => {
+                    future.recoverWith(error => new Future(p => p.success('recovered'))).onSuccess(v => {
+                        v.should.equal('value');
+                        ok();
+                    });;
+                });
+            });
         });
 
         describe('When failed', () => {
@@ -219,6 +237,24 @@ module monapt.Spec {
                     future.reject(v => false).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok()
+                    });
+                });
+            });
+
+            describe('#recover', () => {
+                it('returns Success thats result of applying func', (ok) => {
+                    future.recover((error, promise) => promise.success('recovered')).onSuccess(v => {
+                        v.should.equal('recovered');
+                        ok();
+                    });
+                });
+            });
+
+            describe('#recoverWith', () => {
+                it('returns the result of applying func', (ok) => {
+                    future.recoverWith(error => new Future(p => p.success('recovered'))).onSuccess(v => {
+                        v.should.equal('recovered');
+                        ok();
                     });
                 });
             });

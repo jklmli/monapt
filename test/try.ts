@@ -133,6 +133,18 @@ module monapt.Spec {
                     value.should.equal('value');
                 });
             });
+
+            describe('#recoverWith', () => {
+                it('returns self', () => {
+                    success.recover(error => 'recovered').should.eql(success);
+                });
+            });
+
+            describe('#recoverWith', () => {
+                it('returns self', () => {
+                    success.recoverWith(error => new Success('recovered')).should.eql(success);
+                });
+            });
         });
 
         describe('Failure', () => {
@@ -217,6 +229,18 @@ module monapt.Spec {
                     var counter = 0;
                     failure.foreach(v => counter++);
                     counter.should.equal(0);
+                });
+            });
+
+            describe('#recover', () => {
+                it('returns Success thats result of applying func', () => {
+                    failure.recover(error => 'recovered').get().should.equal('recovered');
+                });
+            });
+
+            describe('#recoverWith', () => {
+                it('returns the result of applying func', () => {
+                    failure.recoverWith(error => new monapt.Success('recovered')).get().should.equal('recovered');
                 });
             });
         });

@@ -113,6 +113,41 @@ module monapt {
         reject(predicate: (value: T) => boolean): Future<T> {
             return this.filter(v => !predicate(v));
         }
+
+        recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T> {
+            var promise = new Promise<T>();
+            this.onComplete(r => {
+                r.match({
+                    Failure: error => {
+                        try {
+                            fn(error, {
+                                success: v => promise.success(v),
+                                failure: e => promise.failure(e)
+                            });
+                        }
+                        catch(e) {
+                            promise.failure(e);
+                        }
+                    },
+                    Success: v => promise.success(v)
+                });
+            });
+            return promise.future();
+        }
+
+        recoverWith(fn: (e: Error) => Future<T>): Future<T> {
+            var promise = new Promise<T>();
+            this.onComplete(r => r.match({
+                Failure: e => {
+                    fn(e).onComplete(fr => fr.match({
+                        Success: v => promise.success(v),
+                        Failure: e => promise.failure(e)
+                    }));
+                },
+                Success: v => promise.success(v) 
+            }));
+            return promise.future();
+        }
     }
 
     export class Promise<T> extends Future<T> {

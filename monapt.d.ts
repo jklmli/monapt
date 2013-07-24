@@ -70,6 +70,8 @@ declare module monapt {
         filter(predicate: (value: T) => boolean): Try<T>;
         reject(predicate: (value: T) => boolean): Try<T>;
         foreach(f: (value: T) => void): void;
+        recover(fn: (error: Error) => T): Try<T>;
+        recoverWith(fn: (error: Error) => Try<T>): Try<T>;
     }
     class Success<T> implements Try<T> {
         private value;
@@ -85,6 +87,8 @@ declare module monapt {
         public filter(predicate: (value: T) => boolean): Try<T>;
         public reject(predicate: (value: T) => boolean): Try<T>;
         public foreach(f: (value: T) => void): void;
+        public recover(fn: (error: Error) => T): Try<T>;
+        public recoverWith(fn: (error: Error) => Try<T>): Try<T>;
     }
     class Failure<T> implements Try<T> {
         private error;
@@ -100,6 +104,8 @@ declare module monapt {
         public filter(predicate: (value: T) => boolean): Try<T>;
         public reject(predicate: (value: T) => boolean): Try<T>;
         public foreach(f: (value: T) => void): void;
+        public recover(fn: (error: Error) => T): Try<T>;
+        public recoverWith(fn: (error: Error) => Try<T>): Try<T>;
     }
     var Try: <T>(f: () => T) => Try<T>;
 }
@@ -142,6 +148,8 @@ declare module monapt {
         public flatMap<U>(f: (value: T) => Future<U>): Future<U>;
         public filter(predicate: (value: T) => boolean): Future<T>;
         public reject(predicate: (value: T) => boolean): Future<T>;
+        public recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T>;
+        public recoverWith(fn: (e: Error) => Future<T>): Future<T>;
     }
     class Promise<T> extends Future<T> {
         public isComplete: boolean;

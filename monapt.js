@@ -181,6 +181,14 @@ var monapt;
         Success.prototype.foreach = function (f) {
             f(this.value);
         };
+
+        Success.prototype.recover = function (fn) {
+            return this;
+        };
+
+        Success.prototype.recoverWith = function (fn) {
+            return this;
+        };
         return Success;
     })();
     monapt.Success = Success;
@@ -226,6 +234,22 @@ var monapt;
 
         Failure.prototype.foreach = function (f) {
             return;
+        };
+
+        Failure.prototype.recover = function (fn) {
+            try  {
+                return new Success(fn(this.error));
+            } catch (e) {
+                return new Failure(e);
+            }
+        };
+
+        Failure.prototype.recoverWith = function (fn) {
+            try  {
+                return fn(this.error);
+            } catch (e) {
+                return new Failure(this.error);
+            }
         };
         return Failure;
     })();
@@ -405,6 +429,56 @@ var monapt;
             return this.filter(function (v) {
                 return !predicate(v);
             });
+        };
+
+        Future.prototype.recover = function (fn) {
+            var promise = new Promise();
+            this.onComplete(function (r) {
+                r.match({
+                    Failure: function (error) {
+                        try  {
+                            fn(error, {
+                                success: function (v) {
+                                    return promise.success(v);
+                                },
+                                failure: function (e) {
+                                    return promise.failure(e);
+                                }
+                            });
+                        } catch (e) {
+                            promise.failure(e);
+                        }
+                    },
+                    Success: function (v) {
+                        return promise.success(v);
+                    }
+                });
+            });
+            return promise.future();
+        };
+
+        Future.prototype.recoverWith = function (fn) {
+            var promise = new Promise();
+            this.onComplete(function (r) {
+                return r.match({
+                    Failure: function (e) {
+                        fn(e).onComplete(function (fr) {
+                            return fr.match({
+                                Success: function (v) {
+                                    return promise.success(v);
+                                },
+                                Failure: function (e) {
+                                    return promise.failure(e);
+                                }
+                            });
+                        });
+                    },
+                    Success: function (v) {
+                        return promise.success(v);
+                    }
+                });
+            });
+            return promise.future();
         };
         return Future;
     })();

@@ -26,6 +26,9 @@ module monapt {
         reject(predicate: (value: T) => boolean): Try<T>;
         
         foreach(f: (value: T) => void): void;
+
+        recover(fn: (error: Error) => T): Try<T>;
+        recoverWith(fn: (error: Error) => Try<T>): Try<T>;
     }
 
     export class Success<T> implements Try<T> {
@@ -83,6 +86,14 @@ module monapt {
         foreach(f: (value: T) => void) {
             f(this.value);
         }
+
+        recover(fn: (error: Error) => T): Try<T> {
+            return this;
+        }
+
+        recoverWith(fn: (error: Error) => Try<T>): Try<T> {
+            return this;
+        }
     }
 
     export class Failure<T> implements Try<T> {
@@ -127,6 +138,23 @@ module monapt {
             return;
         }
 
+        recover(fn: (error: Error) => T): Try<T> {
+            try {
+                return new Success(fn(this.error));
+            }
+            catch (e) {
+                return new Failure<T>(e);
+            }
+        }
+
+        recoverWith(fn: (error: Error) => Try<T>): Try<T> {
+            try {
+                return fn(this.error);
+            }
+            catch (e) {
+                return new Failure<T>(this.error);
+            }
+        }
     }
 
     export var Try = <T>(f: () => T): Try<T> => {
