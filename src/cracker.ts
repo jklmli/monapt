@@ -10,7 +10,7 @@ module monapt {
 
         fire(producer: ICrackerProducer<F>) {
             this.producer = producer;
-            if (this.fired) { throw new Error('Does fired.') } else { this.fireAll() }
+            if (this.fired) { throw new Error('Dose fired twice, Can call only once.') } else { this.fireAll() }
         }
 
         private fireAll() {
