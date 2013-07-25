@@ -273,7 +273,7 @@ var monapt;
         Cracker.prototype.fire = function (producer) {
             this.producer = producer;
             if (this.fired) {
-                throw new Error('Does fired.');
+                throw new Error('Dose fired twice, Can call only once.');
             } else {
                 this.fireAll();
             }
