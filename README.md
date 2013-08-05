@@ -1,4 +1,4 @@
-Monapt
+Monapt [![Build Status](https://travis-ci.org/yaakaito/monapt.png?branch=master)](https://travis-ci.org/yaakaito/monapt)
 ============
 
 Like Scala Monads for TypeScript and JavaScript
