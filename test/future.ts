@@ -43,6 +43,26 @@ module monapt.Spec {
             });
         });
 
+        describe('::succeed', () => {
+            it('create succeed Futrue', (ok) => {
+                var succeed = Future.succeed('value');
+                succeed.onSuccess(value => {
+                    value.should.equal('value');
+                    ok();
+                });
+            });
+        });
+
+       describe('::failed', () => {
+            it('create failed Futrue', (ok) => {
+                var failed = Future.failed<string>(new Error('error'));
+                failed.onFailure(e => {
+                    e.message.should.equal('error');
+                    ok();
+                });
+            });
+        });
+
         describe('When succeed', () => {
             var future: monapt.Future<string>;
             before(() => {

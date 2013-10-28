@@ -35,6 +35,14 @@ module monapt {
              });
         }
 
+        static succeed<T>(value: T): Future<T> {
+            return new Future(p => p.success(value));
+        }
+
+        static failed<T>(error: Error): Future<T> {
+            return new Future(p => p.failure(error));
+        }
+
         public/*protected*/ success(value: T) {
             this.cracker.fire(fn => fn(new monapt.Success<T>(value)));
         }
