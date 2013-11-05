@@ -279,6 +279,41 @@ module monapt.Spec {
                 });
             });
         });
+
+
+        describe('New syntax', () => {
+            it('should callback onComplete with Success if success', (ok) => {
+                new monapt.Future<number>(ret => ret(1)).onComplete(r => {
+                    r.should.instanceof(monapt.Success);
+                    ok();
+                });
+            });
+
+            it('should callback onComplete with Success if success on other context', (ok) => {
+                new monapt.Future<number>(ret => {
+                    setTimeout(() => ret(1), 100);
+                }).onComplete(r => {
+                    r.should.instanceof(monapt.Success);
+                    ok();
+                });
+            });
+
+            it('should callback onComplete with Failure if failure', (ok) => {
+                new monapt.Future<number>(ret => ret(new Error())).onComplete(r => {
+                    r.should.instanceof(monapt.Failure);
+                    ok();
+                });
+            });
+
+            it('should callback onComplete with Failure if failure on other context', (ok) => {
+                new monapt.Future<number>(ret => {
+                    setTimeout(() => ret(new Error()), 100);
+                }).onComplete(r => {
+                    r.should.instanceof(monapt.Failure);
+                    ok();
+                });
+            });
+        });
     });
 
     describe('Promise', () => {

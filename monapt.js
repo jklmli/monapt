@@ -310,18 +310,26 @@ var monapt;
         return v;
     };
 
+    function F(target) {
+        var f = function (v) {
+            if (v instanceof Error)
+                target.failure(v);
+else
+                target.success(v);
+        };
+        f['success'] = function (v) {
+            return target.success(v);
+        };
+        f['failure'] = function (e) {
+            return target.failure(e);
+        };
+        return f;
+    }
+
     var Future = (function () {
         function Future(future) {
-            var _this = this;
             this.cracker = new monapt.Cracker();
-            future({
-                success: function (v) {
-                    return _this.success(v);
-                },
-                failure: function (e) {
-                    return _this.failure(e);
-                }
-            });
+            future(F(this));
         }
         Future.succeed = function (value) {
             return new Future(function (p) {
@@ -379,11 +387,7 @@ var monapt;
                         return promise.failure(e);
                     },
                     Success: function (v) {
-                        return f(v, { success: function (v) {
-                                return promise.success(v);
-                            }, failure: function (e) {
-                                return promise.failure(e);
-                            } });
+                        return f(v, F(promise));
                     }
                 });
             });
@@ -449,14 +453,7 @@ var monapt;
                 r.match({
                     Failure: function (error) {
                         try  {
-                            fn(error, {
-                                success: function (v) {
-                                    return promise.success(v);
-                                },
-                                failure: function (e) {
-                                    return promise.failure(e);
-                                }
-                            });
+                            fn(error, F(promise));
                         } catch (e) {
                             promise.failure(e);
                         }
@@ -524,7 +521,7 @@ var monapt;
         var p = new Promise();
 
         try  {
-            f(p);
+            f(F(p));
         } catch (e) {
             p.failure(e);
         }

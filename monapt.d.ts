@@ -133,6 +133,8 @@ declare module monapt {
         (error: Error): void;
     }
     interface IFuturePromiseLike<T> {
+        (value: T): void;
+        (error: Error): void;
         success: IFutureSuccess<T>;
         failure: IFutureFailure<T>;
     }

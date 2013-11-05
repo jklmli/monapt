@@ -20,8 +20,20 @@ module monapt {
     }
 
     export interface IFuturePromiseLike<T> {
+        (value: T): void;
+        (error: Error): void;
         success: IFutureSuccess<T>;
         failure: IFutureFailure<T>;
+    }
+
+    function F<T>(target): IFuturePromiseLike<T> {
+        var f: any = v => {
+            if (v instanceof Error) target.failure(v);
+            else target.success(v);
+        }
+        f['success'] = v => target.success(v);
+        f['failure'] = e => target.failure(e);
+        return f;
     }
 
     export class Future<T> {
@@ -29,10 +41,7 @@ module monapt {
         private cracker = new Cracker<ICompleteFucntion<T>>();
 
         constructor(future: (promise: IFuturePromiseLike<T>) => void) {
-            future({
-                success: v => this.success(v),
-                failure: e => this.failure(e)
-             });
+            future(F<T>(this));
         }
 
         static succeed<T>(value: T): Future<T> {
@@ -76,7 +85,7 @@ module monapt {
             this.onComplete(r => {
                 r.match({
                     Failure: e => promise.failure(e),
-                    Success: v => f(v, {success: v => promise.success(v), failure: e => promise.failure(e)})
+                    Success: v => f(v, F<T>(promise))
                 });
             });
             return promise.future();
@@ -128,10 +137,7 @@ module monapt {
                 r.match({
                     Failure: error => {
                         try {
-                            fn(error, {
-                                success: v => promise.success(v),
-                                failure: e => promise.failure(e)
-                            });
+                            fn(error, F<T>(promise));
                         }
                         catch(e) {
                             promise.failure(e);
@@ -185,7 +191,7 @@ module monapt {
         var p = new Promise<T>();
         // :(
         try {
-            f(p);
+            f(F<T>(p));
         }
         catch (e) {
             p.failure(e);
