@@ -122,7 +122,7 @@ module monapt {
             return this.filter(v => !predicate(v));
         }
 
-        recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T> {
+        recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => void): Future<T> {
             var promise = new Promise<T>();
             this.onComplete(r => {
                 r.match({
