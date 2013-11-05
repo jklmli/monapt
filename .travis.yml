@@ -5,11 +5,6 @@ node_js:
 
 
 before_script:
-
-# display settings for FireFox
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-
 # install testem & grunt-cli
 - npm install -g testem
 - npm install -g grunt-cli
