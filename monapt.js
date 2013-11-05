@@ -323,6 +323,18 @@ var monapt;
                 }
             });
         }
+        Future.succeed = function (value) {
+            return new Future(function (p) {
+                return p.success(value);
+            });
+        };
+
+        Future.failed = function (error) {
+            return new Future(function (p) {
+                return p.failure(error);
+            });
+        };
+
         Future.prototype.success = function (value) {
             this.cracker.fire(function (fn) {
                 return fn(new monapt.Success(value));

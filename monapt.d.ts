@@ -139,6 +139,8 @@ declare module monapt {
     class Future<T> {
         private cracker;
         constructor(future: (promise: IFuturePromiseLike<T>) => void);
+        static succeed<T>(value: T): Future<T>;
+        static failed<T>(error: Error): Future<T>;
         public success(value: T): void;
         public failure(error: Error): void;
         public onComplete(callback: ICompleteFucntion<T>): void;
@@ -148,7 +150,7 @@ declare module monapt {
         public flatMap<U>(f: (value: T) => Future<U>): Future<U>;
         public filter(predicate: (value: T) => boolean): Future<T>;
         public reject(predicate: (value: T) => boolean): Future<T>;
-        public recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T>;
+        public recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => void): Future<T>;
         public recoverWith(fn: (e: Error) => Future<T>): Future<T>;
     }
     class Promise<T> extends Future<T> {
@@ -164,7 +166,7 @@ declare module monapt {
     interface IHashable {
         hash? (): string;
     }
-    class Map<K extends monapt.IHashable, V> {
+    class Map<K extends IHashable, V> {
         private real;
         private selector;
         constructor(key: K, value: V, ...keysAndValues: any[]);
