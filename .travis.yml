@@ -2,3 +2,9 @@ language: node_js
 node_js:
 - 0.10
 - 0.8
+
+
+before_script:
+# install testem & grunt-cli
+- npm install -g testem
+- npm install -g grunt-cli
