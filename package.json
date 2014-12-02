@@ -1,9 +1,16 @@
 {
-  "name": "project",
-  "version": "0.0.1",
-  "scripts": {
-    "test": "testem ci"
+  "name": "monapt",
+  "version": "0.3.0",
+  "description": "Scala Monads for TypeScript and JavaScript",
+  "homepage": "https://github.com/jiaweihli/monapt",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jiaweihli/monapt.git"
   },
+  "bugs": {
+    "url": "https://github.com/jiaweihli/monapt/issues"
+  },
+  "main": "dist/monapt.js",
   "devDependencies": {
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-concat": "~0.2.0",
@@ -14,5 +21,36 @@
     "grunt": "~0.4.1",
     "grunt-exec": "~0.4.1",
     "grunt-typescript": "~0.4.4"
-  }
+  },
+  "author": {
+    "name": "Jiawei Li",
+    "url": "https://github.com/jiaweihli"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "testem ci"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "option",
+    "future",
+    "try",
+    "monad",
+    "functional",
+    "util",
+    "scala"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "jiaweihli",
+      "email": "jiawei.h.li@gmail.com"
+    }
+  ],
+  "directories": {}
 }
