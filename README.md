@@ -61,7 +61,7 @@ interface IOptionMatcher<A> {
 ```javascript
 trier.match({
     Success: v => console.log(v),
-    Failrue: e => console.log(e.message)
+    Failure: e => console.log(e.message)
 });
 ```
 
