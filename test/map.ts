@@ -57,7 +57,7 @@ module monapt.Spec {
                 });
 
                 it('returns None if not contains key', () => {
-                    map.get('any').should.be.instanceof(monapt.None);
+                    map.get('any').should.equal(monapt.None);
                 });
             });
 

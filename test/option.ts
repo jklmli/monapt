@@ -59,7 +59,7 @@ describe('Option', () => {
             });
 
             it('returns a None if result of applying func that is None', () => {
-                some.flatMap(v => new monapt.None<number>()).should.be.instanceof(monapt.None);
+                some.flatMap(v => monapt.None).should.equal(monapt.None);
             });
         });
 
@@ -70,7 +70,7 @@ describe('Option', () => {
 
             it('returns None if predicater returns false', () => {
                 var none = some.filter(v => false);
-                none.should.instanceof(monapt.None);
+                none.should.equal(monapt.None);
             });
         });
 
@@ -81,7 +81,7 @@ describe('Option', () => {
 
             it('returns None if predicater returns true', () => {
                 var none = some.reject(v => true);
-                none.should.instanceof(monapt.None);
+                none.should.equal(monapt.None);
             });
         });
 
@@ -96,8 +96,8 @@ describe('Option', () => {
 
     describe('None', () => {
         
-        var none: monapt.None<string>;
-        beforeEach(() => { none = new monapt.None<string>() });
+        var none: any;
+        beforeEach(() => { none = monapt.None });
 
         it('is empty', () => none.isEmpty.should.be.true);
 
@@ -135,13 +135,13 @@ describe('Option', () => {
 
         describe('#map', () => {
             it('never do anything', () => {
-                none.map(v => 1).should.be.instanceof(monapt.None);
+                none.map(v => 1).should.equal(monapt.None);
             });
         });
 
         describe('#flatMap', () => {
             it('never do anything', () => {
-                none.flatMap(v => new monapt.Some(1)).should.be.instanceof(monapt.None);
+                none.flatMap(v => new monapt.Some(1)).should.equal(monapt.None);
             });
         });
 

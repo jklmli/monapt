@@ -1,13 +1,18 @@
 module monapt {
 
-    var asInstanceOf = <T>(v: any): T => {
-        return <T>v;
-    }
-
     export interface IOptionMatcher<A> {
         Some?(value: A): void;
         None?(): void;
     }
+
+    export var Option = <T>(value: T): Option<T> => {
+        if (typeof value !== "undefined" && value !== null) {
+            return new Some(value);
+        }
+        else {
+            return None;
+        }
+    };
 
     export interface Option<A> {
         isEmpty: boolean;
@@ -63,7 +68,7 @@ module monapt {
                 return this;
             }
             else {
-                return new None<A>();
+                return None;
             }
         }
 
@@ -76,9 +81,8 @@ module monapt {
         }
         
     }
-    
 
-    export class None<A> implements Option<A> {
+    class NoneImpl<A> implements Option<A> {
         isEmpty = true;
 
         get(): A {
@@ -100,11 +104,11 @@ module monapt {
         }
 
         map<B>(f: (value: A) => B): Option<B> {
-            return asInstanceOf<None<B>>(this);
+            return None;
         }
 
         flatMap<B>(f: (value: A) => Option<B>): Option<B> {
-            return asInstanceOf<None<B>>(this);
+            return None;
         }
 
         filter(predicate: (value: A) => boolean): Option<A> {
@@ -119,5 +123,6 @@ module monapt {
             return;
         }
     }
-    
+
+    export var None: Option<any> = new NoneImpl<any>();
 }

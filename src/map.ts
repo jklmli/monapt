@@ -26,7 +26,7 @@ module monapt {
                     return new Some<number>(<number>this.table[k]);
                 }
                 else {
-                    return new None<number>();
+                    return None;
                 }
             }
         }
@@ -44,7 +44,7 @@ module monapt {
                     return new Some<number>(<number>this.table[hash]);
                 }
                 else {
-                    return new None<number>();
+                    return None;
                 }
             }
         }
@@ -54,7 +54,7 @@ module monapt {
             register(k: any, index: number) { }
 
             index(k: Object): Option<number> {
-                return new None<number>();
+                return None;
             }
         }
     }
@@ -166,7 +166,7 @@ module monapt {
             }).orElse(() => {
                 return this.find((k, v) => k == key).map<V>(tuple => {
                     return tuple._2;
-                }).orElse(() => new None<V>());
+                }).orElse(() => None);
             });
         }
 
@@ -179,7 +179,7 @@ module monapt {
                 return new Some(this.real[0])
             }
             else {
-                return new None<Tuple2<K, V>>();
+                return None;
             }
         }
     }

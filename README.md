@@ -32,7 +32,7 @@ valueOption.map(v => v * 2).filter(v => v > 10).match({
 
 ```javascript
 new monapt.Some('value')
-new monapt.None<string>()
+monapt.None
 ```
 
 ### Properties / Methods
