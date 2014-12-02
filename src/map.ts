@@ -17,11 +17,11 @@ module monapt {
         export class StringSelector implements ISelector<string> {
             private table = {};
 
-            register(k: string, index: number) {
+            register(k: any, index: number) {
                 this.table[k] = index;
             }
 
-            index(k: string): Option<number> { 
+            index(k: any): Option<number> {
                 if (this.table[k]) {
                     return new Some<number>(<number>this.table[k]);
                 }
@@ -166,7 +166,7 @@ module monapt {
             }).orElse(() => {
                 return this.find((k, v) => k == key).map<V>(tuple => {
                     return tuple._2;
-                }).orElse(() => new None<K>());
+                }).orElse(() => new None<V>());
             });
         }
 

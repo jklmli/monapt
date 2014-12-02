@@ -85,7 +85,7 @@ module monapt {
             this.onComplete(r => {
                 r.match({
                     Failure: e => promise.failure(e),
-                    Success: v => f(v, F<T>(promise))
+                    Success: v => f(v, F<U>(promise))
                 });
             });
             return promise.future();

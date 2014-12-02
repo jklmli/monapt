@@ -72,10 +72,10 @@ module monapt {
                     return this;
                 }
                 else {
-                    return new Failure(new Error('Predicate does not hold for ' + this.value));
+                    return new Failure<T>(new Error('Predicate does not hold for ' + this.value));
                 }
             } catch(e) {
-                return new Failure(e);
+                return new Failure<T>(e);
             }
         }
 
