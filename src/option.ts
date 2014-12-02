@@ -1,5 +1,24 @@
 module monapt {
 
+    declare class Error {
+        public name: string;
+        public message: string;
+        public stack: string;
+        constructor(message?: string);
+    }
+
+    class MatchError extends Error {
+        constructor(public message: string) {
+            super(message);
+            this.name = 'MatchError';
+            this.message = message;
+            this.stack = (new Error()).stack;
+        }
+        toString() {
+            return this.name + ': ' + this.message;
+        }
+    }
+
     export interface IOptionMatcher<A> {
         Some?(value: A): void;
         None?(): void;
@@ -54,7 +73,7 @@ module monapt {
                 return matcher.Some(this.value);
             }
             else {
-                throw new Error('Pattern not matched!');
+                throw new MatchError('Some(' + this.value + ')');
             }
         }
 
@@ -105,7 +124,7 @@ module monapt {
                 return matcher.None();
             }
             else {
-                throw new Error('Pattern not matched!');
+                throw new MatchError('None');
             }
         }
 
