@@ -51,7 +51,10 @@ module monapt {
 
         match(matcher: IOptionMatcher<A>) {
             if (matcher.Some) {
-                matcher.Some(this.value);
+                return matcher.Some(this.value);
+            }
+            else {
+                throw new Error('Pattern not matched!');
             }
         }
 
@@ -99,7 +102,10 @@ module monapt {
 
         match(matcher: IOptionMatcher<A>) {
             if (matcher.None) {
-                matcher.None();
+                return matcher.None();
+            }
+            else {
+                throw new Error('Pattern not matched!');
             }
         }
 
