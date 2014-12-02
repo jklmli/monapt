@@ -25,7 +25,7 @@ module.exports = (grunt) ->
 
             build:
                 src: ['monapt.ts']
-                dest: 'monapt.js'
+                dest: 'dist/monapt.js'
                 options:
                     module: 'commonjs'
                     target: 'es3'
@@ -35,12 +35,12 @@ module.exports = (grunt) ->
             type:
                 src: ['compiled/**/*.js', 'compiled/**/*']
             build:
-                src: ['monapt.js', 'monapt.min.js', 'monapt.d.ts']
+                src: ['dist/monapt.js', 'dist/monapt.min.js', 'dist/monapt.d.ts']
 
         uglify:
             min:
                 files:
-                    'monapt.min.js': ['monapt.js']
+                    'dist/monapt.min.js': ['dist/monapt.js']
             ###
             options:
                 mangle:
