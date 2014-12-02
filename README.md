@@ -22,10 +22,13 @@ valueOption.getOrElse('defaultValue');
 
 
 ```javascript
-valueOption.map(v => v * 2).filter(v => v > 10).match({
-    Some: v  => console.log(v),
-    None: () => console.log('None!')
-})
+valueOption
+    .map((v) => v * 2)
+    .filter(v => v > 10)
+    .match({
+        Some: (v)  => console.log(v),
+        None: () => console.log('None!')
+    })
 ```
 
 ### monapt.Some / monapt.None
@@ -100,7 +103,7 @@ new monapt.Failure<string>(new Error());
 ## monapt.Future<T>
 
 ```javascript
-monapt.future<string>(promise => {
+monapt.future<string>((promise) => {
     api.get((error, value) => {
         if (error) {
             promise.failure(error);
@@ -110,32 +113,32 @@ monapt.future<string>(promise => {
         }
     });
 }).onComplete({
-    Success: v => console.log(v),
-    Failure: e => console.log(e)
+    Success: (v) => console.log(v),
+    Failure: (e) => console.log(e)
 })
 ```
 
 Mix futures:
 ```javascript
-var macbook = monapt.future<string>(promise => {
+var macbook = monapt.future<string>((promise) => {
     setTimeout(() => {
         promise.success('MacBook');
     }, 100);
 });
  
-var pro = monapt.future<string>(promise => {
+var pro = monapt.future<string>((promise) => {
     setTimeout(() => {
         promise.success('Pro');
     }, 100);
 });
  
-var macbookPro = macbook.flatMap<string>(mb => {
+var macbookPro = macbook.flatMap<string>((mb) => {
     return pro.map<string>((pro, promise) => {
         promise.success(mb + pro);
     });
 });
  
-macbookPro.onSuccess(v => {
+macbookPro.onSuccess((v) => {
     console.log(v); // MacBookPro
 });
 ```
