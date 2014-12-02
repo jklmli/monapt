@@ -18,8 +18,8 @@ module monapt {
         isEmpty: boolean;
 
         get(): A;
-        getOrElse(defaultValue: () => A): A;
-        orElse(alternative: () => Option<A>): Option<A>;
+        getOrElse(defaultValue: A): A;
+        orElse(alternative: Option<A>): Option<A>;
 
         match(matcher: IOptionMatcher<A>);
         
@@ -41,11 +41,11 @@ module monapt {
             return this.value;
         }
 
-        getOrElse(defaultValue: () => A): A {
+        getOrElse(defaultValue: A): A {
             return this.value;
         }
 
-        orElse(alternative: () => Option<A>): Option<A> {
+        orElse(alternative: Option<A>): Option<A> {
             return this;
         }
 
@@ -89,12 +89,12 @@ module monapt {
             throw new Error('No such element.');
         }
 
-        getOrElse(defaultValue: () => A): A {
-            return defaultValue();
+        getOrElse(defaultValue: A): A {
+            return defaultValue;
         }
 
-        orElse(alternative: () => Option<A>): Option<A> {
-            return alternative();
+        orElse(alternative: Option<A>): Option<A> {
+            return alternative;
         }
 
         match(matcher: IOptionMatcher<A>) {

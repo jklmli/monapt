@@ -163,14 +163,14 @@ module monapt {
         get(key: K): Option<V> {
             return this.selector.index(key).map<V>(index => {
                 return this.real[index]._2;
-            }).orElse(() => {
-                return this.find((k, v) => k == key).map<V>(tuple => {
+            }).orElse(
+                this.find((k, v) => k == key).map<V>(tuple => {
                     return tuple._2;
-                }).orElse(() => None);
-            });
+                }).orElse(None)
+            );
         }
 
-        getOrElse(key: K, defaultValue: () => V): V {
+        getOrElse(key: K, defaultValue: V): V {
             return this.get(key).getOrElse(defaultValue);
         }
 

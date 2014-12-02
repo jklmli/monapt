@@ -20,13 +20,13 @@ describe('Option', () => {
 
         describe('#getOrElse', () => {
             it('returns the value that binding on constructor', () => {
-                some.getOrElse(() => 'default').should.equal('value');
+                some.getOrElse('default').should.equal('value');
             });
         });
 
         describe('#orElse', () => {
             it('returns that', () => {
-                some.orElse(() => new monapt.Some('alternative')).get().should.equal('value');
+                some.orElse(new monapt.Some('alternative')).get().should.equal('value');
             });
         });
 
@@ -109,13 +109,13 @@ describe('Option', () => {
 
         describe('#getOrElse', () => {
             it('returns default value', () => {
-                none.getOrElse(() => 'default').should.equal('default');
+                none.getOrElse('default').should.equal('default');
             });
         });
 
         describe('#orElse', () => {
             it('returns alternative', () => {
-                none.orElse(() => new monapt.Some('alternative')).get().should.equal('alternative');
+                none.orElse(new monapt.Some('alternative')).get().should.equal('alternative');
             });
         });
 
