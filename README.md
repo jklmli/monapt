@@ -142,7 +142,7 @@ macbookPro.onSuccess(v => {
 
 ### Properties / Methods
 
-* `onComplete(callback: ICompleteFucntion<T>): void`
+* `onComplete(callback: ICompleteFunction<T>): void`
 * `onSuccess(callback: (value: T) => void): void`
 * `onFailure(callback: (error: Error) => void): void`
 * `map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>`

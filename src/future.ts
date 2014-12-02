@@ -7,7 +7,7 @@ module monapt {
         return <T>v;
     }
 
-    export interface ICompleteFucntion<T> {
+    export interface ICompleteFunction<T> {
         (trier: Try<T>): void;
     }
 
@@ -38,7 +38,7 @@ module monapt {
 
     export class Future<T> {
 
-        private cracker = new Cracker<ICompleteFucntion<T>>();
+        private cracker = new Cracker<ICompleteFunction<T>>();
 
         constructor(future: (promise: IFuturePromiseLike<T>) => void) {
             future(F<T>(this));
@@ -60,7 +60,7 @@ module monapt {
             this.cracker.fire(fn => fn(new monapt.Failure<T>(error)));
         }
 
-        onComplete(callback: ICompleteFucntion<T>) {
+        onComplete(callback: ICompleteFunction<T>) {
             this.cracker.add(callback);
         }
 
