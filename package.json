@@ -20,7 +20,8 @@
     "grunt-regarde": "~0.1.1",
     "grunt": "~0.4.1",
     "grunt-exec": "~0.4.1",
-    "grunt-typescript": "~0.4.4"
+    "grunt-typescript": "~0.4.4",
+    "grunt-umd": "~2.2.1"
   },
   "author": {
     "name": "Jiawei Li",

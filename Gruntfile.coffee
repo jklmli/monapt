@@ -73,6 +73,12 @@ module.exports = (grunt) ->
                 files: ['src/**/*.*']
                 tasks: ['generate']
 
+        umd:
+            all:
+                options:
+                    src: 'dist/monapt.js'
+                    objectToExport: 'monapt'
+
     grunt.loadNpmTasks 'grunt-typescript'
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-concat'
@@ -80,10 +86,11 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-regarde'
+    grunt.loadNpmTasks 'grunt-umd'
     
     grunt.registerTask 'compile', ['typescript:compile', 'typescript:test']
     grunt.registerTask 'default', ['compile']
-    grunt.registerTask 'build', ['typescript:build', 'uglify']
+    grunt.registerTask 'build', ['typescript:build', 'umd:all', 'uglify']
     grunt.registerTask 'generate', ['compile', 'build', 'copy:public']
     grunt.registerTask 'preview', ['generate', 'connect:preview', 'regarde']
 
