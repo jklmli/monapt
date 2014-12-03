@@ -5,10 +5,16 @@ Like Scala Monads for TypeScript and JavaScript
 
 ## Setup
 
+With npm:
+
+```
+$ npm install monapt
+```
+
 With Bower:
 
 ```
-$ bower install git://github.com/yaakaito/monapt.git --save
+$ bower install git://github.com/jiaweihli/monapt.git --save
 ```
 
 ## APIs
