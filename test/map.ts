@@ -64,11 +64,11 @@ module monapt.Spec {
 
             describe('#getOrElse', () => {
                 it('returns value if contains key', () => {
-                    map.getOrElse('key1', 'a').should.equal('value1');
+                    map.getOrElse('key1', () => 'a').should.equal('value1');
                 });
 
                 it('retruns defaultValue if not contains key', () => {
-                    map.getOrElse('any', 'none').should.equal('none');
+                    map.getOrElse('any', () => 'none').should.equal('none');
                 });
             });
 

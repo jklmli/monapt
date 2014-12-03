@@ -23,7 +23,7 @@ $ bower install git://github.com/jiaweihli/monapt.git --save
 
 ```javascript
 var valueOption = map.get('key');
-valueOption.getOrElse('defaultValue');
+valueOption.getOrElse(() => 'defaultValue');
 ```
 
 
@@ -48,8 +48,8 @@ monapt.None
 
 * `isEmpty: boolean`
 * `get(): A`
-* `getOrElse(defaultValue: A): A`
-* `orElse(alternative: Option<A>): Option<A>`
+* `getOrElse(defaultValue: () => A): A`
+* `orElse(alternative: () => Option<A>): Option<A>`
 * `match(matcher: IOptionMatcher<A>): void`
 * `map<B>(f: (value: A) => B): Option<B>`
 * `flatMap<B>(f: (value: A) => Option<B>): Option<B>`
@@ -80,7 +80,7 @@ trier.match({
 var trier = monapt.Try(() => {
     return parse(aValue);
 });
-trier.getOrElse('defaultValue');
+trier.getOrElse(() => 'defaultValue');
 ```
 
 ### monapt.Success / monapt.Failure
@@ -95,8 +95,8 @@ new monapt.Failure<string>(new Error());
 * `isSuccess: boolean`
 * `isFailure: boolean`
 * `get(): T`
-* `getOrElse(defaultValue: T): T`
-* `orElse(alternative: Try<T>): Try<T>`
+* `getOrElse(defaultValue: () => T): T`
+* `orElse(alternative: () => Try<T>): Try<T>`
 * `match(matcher: ITryMatcher<T>)`
 * `map<U>(f: (value: T) => U): Try<U>`
 * `flatMap<U>(f: (value: T) => Try<U>): Try<U>`
