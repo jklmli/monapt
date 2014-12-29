@@ -18,8 +18,8 @@ declare module monapt {
     interface Option<A> {
         isEmpty: boolean;
         get(): A;
-        getOrElse(defaultValue: A): A;
-        orElse(alternative: Option<A>): Option<A>;
+        getOrElse(defaultValue: () => A): A;
+        orElse(alternative: () => Option<A>): Option<A>;
         match(matcher: IOptionMatcher<A>): any;
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
@@ -32,8 +32,8 @@ declare module monapt {
         isEmpty: boolean;
         constructor(value: A);
         get(): A;
-        getOrElse(defaultValue: A): A;
-        orElse(alternative: Option<A>): Option<A>;
+        getOrElse(defaultValue: () => A): A;
+        orElse(alternative: () => Option<A>): Option<A>;
         match(matcher: IOptionMatcher<A>): void;
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
