@@ -1,6 +1,6 @@
 {
   "name": "monapt",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Scala Monads for TypeScript and JavaScript",
   "homepage": "https://github.com/jiaweihli/monapt",
   "repository": {
