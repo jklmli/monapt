@@ -111,10 +111,10 @@ var monapt;
             throw new Error('No such element.');
         };
         NoneImpl.prototype.getOrElse = function (defaultValue) {
-            return defaultValue;
+            return defaultValue();
         };
         NoneImpl.prototype.orElse = function (alternative) {
-            return alternative;
+            return alternative();
         };
         NoneImpl.prototype.match = function (matcher) {
             if (matcher.None) {
@@ -622,9 +622,11 @@ var monapt;
             var _this = this;
             return this.selector.index(key).map(function (index) {
                 return _this.real[index]._2;
-            }).orElse(this.find(function (k, v) { return k == key; }).map(function (tuple) {
-                return tuple._2;
-            }).orElse(monapt.None));
+            }).orElse(function () {
+                return _this.find(function (k, v) { return k == key; }).map(function (tuple) {
+                    return tuple._2;
+                }).orElse(function () { return monapt.None; });
+            });
         };
         Map.prototype.getOrElse = function (key, defaultValue) {
             return this.get(key).getOrElse(defaultValue);

@@ -164,7 +164,7 @@ declare module 'monapt' {
         reject(predicate: (key: K, value: V) => boolean): Map<K, V>;
         find(f: (key: K, value: V) => boolean): Option<Tuple2<K, V>>;
         get(key: K): Option<V>;
-        getOrElse(key: K, defaultValue: V): V;
+        getOrElse(key: K, defaultValue: () => V): V;
         head(): Option<Tuple2<K, V>>;
     }
 }
