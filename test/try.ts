@@ -145,6 +145,15 @@ module monapt.Spec {
                     success.recoverWith(error => new Success('recovered')).should.eql(success);
                 });
             });
+
+            describe('#toOption', () => {
+                it('lifts to Some', () => {
+                    var option = success.toOption();
+
+                    option.should.instanceof(monapt.Some);
+                    option.get().should.equal(success.get());
+                });
+            });
         });
 
         describe('Failure', () => {
@@ -241,6 +250,12 @@ module monapt.Spec {
             describe('#recoverWith', () => {
                 it('returns the result of applying func', () => {
                     failure.recoverWith(error => new monapt.Success('recovered')).get().should.equal('recovered');
+                });
+            });
+
+            describe('#toOption', () => {
+                it('lifts to None', () => {
+                    failure.toOption().should.equal(monapt.None);
                 });
             });
         });

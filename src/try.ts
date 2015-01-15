@@ -29,6 +29,8 @@ module monapt {
 
         recover(fn: (error: Error) => T): Try<T>;
         recoverWith(fn: (error: Error) => Try<T>): Try<T>;
+
+        toOption(): Option<T>;
     }
 
     export class Success<T> implements Try<T> {
@@ -94,6 +96,10 @@ module monapt {
         recoverWith(fn: (error: Error) => Try<T>): Try<T> {
             return this;
         }
+
+        toOption(): Option<T> {
+            return new Some(this.value);
+        }
     }
 
     export class Failure<T> implements Try<T> {
@@ -154,6 +160,10 @@ module monapt {
             catch (e) {
                 return new Failure<T>(this.error);
             }
+        }
+
+        toOption(): Option<T> {
+            return None;
         }
     }
 
