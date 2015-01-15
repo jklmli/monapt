@@ -204,6 +204,9 @@ var monapt;
         Success.prototype.recoverWith = function (fn) {
             return this;
         };
+        Success.prototype.toOption = function () {
+            return new monapt.Some(this.value);
+        };
         return Success;
     })();
     monapt.Success = Success;
@@ -256,6 +259,9 @@ var monapt;
             catch (e) {
                 return new Failure(this.error);
             }
+        };
+        Failure.prototype.toOption = function () {
+            return monapt.None;
         };
         return Failure;
     })();

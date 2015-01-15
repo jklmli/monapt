@@ -58,6 +58,7 @@ declare module 'monapt' {
         foreach(f: (value: T) => void): void;
         recover(fn: (error: Error) => T): Try<T>;
         recoverWith(fn: (error: Error) => Try<T>): Try<T>;
+        toOption(): Option<T>;
     }
     class Success<T> implements Try<T> {
         private value;
@@ -75,6 +76,7 @@ declare module 'monapt' {
         foreach(f: (value: T) => void): void;
         recover(fn: (error: Error) => T): Try<T>;
         recoverWith(fn: (error: Error) => Try<T>): Try<T>;
+        toOption(): Option<T>;
     }
     class Failure<T> implements Try<T> {
         private error;
@@ -92,6 +94,7 @@ declare module 'monapt' {
         foreach(f: (value: T) => void): void;
         recover(fn: (error: Error) => T): Try<T>;
         recoverWith(fn: (error: Error) => Try<T>): Try<T>;
+        toOption(): Option<T>;
     }
     var Try: <T>(f: () => T) => Try<T>;
     interface ICrackerProducer<F> {
