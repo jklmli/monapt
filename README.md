@@ -1,4 +1,4 @@
-Monapt [![Build Status](https://travis-ci.org/jiaweihli/monapt.png?branch=master)](https://travis-ci.org/jiaweihli/monapt)
+Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.io/js/monapt) [![Build Status](https://travis-ci.org/jiaweihli/monapt.png?branch=master)](https://travis-ci.org/jiaweihli/monapt)
 ============
 
 Like Scala Monads for TypeScript and JavaScript
@@ -40,12 +40,15 @@ valueOption
 ### monapt.Some / monapt.None
 
 ```javascript
-new monapt.Some('value')
-monapt.None
+monapt.Option('value') // Some('value')
+monapt.Option(null) // None
+monapt.Option(undefined) // None
+monapt.None // None
 ```
 
 ### Properties / Methods
 
+* `isDefined: boolean`
 * `isEmpty: boolean`
 * `get(): A`
 * `getOrElse(defaultValue: () => A): A`
@@ -69,8 +72,8 @@ interface IOptionMatcher<A> {
 
 ```javascript
 trier.match({
-    Success: v => console.log(v),
-    Failure: e => console.log(e.message)
+    Success: (v) => console.log(v),
+    Failure: (e) => console.log(e.message)
 });
 ```
 
