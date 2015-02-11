@@ -10,8 +10,9 @@ describe('Option', () => {
         var some: monapt.Some<string>;
         beforeEach(() => { some = new monapt.Some('value') });
 
+        it('is defined', () => some.isDefined.should.be.true);
         it('is not empty', () => some.isEmpty.should.be.false);
-        
+
         describe('#get', () => {
             it('returns the value that binding on constructor', () => {
                 some.get().should.equal('value');
@@ -99,6 +100,7 @@ describe('Option', () => {
         var none: any;
         beforeEach(() => { none = monapt.None });
 
+        it('is not defined', () => none.isDefined.should.be.false);
         it('is empty', () => none.isEmpty.should.be.true);
 
         describe('#get', () => {

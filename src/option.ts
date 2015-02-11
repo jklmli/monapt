@@ -34,6 +34,7 @@ module monapt {
     };
 
     export interface Option<A> {
+        isDefined: boolean;
         isEmpty: boolean;
 
         get(): A;
@@ -52,6 +53,7 @@ module monapt {
     }
 
     export class Some<A> implements Option<A> {
+        isDefined = true;
         isEmpty = false;
 
         constructor(private value :A) { }
@@ -105,6 +107,7 @@ module monapt {
     }
 
     class NoneImpl<A> implements Option<A> {
+        isDefined = false;
         isEmpty = true;
 
         get(): A {
