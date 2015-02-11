@@ -1,4 +1,4 @@
-declare module 'monapt' {
+declare module monapt {
     interface Tuple1<A> {
         _1: A;
     }
@@ -8,12 +8,15 @@ declare module 'monapt' {
         _2: B;
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
+}
+declare module monapt {
     interface IOptionMatcher<A> {
         Some?(value: A): void;
         None?(): void;
     }
     var Option: <T>(value: T) => Option<T>;
     interface Option<A> {
+        isDefined: boolean;
         isEmpty: boolean;
         get(): A;
         getOrElse(defaultValue: () => A): A;
@@ -27,6 +30,7 @@ declare module 'monapt' {
     }
     class Some<A> implements Option<A> {
         private value;
+        isDefined: boolean;
         isEmpty: boolean;
         constructor(value: A);
         get(): A;
@@ -40,6 +44,8 @@ declare module 'monapt' {
         foreach(f: (value: A) => void): void;
     }
     var None: Option<any>;
+}
+declare module monapt {
     interface ITryMatcher<T> {
         Success?(value: T): void;
         Failure?(error: Error): void;
@@ -97,6 +103,8 @@ declare module 'monapt' {
         toOption(): Option<T>;
     }
     var Try: <T>(f: () => T) => Try<T>;
+}
+declare module monapt {
     interface ICrackerProducer<F> {
         (f: F): void;
     }
@@ -108,6 +116,8 @@ declare module 'monapt' {
         private fireAll();
         add(fn: F): void;
     }
+}
+declare module monapt {
     interface ICompleteFunction<T> {
         (trier: Try<T>): void;
     }
@@ -148,6 +158,8 @@ declare module 'monapt' {
         future(): Future<T>;
     }
     var future: <T>(f: (promise: IFuturePromiseLike<T>) => void) => Future<T>;
+}
+declare module monapt {
     interface IHashable {
         hash?(): string;
     }

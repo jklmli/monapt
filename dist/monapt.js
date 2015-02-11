@@ -61,6 +61,7 @@ var monapt;
     var Some = (function () {
         function Some(value) {
             this.value = value;
+            this.isDefined = true;
             this.isEmpty = false;
         }
         Some.prototype.get = function () {
@@ -105,6 +106,7 @@ var monapt;
     monapt.Some = Some;
     var NoneImpl = (function () {
         function NoneImpl() {
+            this.isDefined = false;
             this.isEmpty = true;
         }
         NoneImpl.prototype.get = function () {
