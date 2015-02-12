@@ -30,7 +30,7 @@ valueOption.getOrElse(() => 'defaultValue');
 ```javascript
 valueOption
     .map((v) => v * 2)
-    .filter(v => v > 10)
+    .filter((v) => v > 10)
     .match({
         Some: (v)  => console.log(v),
         None: () => console.log('None!')
