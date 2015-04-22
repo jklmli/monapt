@@ -153,4 +153,16 @@ module monapt {
     }
 
     export var None: Option<any> = new NoneImpl<any>();
+
+    export var flatten = <T>(options: Array<Option<T>>): Array<T> => {
+        var ret = [];
+
+        for(var i = 0, length = options.length; i < length; i++) {
+            if (options[i].isDefined) {
+                ret.push(options[i].get());
+            }
+        }
+
+        return ret;
+    };
 }

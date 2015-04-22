@@ -5,6 +5,17 @@
 describe('Option', () => {
     chai.should();
 
+    describe('Option', () => {
+        describe('::flatten', () => {
+            it('extracts values', () => {
+                var flattened: Array<number> = monapt.flatten([monapt.Option(1), monapt.Option(2), monapt.None]);
+                flattened[0].should.equal(1);
+                flattened[1].should.equal(2);
+                flattened.length.should.equal(2);
+            });
+        });
+    });
+
     describe('Some', () => {    
         
         var some: monapt.Some<string>;
