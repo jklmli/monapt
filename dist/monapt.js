@@ -144,6 +144,15 @@ var monapt;
         return NoneImpl;
     })();
     monapt.None = new NoneImpl();
+    monapt.flatten = function (options) {
+        var ret = [];
+        for (var i = 0, length = options.length; i < length; i++) {
+            if (options[i].isDefined) {
+                ret.push(options[i].get());
+            }
+        }
+        return ret;
+    };
 })(monapt || (monapt = {}));
 var monapt;
 (function (monapt) {

@@ -42,6 +42,7 @@ declare module 'monapt' {
         foreach(f: (value: A) => void): void;
     }
     var None: Option<any>;
+    var flatten: <T>(options: Option<T>[]) => T[];
     interface ITryMatcher<T> {
         Success?(value: T): void;
         Failure?(error: Error): void;
