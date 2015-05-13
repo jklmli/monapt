@@ -19,6 +19,12 @@ $ bower install git://github.com/jiaweihli/monapt.git --save
 
 ## APIs
 
+## monapt
+
+### Properties / Methods
+
+* `static flatten<T>(options: Array<Option<T>>): Array<T>`
+
 ## monapt.Option<A>
 
 ```javascript
@@ -44,13 +50,10 @@ monapt.Option('value') // Some('value')
 monapt.Option(null) // None
 monapt.Option(undefined) // None
 monapt.None // None
-monapt.Option.flatten([Monapt.None, Monapt.Some(1)]) // [1]
+monapt.flatten([Monapt.None, Monapt.Some(1)]) // [1]
 ```
 
 ### Properties / Methods
-
-* `static flatten<T>(options: Array<Option<T>>): Array<T>`
-
 
 * `isDefined: boolean`
 * `isEmpty: boolean`
