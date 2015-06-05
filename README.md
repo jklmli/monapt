@@ -32,7 +32,6 @@ var valueOption = map.get('key');
 valueOption.getOrElse(() => 'defaultValue');
 ```
 
-
 ```javascript
 valueOption
     .map((v) => v * 2)
@@ -60,7 +59,7 @@ monapt.flatten([Monapt.None, Monapt.Some(1)]) // [1]
 * `get(): A`
 * `getOrElse(defaultValue: () => A): A`
 * `orElse(alternative: () => Option<A>): Option<A>`
-* `match(matcher: IOptionMatcher<A>): void`
+* `match<B>(matcher: IOptionMatcher<A, B>): B`
 * `map<B>(f: (value: A) => B): Option<B>`
 * `flatMap<B>(f: (value: A) => Option<B>): Option<B>`
 * `filter(predicate: (value: A) => boolean): Option<A>`
@@ -71,17 +70,10 @@ monapt.flatten([Monapt.None, Monapt.Some(1)]) // [1]
 #### monapt.IOptionMatcher<A>
 
 ```javascript
-interface IOptionMatcher<A> {
-    Some?(value: A): void;
-    None?(): void;
+interface IOptionMatcher<A, B> {
+    Some(value: A): B;
+    None(): B;
 }
-```
-
-```javascript
-trier.match({
-    Success: (v) => console.log(v),
-    Failure: (e) => console.log(e.message)
-});
 ```
 
 ## monapt.Try<T>
@@ -91,6 +83,13 @@ var trier = monapt.Try(() => {
     return parse(aValue);
 });
 trier.getOrElse(() => 'defaultValue');
+```
+
+```javascript
+trier.match({
+    Success: (v) => console.log(v),
+    Failure: (e) => console.log(e.message)
+});
 ```
 
 ### monapt.Success / monapt.Failure
@@ -107,7 +106,7 @@ new monapt.Failure<string>(new Error());
 * `get(): T`
 * `getOrElse(defaultValue: () => T): T`
 * `orElse(alternative: () => Try<T>): Try<T>`
-* `match(matcher: ITryMatcher<T>)`
+* `match<U>(matcher: ITryMatcher<T, U>): U`
 * `map<U>(f: (value: T) => U): Try<U>`
 * `flatMap<U>(f: (value: T) => Try<U>): Try<U>`
 * `filter(predicate: (value: T) => boolean): Try<T>`
