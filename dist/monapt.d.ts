@@ -82,10 +82,10 @@ declare module 'monapt' {
         toOption(): Option<T>;
     }
     class Failure<T> implements Try<T> {
-        private error;
+        exception: Error;
         isSuccess: boolean;
         isFailure: boolean;
-        constructor(error: Error);
+        constructor(exception: Error);
         get(): T;
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;

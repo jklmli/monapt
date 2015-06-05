@@ -191,13 +191,13 @@ var monapt;
     })();
     monapt.Success = Success;
     var Failure = (function () {
-        function Failure(error) {
-            this.error = error;
+        function Failure(exception) {
+            this.exception = exception;
             this.isSuccess = false;
             this.isFailure = true;
         }
         Failure.prototype.get = function () {
-            throw this.error;
+            throw this.exception;
         };
         Failure.prototype.getOrElse = function (defaultValue) {
             return defaultValue();
@@ -206,7 +206,7 @@ var monapt;
             return alternative();
         };
         Failure.prototype.match = function (matcher) {
-            return matcher.Failure(this.error);
+            return matcher.Failure(this.exception);
         };
         Failure.prototype.map = function (f) {
             return asInstanceOf(this);
@@ -225,7 +225,7 @@ var monapt;
         };
         Failure.prototype.recover = function (fn) {
             try {
-                return new Success(fn(this.error));
+                return new Success(fn(this.exception));
             }
             catch (e) {
                 return new Failure(e);
@@ -233,10 +233,10 @@ var monapt;
         };
         Failure.prototype.recoverWith = function (fn) {
             try {
-                return fn(this.error);
+                return fn(this.exception);
             }
             catch (e) {
-                return new Failure(this.error);
+                return new Failure(this.exception);
             }
         };
         Failure.prototype.toOption = function () {
