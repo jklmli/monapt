@@ -8,9 +8,9 @@ declare module 'monapt' {
         _2: B;
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
-    interface IOptionMatcher<A> {
-        Some?(value: A): void;
-        None?(): void;
+    interface IOptionMatcher<A, B> {
+        Some(value: A): B;
+        None(): B;
     }
     var Option: <T>(value: T) => Option<T>;
     interface Option<A> {
@@ -19,7 +19,7 @@ declare module 'monapt' {
         get(): A;
         getOrElse(defaultValue: () => A): A;
         orElse(alternative: () => Option<A>): Option<A>;
-        match(matcher: IOptionMatcher<A>): any;
+        match<B>(matcher: IOptionMatcher<A, B>): B;
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
         filter(predicate: (value: A) => boolean): Option<A>;
@@ -34,7 +34,7 @@ declare module 'monapt' {
         get(): A;
         getOrElse(defaultValue: () => A): A;
         orElse(alternative: () => Option<A>): Option<A>;
-        match(matcher: IOptionMatcher<A>): void;
+        match<B>(matcher: IOptionMatcher<A, B>): B;
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
         filter(predicate: (value: A) => boolean): Option<A>;
@@ -43,9 +43,9 @@ declare module 'monapt' {
     }
     var None: Option<any>;
     var flatten: <T>(options: Option<T>[]) => T[];
-    interface ITryMatcher<T> {
-        Success?(value: T): void;
-        Failure?(error: Error): void;
+    interface ITryMatcher<T, U> {
+        Success(value: T): U;
+        Failure(error: Error): U;
     }
     interface Try<T> {
         isSuccess: boolean;
@@ -53,7 +53,7 @@ declare module 'monapt' {
         get(): T;
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;
-        match(matcher: ITryMatcher<T>): any;
+        match<U>(matcher: ITryMatcher<T, U>): U;
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
         filter(predicate: (value: T) => boolean): Try<T>;
@@ -71,7 +71,7 @@ declare module 'monapt' {
         get(): T;
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;
-        match(matcher: ITryMatcher<T>): void;
+        match<U>(matcher: ITryMatcher<T, U>): U;
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
         filter(predicate: (value: T) => boolean): Try<T>;
@@ -89,7 +89,7 @@ declare module 'monapt' {
         get(): T;
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;
-        match(matcher: ITryMatcher<T>): void;
+        match<U>(matcher: ITryMatcher<T, U>): U;
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
         filter(predicate: (value: T) => boolean): Try<T>;

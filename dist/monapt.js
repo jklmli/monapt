@@ -28,28 +28,8 @@ var monapt;
         };
     };
 })(monapt || (monapt = {}));
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var monapt;
 (function (monapt) {
-    var MatchError = (function (_super) {
-        __extends(MatchError, _super);
-        function MatchError(message) {
-            _super.call(this, message);
-            this.message = message;
-            this.name = 'MatchError';
-            this.message = message;
-            this.stack = (new Error()).stack;
-        }
-        MatchError.prototype.toString = function () {
-            return this.name + ': ' + this.message;
-        };
-        return MatchError;
-    })(Error);
     monapt.Option = function (value) {
         if (typeof value !== "undefined" && value !== null) {
             return new Some(value);
@@ -74,12 +54,7 @@ var monapt;
             return this;
         };
         Some.prototype.match = function (matcher) {
-            if (matcher.Some) {
-                return matcher.Some(this.value);
-            }
-            else {
-                throw new MatchError('Some(' + this.value + ')');
-            }
+            return matcher.Some(this.value);
         };
         Some.prototype.map = function (f) {
             return new Some(f(this.get()));
@@ -119,12 +94,7 @@ var monapt;
             return alternative();
         };
         NoneImpl.prototype.match = function (matcher) {
-            if (matcher.None) {
-                return matcher.None();
-            }
-            else {
-                throw new MatchError('None');
-            }
+            return matcher.None();
         };
         NoneImpl.prototype.map = function (f) {
             return monapt.None;
@@ -175,8 +145,7 @@ var monapt;
             return this;
         };
         Success.prototype.match = function (matcher) {
-            if (matcher.Success)
-                matcher.Success(this.get());
+            return matcher.Success(this.get());
         };
         Success.prototype.map = function (f) {
             var _this = this;
@@ -237,8 +206,7 @@ var monapt;
             return alternative();
         };
         Failure.prototype.match = function (matcher) {
-            if (matcher.Failure)
-                matcher.Failure(this.error);
+            return matcher.Failure(this.error);
         };
         Failure.prototype.map = function (f) {
             return asInstanceOf(this);
@@ -321,6 +289,12 @@ var monapt;
 })(monapt || (monapt = {}));
 /// <reference path="./cracker.ts" />
 /// <reference path="./try.ts" />
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var monapt;
 (function (monapt) {
     var asInstanceOf = function (v) {
@@ -360,13 +334,17 @@ var monapt;
         Future.prototype.onSuccess = function (callback) {
             this.onComplete(function (r) {
                 r.match({
-                    Success: function (v) { return callback(v); }
+                    Success: function (v) { return callback(v); },
+                    Failure: function () {
+                    }
                 });
             });
         };
         Future.prototype.onFailure = function (callback) {
             this.onComplete(function (r) {
                 r.match({
+                    Success: function () {
+                    },
                     Failure: function (error) { return callback(error); }
                 });
             });
