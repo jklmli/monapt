@@ -5,8 +5,8 @@ module monapt {
     }
 
     export interface ITryMatcher<T> {
-        Success?(value: T): void;
-        Failure?(error: Error): void;
+        Success(value: T): void;
+        Failure(error: Error): void;
     }
 
     export interface Try<T> {
@@ -52,7 +52,7 @@ module monapt {
         }
 
         match(matcher: ITryMatcher<T>) {
-            if (matcher.Success) matcher.Success(this.get());
+            matcher.Success(this.get());
         }
 
         map<U>(f: (value: T) => U): Try<U> {
@@ -121,7 +121,7 @@ module monapt {
         }
 
         match(matcher: ITryMatcher<T>) {
-            if (matcher.Failure) matcher.Failure(this.error);
+            matcher.Failure(this.error);
         }
 
         map<U>(f: (value: T) => U): Try<U> {

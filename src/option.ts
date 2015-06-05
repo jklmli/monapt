@@ -7,21 +7,9 @@ module monapt {
         constructor(message?: string);
     }
 
-    class MatchError extends Error {
-        constructor(public message: string) {
-            super(message);
-            this.name = 'MatchError';
-            this.message = message;
-            this.stack = (new Error()).stack;
-        }
-        toString() {
-            return this.name + ': ' + this.message;
-        }
-    }
-
     export interface IOptionMatcher<A, B> {
-        Some?(value: A): B;
-        None?(): B;
+        Some(value: A): B;
+        None(): B;
     }
 
     export var Option = <T>(value: T): Option<T> => {
@@ -71,12 +59,7 @@ module monapt {
         }
 
         match<B>(matcher: IOptionMatcher<A, B>): B {
-            if (matcher.Some) {
-                return matcher.Some(this.value);
-            }
-            else {
-                throw new MatchError('Some(' + this.value + ')');
-            }
+            return matcher.Some(this.value);
         }
 
         map<B>(f: (value: A) => B): Option<B> {
@@ -123,12 +106,7 @@ module monapt {
         }
 
         match<B>(matcher: IOptionMatcher<A, B>): B {
-            if (matcher.None) {
-                return matcher.None();
-            }
-            else {
-                throw new MatchError('None');
-            }
+            return matcher.None();
         }
 
         map<B>(f: (value: A) => B): Option<B> {

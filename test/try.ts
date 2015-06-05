@@ -65,7 +65,8 @@ module monapt.Spec {
                         Success: (v) => {
                             called = true;
                             theValue = v;
-                        }
+                        },
+                        Failure: () => { }
                     });
                     called.should.be.true;
                     theValue.should.equal('value');

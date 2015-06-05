@@ -67,7 +67,8 @@ module monapt {
         onSuccess(callback: (value: T) => void) {
             this.onComplete(r => {
                 r.match({
-                    Success: v => callback(v)
+                    Success: v => callback(v),
+                    Failure: () => {}
                 });
             });
         }
@@ -75,6 +76,7 @@ module monapt {
         onFailure(callback: (error: Error) => void) {
             this.onComplete(r => {
                 r.match({
+                    Success: () => {},
                     Failure: error => callback(error)
                 });
             });
