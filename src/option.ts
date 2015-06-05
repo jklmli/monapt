@@ -19,9 +19,9 @@ module monapt {
         }
     }
 
-    export interface IOptionMatcher<A> {
-        Some?(value: A): void;
-        None?(): void;
+    export interface IOptionMatcher<A, B> {
+        Some?(value: A): B;
+        None?(): B;
     }
 
     export var Option = <T>(value: T): Option<T> => {
@@ -41,7 +41,7 @@ module monapt {
         getOrElse(defaultValue: () => A): A;
         orElse(alternative: () => Option<A>): Option<A>;
 
-        match(matcher: IOptionMatcher<A>);
+        match<B>(matcher: IOptionMatcher<A, B>): B;
         
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
@@ -70,7 +70,7 @@ module monapt {
             return this;
         }
 
-        match(matcher: IOptionMatcher<A>) {
+        match<B>(matcher: IOptionMatcher<A, B>): B {
             if (matcher.Some) {
                 return matcher.Some(this.value);
             }
@@ -122,7 +122,7 @@ module monapt {
             return alternative();
         }
 
-        match(matcher: IOptionMatcher<A>) {
+        match<B>(matcher: IOptionMatcher<A, B>): B {
             if (matcher.None) {
                 return matcher.None();
             }
