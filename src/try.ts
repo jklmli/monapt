@@ -4,9 +4,9 @@ module monapt {
         return <T>v;
     }
 
-    export interface ITryMatcher<T> {
-        Success(value: T): void;
-        Failure(error: Error): void;
+    export interface ITryMatcher<T, U> {
+        Success(value: T): U;
+        Failure(error: Error): U;
     }
 
     export interface Try<T> {
@@ -17,7 +17,7 @@ module monapt {
         getOrElse(defaultValue: () => T): T;
         orElse(alternative: () => Try<T>): Try<T>;
 
-        match(matcher: ITryMatcher<T>);
+        match<U>(matcher: ITryMatcher<T, U>): U;
 
         map<U>(f: (value: T) => U): Try<U>;
         flatMap<U>(f: (value: T) => Try<U>): Try<U>;
@@ -51,8 +51,8 @@ module monapt {
             return this;
         }
 
-        match(matcher: ITryMatcher<T>) {
-            matcher.Success(this.get());
+        match<U>(matcher: ITryMatcher<T, U>): U {
+            return matcher.Success(this.get());
         }
 
         map<U>(f: (value: T) => U): Try<U> {
@@ -120,8 +120,8 @@ module monapt {
             return alternative();
         }
 
-        match(matcher: ITryMatcher<T>) {
-            matcher.Failure(this.error);
+        match<U>(matcher: ITryMatcher<T, U>): U {
+            return matcher.Failure(this.error);
         }
 
         map<U>(f: (value: T) => U): Try<U> {

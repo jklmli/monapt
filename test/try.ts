@@ -59,17 +59,11 @@ module monapt.Spec {
 
             describe('#match', () => {
                 it('call Success callback with the value', () => {
-                    var called = false;
-                    var theValue = null;
                     success.match({
-                        Success: (v) => {
-                            called = true;
-                            theValue = v;
-                        },
-                        Failure: () => { }
-                    });
-                    called.should.be.true;
-                    theValue.should.equal('value');
+                        Success: (value) => value.split('').reverse().join(''),
+                        Failure: () => 'failure'
+                    })
+                      .should.equal('eulav');
                 });
             });
 
@@ -85,7 +79,7 @@ module monapt.Spec {
                         success.map(v => {
                             throw new Error(v + ' Error.');
                             return 'HELLO'
-                        }).get();                       
+                        }).get();
                     }).should.throw('value Error.');
                 });
             });
@@ -160,7 +154,7 @@ module monapt.Spec {
         describe('Failure', () => {
             var failure: monapt.Failure<string>;
             beforeEach(() => {
-                failure = new monapt.Failure<string>(new Error('Error.'));    
+                failure = new monapt.Failure<string>(new Error('Error.'));
             });
 
             it('is not success', () => {
@@ -188,21 +182,14 @@ module monapt.Spec {
                     failure.orElse(() => new monapt.Success('alternative')).get().should.equal('alternative');
                 });
             });
-            
+
             describe('#match', () => {
                 it('call Failure callback with the error', () => {
-                    var called = false;
-                    var theError = null;
                     failure.match({
-                        Success: (v) => {
-                        },
-                        Failure: (e) => {
-                            called = true;
-                            theError = e;
-                        }
-                    });
-                    called.should.be.true;
-                    theError.message.should.equal('Error.');
+                        Success: (value) => value.split('').reverse().join(''),
+                        Failure: () => 'failure'
+                    })
+                      .should.equal('failure');
                 });
             });
             
