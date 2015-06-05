@@ -44,17 +44,11 @@ describe('Option', () => {
 
         describe('#match', () => {
             it('call some callback with the value', () => {
-                var called = false;
-                var theValue = null;
                 some.match({
-                    Some: (value) => {
-                        called = true;
-                        theValue = value;
-                    },
-                    None: () => {}
-                });
-                called.should.be.true;
-                theValue.should.equal('value');
+                    Some: (value) => value.split('').reverse().join(''),
+                    None: () => 'none'
+                })
+                    .should.equal('eulav');
             });
         });
 
@@ -136,14 +130,11 @@ describe('Option', () => {
 
         describe('#match', () => {
             it('call none callback', () => {
-                var called = false;
                 none.match({
-                    Some: (value) => { },
-                    None: () => {
-                        called = true;
-                    }
-                });
-                called.should.be.true;
+                    Some: (value) => value.split('').reverse().join(''),
+                    None: () => 'none'
+                })
+                  .should.equal('none');
             });
         });
 
