@@ -165,6 +165,12 @@ module monapt.Spec {
                 failure.isFailure.should.be.true;
             });
 
+            describe('#exception', () => {
+                it('contains error.', () => {
+                    failure.exception.message.should.equal('Error.');
+                });
+            });
+
             describe('#get', () => {
                 it('throws error.', () => {
                     (() => failure.get()).should.throw('Error.');

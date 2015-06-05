@@ -101,6 +101,7 @@ new monapt.Failure<string>(new Error());
 
 ### Properties / Methods
 
+* `exception: Error`
 * `isSuccess: boolean`
 * `isFailure: boolean`
 * `get(): T`

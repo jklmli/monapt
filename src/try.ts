@@ -106,10 +106,10 @@ module monapt {
         isSuccess = false;
         isFailure = true;
 
-        constructor(private error: Error) { }
+        constructor(public exception: Error) { }
 
         get(): T {
-            throw this.error;
+            throw this.exception;
         }
 
         getOrElse(defaultValue: () => T): T {
@@ -121,7 +121,7 @@ module monapt {
         }
 
         match<U>(matcher: ITryMatcher<T, U>): U {
-            return matcher.Failure(this.error);
+            return matcher.Failure(this.exception);
         }
 
         map<U>(f: (value: T) => U): Try<U> {
@@ -146,7 +146,7 @@ module monapt {
 
         recover(fn: (error: Error) => T): Try<T> {
             try {
-                return new Success(fn(this.error));
+                return new Success(fn(this.exception));
             }
             catch (e) {
                 return new Failure<T>(e);
@@ -155,10 +155,10 @@ module monapt {
 
         recoverWith(fn: (error: Error) => Try<T>): Try<T> {
             try {
-                return fn(this.error);
+                return fn(this.exception);
             }
             catch (e) {
-                return new Failure<T>(this.error);
+                return new Failure<T>(this.exception);
             }
         }
 
