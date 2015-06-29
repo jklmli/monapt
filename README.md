@@ -3,6 +3,8 @@ Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.i
 
 Like Scala Monads for TypeScript and JavaScript
 
+This repo couldn't have been possible without https://github.com/yaakaito/monapt.  In his absence, I'll continue improving upon his hard work.
+
 ## Setup
 
 With npm:
