@@ -113,6 +113,10 @@ describe('Option', () => {
             it('throws No such element Exception', () => {
                 (() => none.get()).should.throw('No such element.');
             });
+
+            it('throws monapt.NoSuchElementException', () => {
+                (() => none.get()).should.throw(monapt.NoSuchElementException);
+            });
         });
 
         describe('#getOrElse', () => {
