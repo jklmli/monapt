@@ -8,6 +8,12 @@ declare module 'monapt' {
         _2: B;
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
+    class NoSuchElementException {
+        name: string;
+        message: string;
+        stack: string;
+        constructor();
+    }
     interface IOptionMatcher<A, B> {
         Some(value: A): B;
         None(): B;

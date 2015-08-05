@@ -30,6 +30,15 @@ var monapt;
 })(monapt || (monapt = {}));
 var monapt;
 (function (monapt) {
+    var NoSuchElementException = (function () {
+        function NoSuchElementException() {
+            this.name = 'NoSuchElementException';
+            this.message = 'No such element.';
+            this.stack = (new Error()).stack;
+        }
+        return NoSuchElementException;
+    })();
+    monapt.NoSuchElementException = NoSuchElementException;
     monapt.Option = function (value) {
         if (typeof value !== "undefined" && value !== null) {
             return new Some(value);
@@ -85,7 +94,7 @@ var monapt;
             this.isEmpty = true;
         }
         NoneImpl.prototype.get = function () {
-            throw new Error('No such element.');
+            throw new NoSuchElementException();
         };
         NoneImpl.prototype.getOrElse = function (defaultValue) {
             return defaultValue();
@@ -124,6 +133,7 @@ var monapt;
         return ret;
     };
 })(monapt || (monapt = {}));
+monapt.NoSuchElementException.prototype = window['Error'].prototype;
 var monapt;
 (function (monapt) {
     var asInstanceOf = function (v) {
@@ -288,6 +298,7 @@ var monapt;
     monapt.Cracker = Cracker;
 })(monapt || (monapt = {}));
 /// <reference path="./cracker.ts" />
+/// <reference path="./option.ts" />
 /// <reference path="./try.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -389,7 +400,7 @@ var monapt;
                                 promise.success(v);
                             }
                             else {
-                                promise.failure(new Error('No such element.'));
+                                promise.failure(new monapt.NoSuchElementException());
                             }
                         }
                         catch (e) {
