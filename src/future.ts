@@ -1,4 +1,5 @@
 /// <reference path="./cracker.ts" />
+/// <reference path="./option.ts" />
 /// <reference path="./try.ts" />
 
 module monapt {
@@ -119,7 +120,7 @@ module monapt {
                     Success: v => {
                         try {
                             if (predicate(v)) { promise.success(v) } 
-                            else { promise.failure(new Error('No such element.')) }
+                            else { promise.failure(new monapt.NoSuchElementException()) }
                         } catch(e) {
                             promise.failure(e);
                         }

@@ -1,10 +1,13 @@
 module monapt {
-
-    declare class Error {
+    export class NoSuchElementException {
         public name: string;
         public message: string;
         public stack: string;
-        constructor(message?: string);
+        constructor() {
+            this.name = 'NoSuchElementException';
+            this.message = 'No such element.';
+            this.stack = (<any>new Error()).stack;
+        }
     }
 
     export interface IOptionMatcher<A, B> {
@@ -94,7 +97,7 @@ module monapt {
         isEmpty = true;
 
         get(): A {
-            throw new Error('No such element.');
+            throw new NoSuchElementException();
         }
 
         getOrElse(defaultValue: () => A): A {
@@ -144,3 +147,5 @@ module monapt {
         return ret;
     };
 }
+
+monapt.NoSuchElementException.prototype = window['Error'].prototype;

@@ -157,6 +157,7 @@ module monapt.Spec {
                 it('promises failure if predicator returns false', (ok) => {
                     future.filter(v => false).onFailure(e => {
                         e.message.should.equal('No such element.');
+                        e.should.be.instanceof(monapt.NoSuchElementException);
                         ok();
                     });
                 });
@@ -166,6 +167,7 @@ module monapt.Spec {
                 it('promises failure if predicater returns true', (ok) => {
                     future.reject(v => true).onFailure(e => {
                         e.message.should.equal('No such element.');
+                        e.should.be.instanceof(monapt.NoSuchElementException);
                         ok();
                     });
                 });
