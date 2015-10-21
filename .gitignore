@@ -3,3 +3,5 @@ components/
 compiled/
 public/
 .idea/
+.tscache/
+*/.baseDir.ts

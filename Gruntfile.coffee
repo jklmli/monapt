@@ -4,32 +4,36 @@ module.exports = (grunt) ->
 
     grunt.initConfig
         pkg: grunt.file.readJSON 'package.json'
-        typescript:
+        ts:
             compile:
                 src: ['src/**/*.ts']
-                dest: 'compiled'
+                outDir: 'compiled'
                 # src: ['src/index.ts']
                 # dest: 'compiled/src/index.js'
                 options:
+                    failOnTypeErrors: true
                     module: 'commonjs'
                     target: 'es3'
-                    # sourcemap: true
+                    sourceMap: false
                     # declaration: true
 
             test:
                 src: ['test/**/*.ts']
-                dest: 'compiled'
+                outDir: 'compiled'
                 options:
+                    failOnTypeErrors: true
                     module: 'commonjs'
                     target: 'es3'
+                    sourceMap: false
 
             build:
                 src: ['monapt.ts']
-                dest: 'dist/monapt.js'
+                out: 'dist/monapt.js'
                 options:
+                    failOnTypeErrors: true
                     module: 'commonjs'
                     target: 'es3'
-                    # sourcemap: true
+                    sourceMap: false
                     declaration: true
         clean:
             type:
@@ -79,7 +83,7 @@ module.exports = (grunt) ->
                     src: 'dist/monapt.js'
                     objectToExport: 'monapt'
 
-    grunt.loadNpmTasks 'grunt-typescript'
+    grunt.loadNpmTasks 'grunt-ts'
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
@@ -88,9 +92,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-regarde'
     grunt.loadNpmTasks 'grunt-umd'
     
-    grunt.registerTask 'compile', ['typescript:compile', 'typescript:test']
+    grunt.registerTask 'compile', ['ts:compile', 'ts:test']
     grunt.registerTask 'default', ['compile']
-    grunt.registerTask 'build', ['typescript:build', 'umd:all', 'uglify']
+    grunt.registerTask 'build', ['ts:build', 'umd:all', 'uglify']
     grunt.registerTask 'generate', ['compile', 'build', 'copy:public']
     grunt.registerTask 'preview', ['generate', 'connect:preview', 'regarde']
 
