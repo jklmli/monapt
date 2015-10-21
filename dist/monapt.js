@@ -28,17 +28,24 @@ var monapt;
         };
     };
 })(monapt || (monapt = {}));
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var monapt;
 (function (monapt) {
-    var NoSuchElementException = (function () {
-        function NoSuchElementException() {
-            this.name = 'NoSuchElementException';
+    var NoSuchElementError = (function (_super) {
+        __extends(NoSuchElementError, _super);
+        function NoSuchElementError() {
+            _super.call(this, 'No such element.');
+            this.name = 'NoSuchElementError';
             this.message = 'No such element.';
             this.stack = (new Error()).stack;
         }
-        return NoSuchElementException;
-    })();
-    monapt.NoSuchElementException = NoSuchElementException;
+        return NoSuchElementError;
+    })(Error);
+    monapt.NoSuchElementError = NoSuchElementError;
     monapt.Option = function (value) {
         if (typeof value !== "undefined" && value !== null) {
             return new Some(value);
@@ -94,7 +101,7 @@ var monapt;
             this.isEmpty = true;
         }
         NoneImpl.prototype.get = function () {
-            throw new NoSuchElementException();
+            throw new NoSuchElementError();
         };
         NoneImpl.prototype.getOrElse = function (defaultValue) {
             return defaultValue();
@@ -133,7 +140,6 @@ var monapt;
         return ret;
     };
 })(monapt || (monapt = {}));
-monapt.NoSuchElementException.prototype = window['Error'].prototype;
 var monapt;
 (function (monapt) {
     var asInstanceOf = function (v) {
@@ -300,12 +306,6 @@ var monapt;
 /// <reference path="./cracker.ts" />
 /// <reference path="./option.ts" />
 /// <reference path="./try.ts" />
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var monapt;
 (function (monapt) {
     var asInstanceOf = function (v) {
@@ -346,16 +346,14 @@ var monapt;
             this.onComplete(function (r) {
                 r.match({
                     Success: function (v) { return callback(v); },
-                    Failure: function () {
-                    }
+                    Failure: function () { }
                 });
             });
         };
         Future.prototype.onFailure = function (callback) {
             this.onComplete(function (r) {
                 r.match({
-                    Success: function () {
-                    },
+                    Success: function () { },
                     Failure: function (error) { return callback(error); }
                 });
             });
@@ -391,16 +389,14 @@ var monapt;
             var promise = new Promise();
             this.onComplete(function (r) {
                 r.match({
-                    Failure: function (e) {
-                        promise.failure(e);
-                    },
+                    Failure: function (e) { promise.failure(e); },
                     Success: function (v) {
                         try {
                             if (predicate(v)) {
                                 promise.success(v);
                             }
                             else {
-                                promise.failure(new monapt.NoSuchElementException());
+                                promise.failure(new monapt.NoSuchElementError());
                             }
                         }
                         catch (e) {
@@ -450,8 +446,7 @@ var monapt;
     var Promise = (function (_super) {
         __extends(Promise, _super);
         function Promise() {
-            _super.call(this, function (p) {
-            });
+            _super.call(this, function (p) { });
             this.isComplete = false;
         }
         Promise.prototype.success = function (value) {
@@ -525,8 +520,7 @@ var monapt;
         var ObjectSelector = (function () {
             function ObjectSelector() {
             }
-            ObjectSelector.prototype.register = function (k, index) {
-            };
+            ObjectSelector.prototype.register = function (k, index) { };
             ObjectSelector.prototype.index = function (k) {
                 return monapt.None;
             };
@@ -649,6 +643,12 @@ var monapt;
     })();
     monapt.Map = Map;
 })(monapt || (monapt = {}));
+/// <reference path="./src/tuple.ts" />
+/// <reference path="./src/option.ts" />
+/// <reference path="./src/try.ts" />
+/// <reference path="./src/cracker.ts" />
+/// <reference path="./src/future.ts" />
+/// <reference path="./src/map.ts" />
 
 return monapt;
 

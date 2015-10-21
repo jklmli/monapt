@@ -8,7 +8,7 @@ declare module 'monapt' {
         _2: B;
     }
     var Tuple2: <A, B>(a: A, b: B) => Tuple2<A, B>;
-    class NoSuchElementException {
+    class NoSuchElementError extends Error {
         name: string;
         message: string;
         stack: string;
@@ -163,7 +163,7 @@ declare module 'monapt' {
     class Map<K extends IHashable, V> {
         private real;
         private selector;
-        constructor(key: K, value: V, ...keysAndValues: any[]);
+        constructor(key: K, value: V, ...keysAndValues: Array<any>);
         constructor(raw: Object);
         constructor();
         private ensureSelector(hint?);
