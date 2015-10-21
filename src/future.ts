@@ -120,7 +120,7 @@ module monapt {
                     Success: v => {
                         try {
                             if (predicate(v)) { promise.success(v) } 
-                            else { promise.failure(new monapt.NoSuchElementException()) }
+                            else { promise.failure(new monapt.NoSuchElementError()) }
                         } catch(e) {
                             promise.failure(e);
                         }

@@ -1,10 +1,13 @@
 module monapt {
-    export class NoSuchElementException extends Error {
+    export class NoSuchElementError extends Error {
         public name: string;
         public message: string;
         public stack: string;
+
         constructor() {
-            this.name = 'NoSuchElementException';
+            super('No such element.');
+
+            this.name = 'NoSuchElementError';
             this.message = 'No such element.';
             this.stack = (<any>new Error()).stack;
         }
@@ -97,7 +100,7 @@ module monapt {
         isEmpty = true;
 
         get(): A {
-            throw new NoSuchElementException();
+            throw new NoSuchElementError();
         }
 
         getOrElse(defaultValue: () => A): A {

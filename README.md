@@ -53,7 +53,7 @@ monapt.Option('value') // Some('value')
 monapt.Option(null) // None
 monapt.Option(undefined) // None
 monapt.None // None
-monapt.None.get() // monapt.NoSuchElementException
+monapt.None.get() // monapt.NoSuchElementError
 monapt.flatten([Monapt.None, Monapt.Some(1)]) // [1]
 ```
 
