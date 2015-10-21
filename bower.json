@@ -1,6 +1,6 @@
 {
   "name": "monapt",
-  "version": "0.2.3",
+  "version": "0.4.2",
   "main": [
     "monapt.js",
     "monapt.min.js",
