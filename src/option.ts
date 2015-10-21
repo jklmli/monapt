@@ -1,5 +1,5 @@
 module monapt {
-    export class NoSuchElementException {
+    export class NoSuchElementException extends Error {
         public name: string;
         public message: string;
         public stack: string;
@@ -147,5 +147,3 @@ module monapt {
         return ret;
     };
 }
-
-monapt.NoSuchElementException.prototype = window['Error'].prototype;
