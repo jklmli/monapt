@@ -3,9 +3,11 @@ Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.i
 
 [![Join the chat at https://gitter.im/jiaweihli/monapt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jiaweihli/monapt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Like Scala Monads for TypeScript and JavaScript
-
 This repo couldn't have been possible without https://github.com/yaakaito/monapt.  In his absence, I'll continue improving upon his hard work.
+
+## What the heck are options anyway?
+
+They're the cure for all your `null`/`undefined` problems.  Read [this article](http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html) to learn more!
 
 ## Setup
 
