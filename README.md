@@ -1,7 +1,5 @@
-Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.io/js/monapt) [![Build Status](https://travis-ci.org/jiaweihli/monapt.png?branch=master)](https://travis-ci.org/jiaweihli/monapt)
+Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.io/js/monapt) [![Build Status](https://travis-ci.org/jiaweihli/monapt.png?branch=master)](https://travis-ci.org/jiaweihli/monapt) [![Join the chat at https://gitter.im/jiaweihli/monapt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jiaweihli/monapt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ============
-
-[![Join the chat at https://gitter.im/jiaweihli/monapt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jiaweihli/monapt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This repo couldn't have been possible without https://github.com/yaakaito/monapt.  In his absence, I'll continue improving upon his hard work.
 
