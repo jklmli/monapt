@@ -54,5 +54,6 @@
       "email": "jiawei.h.li@gmail.com"
     }
   ],
+  "typings": "dist/monapt.d.ts",
   "directories": {}
 }
