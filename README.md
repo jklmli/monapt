@@ -5,6 +5,10 @@ Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.i
 
 They're the cure for all your `null`/`undefined` problems.  Read [this article](http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html) to learn more!
 
+#### And tries?
+
+You can also read up on tries, which provide a flexible way to [deal with exceptions](http://danielwestheide.com/blog/2012/12/26/the-neophytes-guide-to-scala-part-6-error-handling-with-try.html).
+
 ## Setup
 
 With npm:
