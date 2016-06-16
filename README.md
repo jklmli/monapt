@@ -122,6 +122,7 @@ new monapt.Failure<string>(new Error());
 * `foreach(f: (value: T) => void): void`
 * `recover(fn: (error: Error) => T): Try<T>`
 * `recoverWith(fn: (error: Error) => Try<T>): Try<T>`
+* `toOption(): Option<T>`
 
 ## monapt.Future<T>
 
