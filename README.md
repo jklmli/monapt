@@ -72,6 +72,7 @@ monapt.flatten([Monapt.None, new Monapt.Some(1)]) // [1]
 * `filter(predicate: (value: A) => boolean): Option<A>`
 * `reject(predicate: (value: A) => boolean): Option<A>`
 * `foreach(f: (value: A) => void): void`
+* `equals(option: Option<A>): boolean`
 
 
 #### monapt.IOptionMatcher<A>
@@ -149,19 +150,19 @@ var macbook = monapt.future<string>((promise) => {
         promise.success('MacBook');
     }, 100);
 });
- 
+
 var pro = monapt.future<string>((promise) => {
     setTimeout(() => {
         promise.success('Pro');
     }, 100);
 });
- 
+
 var macbookPro = macbook.flatMap<string>((mb) => {
     return pro.map<string>((pro, promise) => {
         promise.success(mb + pro);
     });
 });
- 
+
 macbookPro.onSuccess((v) => {
     console.log(v); // MacBookPro
 });

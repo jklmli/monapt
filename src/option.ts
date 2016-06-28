@@ -36,7 +36,7 @@ module monapt {
         orElse(alternative: () => Option<A>): Option<A>;
 
         match<B>(matcher: IOptionMatcher<A, B>): B;
-        
+
         map<B>(f: (value: A) => B): Option<B>;
         flatMap<B>(f: (value: A) => Option<B>): Option<B>;
 
@@ -44,6 +44,8 @@ module monapt {
         reject(predicate: (value: A) => boolean): Option<A>;
 
         foreach(f: (value: A) => void): void;
+
+        equals(option: Option<A>): boolean;
     }
 
     export class Some<A> implements Option<A> {
@@ -92,7 +94,13 @@ module monapt {
         foreach(f: (value: A) => void) {
             f(this.value);
         }
-        
+
+        equals(option: Option<A>) {
+            return option.match({
+                None: (): boolean => false,
+                Some: (value: A): boolean => this.value === value
+            });
+        }
     }
 
     class NoneImpl<A> implements Option<A> {
@@ -133,6 +141,10 @@ module monapt {
 
         foreach(f: (value: A) => void) {
             return;
+        }
+
+        equals(option: Option<A>): boolean {
+            return option.isEmpty;
         }
     }
 

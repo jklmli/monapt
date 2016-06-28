@@ -16,8 +16,8 @@ describe('Option', () => {
         });
     });
 
-    describe('Some', () => {    
-        
+    describe('Some', () => {
+
         var some: monapt.Some<string>;
         beforeEach(() => { some = new monapt.Some('value') });
 
@@ -99,6 +99,22 @@ describe('Option', () => {
                 value.should.equal('value');
             });
         });
+
+        describe('#equals', () => {
+            it('should return true with two Somes with the same value', () => {
+                var other: monapt.Option<string> = new monapt.Some('value');
+                some.equals(other).should.be.true;
+            });
+
+            it('should return false with two Somes with different values', () => {
+                var other: monapt.Option<string> = new monapt.Some('not value');
+                some.equals(other).should.be.false;
+            });
+
+            it('should return false when give a None', () => {
+                some.equals(monapt.None).should.be.false;
+            });
+        })
     });
 
     describe('None', () => {
@@ -173,5 +189,15 @@ describe('Option', () => {
                 counter.should.equal(0);
             });
         });
+
+        describe('#equals', () => {
+            it('should return true when given None', () => {
+                none.equals(monapt.None).should.be.true;
+            });
+
+            it('should return false when given Some', () => {
+                none.equals(new monapt.Some('value')).should.be.false;
+            });
+        })
     });
 });
