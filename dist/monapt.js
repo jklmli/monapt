@@ -92,6 +92,13 @@ var monapt;
         Some.prototype.foreach = function (f) {
             f(this.value);
         };
+        Some.prototype.equals = function (option) {
+            var _this = this;
+            return option.match({
+                None: function () { return false; },
+                Some: function (value) { return _this.value === value; }
+            });
+        };
         return Some;
     })();
     monapt.Some = Some;
@@ -126,6 +133,9 @@ var monapt;
         };
         NoneImpl.prototype.foreach = function (f) {
             return;
+        };
+        NoneImpl.prototype.equals = function (option) {
+            return option.isEmpty;
         };
         return NoneImpl;
     })();

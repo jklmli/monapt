@@ -31,6 +31,7 @@ declare module 'monapt' {
         filter(predicate: (value: A) => boolean): Option<A>;
         reject(predicate: (value: A) => boolean): Option<A>;
         foreach(f: (value: A) => void): void;
+        equals(option: Option<A>): boolean;
     }
     class Some<A> implements Option<A> {
         private value;
@@ -46,6 +47,7 @@ declare module 'monapt' {
         filter(predicate: (value: A) => boolean): Option<A>;
         reject(predicate: (value: A) => boolean): Option<A>;
         foreach(f: (value: A) => void): void;
+        equals(option: Option<A>): boolean;
     }
     var None: Option<any>;
     var flatten: <T>(options: Option<T>[]) => T[];
