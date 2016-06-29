@@ -72,7 +72,7 @@ monapt.flatten([Monapt.None, new Monapt.Some(1)]) // [1]
 * `filter(predicate: (value: A) => boolean): Option<A>`
 * `reject(predicate: (value: A) => boolean): Option<A>`
 * `foreach(f: (value: A) => void): void`
-* `equals(option: Option<A>): boolean`
+* `equals(option: Option<A>, equality?: (first: A, second: A) => boolean): boolean`
 
 
 #### monapt.IOptionMatcher<A>

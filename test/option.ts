@@ -114,6 +114,16 @@ describe('Option', () => {
             it('should return false when give a None', () => {
                 some.equals(monapt.None).should.be.false;
             });
+
+            it('should return true when two Somes are equal under a custom equality function', () => {
+                var objectSome: monapt.Option<{name: string, age: number}> = new monapt.Some({name: 'bob', age: 15});
+                var other: monapt.Option<{name: string, age: number}> = new monapt.Some({name: 'bob', age: 20});
+                var equality: (first: {name: string, age: number}, second: {name: string, age: number}) => boolean =
+                    (first: {name: string, age: number}, second: {name: string, age: number}) => {
+                    return first.name === second.name;
+                };
+                objectSome.equals(other, equality).should.be.true;
+            });
         })
     });
 

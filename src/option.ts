@@ -45,7 +45,7 @@ module monapt {
 
         foreach(f: (value: A) => void): void;
 
-        equals(option: Option<A>): boolean;
+        equals(option: Option<A>, equality?: (first: A, second: A) => boolean): boolean;
     }
 
     export class Some<A> implements Option<A> {
@@ -95,10 +95,14 @@ module monapt {
             f(this.value);
         }
 
-        equals(option: Option<A>) {
+        private defaultEquals(first: A, second: A): boolean {
+            return first === second;
+        }
+
+        equals(option: Option<A>, equality: (first: A, second: A) => boolean = this.defaultEquals) {
             return option.match({
                 None: (): boolean => false,
-                Some: (value: A): boolean => this.value === value
+                Some: (value: A): boolean => equality(this.value, value)
             });
         }
     }
