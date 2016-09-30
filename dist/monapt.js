@@ -14,6 +14,11 @@
   }
 }(this, function () {
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var monapt;
 (function (monapt) {
     monapt.Tuple1 = function (a) {
@@ -28,11 +33,6 @@ var monapt;
         };
     };
 })(monapt || (monapt = {}));
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var monapt;
 (function (monapt) {
     var NoSuchElementError = (function (_super) {
@@ -44,7 +44,7 @@ var monapt;
             this.stack = (new Error()).stack;
         }
         return NoSuchElementError;
-    })(Error);
+    }(Error));
     monapt.NoSuchElementError = NoSuchElementError;
     monapt.Option = function (value) {
         if (typeof value !== "undefined" && value !== null) {
@@ -100,7 +100,7 @@ var monapt;
             });
         };
         return Some;
-    })();
+    }());
     monapt.Some = Some;
     var NoneImpl = (function () {
         function NoneImpl() {
@@ -138,7 +138,7 @@ var monapt;
             return option.isEmpty;
         };
         return NoneImpl;
-    })();
+    }());
     monapt.None = new NoneImpl();
     monapt.flatten = function (options) {
         var ret = [];
@@ -214,7 +214,7 @@ var monapt;
             return new monapt.Some(this.value);
         };
         return Success;
-    })();
+    }());
     monapt.Success = Success;
     var Failure = (function () {
         function Failure(exception) {
@@ -269,7 +269,7 @@ var monapt;
             return monapt.None;
         };
         return Failure;
-    })();
+    }());
     monapt.Failure = Failure;
     monapt.Try = function (f) {
         try {
@@ -310,12 +310,9 @@ var monapt;
             }
         };
         return Cracker;
-    })();
+    }());
     monapt.Cracker = Cracker;
 })(monapt || (monapt = {}));
-/// <reference path="./cracker.ts" />
-/// <reference path="./option.ts" />
-/// <reference path="./try.ts" />
 var monapt;
 (function (monapt) {
     var asInstanceOf = function (v) {
@@ -451,7 +448,7 @@ var monapt;
             return promise.future();
         };
         return Future;
-    })();
+    }());
     monapt.Future = Future;
     var Promise = (function (_super) {
         __extends(Promise, _super);
@@ -471,7 +468,7 @@ var monapt;
             return this;
         };
         return Promise;
-    })(Future);
+    }(Future));
     monapt.Promise = Promise;
     monapt.future = function (f) {
         var p = new Promise();
@@ -484,8 +481,6 @@ var monapt;
         return p.future();
     };
 })(monapt || (monapt = {}));
-/// <reference path="./option.ts" />
-/// <reference path="./tuple.ts" />
 var monapt;
 (function (monapt) {
     var Selector;
@@ -506,7 +501,7 @@ var monapt;
                 }
             };
             return StringSelector;
-        })();
+        }());
         Selector.StringSelector = StringSelector;
         var HashableSelector = (function () {
             function HashableSelector() {
@@ -525,7 +520,7 @@ var monapt;
                 }
             };
             return HashableSelector;
-        })();
+        }());
         Selector.HashableSelector = HashableSelector;
         var ObjectSelector = (function () {
             function ObjectSelector() {
@@ -535,7 +530,7 @@ var monapt;
                 return monapt.None;
             };
             return ObjectSelector;
-        })();
+        }());
         Selector.ObjectSelector = ObjectSelector;
     })(Selector || (Selector = {}));
     var Map = (function () {
@@ -650,15 +645,9 @@ var monapt;
             }
         };
         return Map;
-    })();
+    }());
     monapt.Map = Map;
 })(monapt || (monapt = {}));
-/// <reference path="./src/tuple.ts" />
-/// <reference path="./src/option.ts" />
-/// <reference path="./src/try.ts" />
-/// <reference path="./src/cracker.ts" />
-/// <reference path="./src/future.ts" />
-/// <reference path="./src/map.ts" />
 
 return monapt;
 
