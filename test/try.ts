@@ -19,7 +19,6 @@ module monapt.Spec {
                 (() => {
                     throw new Error('Some Error.');
                 })();
-                return 1;
             });
             trier.should.instanceof(monapt.Failure);
         });
@@ -78,7 +77,6 @@ module monapt.Spec {
                     (() => {
                         success.map(v => {
                             throw new Error(v + ' Error.');
-                            return 'HELLO'
                         }).get();
                     }).should.throw('value Error.');
                 });
@@ -93,7 +91,6 @@ module monapt.Spec {
                     (() => {
                         success.flatMap(v => {
                             throw new Error(v + ' Error.');
-                            return new monapt.Success('');
                         }).get();
                     }).should.throw('value Error.');
                 });

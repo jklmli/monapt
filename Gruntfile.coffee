@@ -31,7 +31,7 @@ module.exports = (grunt) ->
                 out: 'dist/monapt.js'
                 options:
                     failOnTypeErrors: true
-                    module: 'commonjs'
+                    module: 'system'
                     target: 'es3'
                     sourceMap: false
                     declaration: true

@@ -82,8 +82,9 @@ module monapt {
             else if (key){
                 var obj: Object = key;
                 for (var k in obj) {
-                    this.ensureSelector(k);
-                    this.add(k, obj[k]);
+                    // :FIXME: Type violation here - String implicitly of type K.
+                    this.ensureSelector(<any>k);
+                    this.add(<any>k, obj[k]);
                 }
             }
 
