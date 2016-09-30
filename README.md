@@ -1,6 +1,11 @@
 Monapt [![npm version](https://badge.fury.io/js/monapt.svg)](http://badge.fury.io/js/monapt) [![Build Status](https://travis-ci.org/jiaweihli/monapt.png?branch=master)](https://travis-ci.org/jiaweihli/monapt) [![Join the chat at https://gitter.im/jiaweihli/monapt](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jiaweihli/monapt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ============
 
+**The most current version of Monapt uses TypeScript 2.x.**
+
+**TypeScript 1.x support is in maintenance mode on version 0.5.x.**  
+**It lives on the [typescript-1.x branch](https://github.com/jiaweihli/monapt/tree/typescript-1.x).**
+
 ## What the heck are options anyway?
 
 They're the cure for all your `null`/`undefined` problems.  Read [this article](http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html) to learn more!
