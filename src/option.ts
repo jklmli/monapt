@@ -148,7 +148,7 @@ module monapt {
         }
     }
 
-    export var None: Option<any> = new NoneImpl<any>();
+    export var None: Option<never> = new NoneImpl<never>();
 
     export var flatten = <T>(options: Array<Option<T>>): Array<T> => {
         var ret = [];
