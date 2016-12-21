@@ -30,86 +30,69 @@ $ bower install git://github.com/jiaweihli/monapt.git --save
 
 ## APIs
 
-## monapt
+## Monapt
 
 ### Properties / Methods
 
 * `static flatten<T>(options: Array<Option<T>>): Array<T>`
 
-## monapt.Option<A>
+## Monapt.Option<A>
 
 ```javascript
-var valueOption = map.get('key');
-valueOption.getOrElse(() => 'defaultValue');
+var valueOption = Option(null);
+var finalValue = valueOption.getOrElse(() => 'defaultValue'); // 'defaultValue'
 ```
 
 ```javascript
 valueOption
-    .map((v) => v * 2)
-    .filter((v) => v > 10)
-    .match({
-        Some: (v)  => console.log(v),
-        None: () => console.log('None!')
-    })
+  .map((v) => v * 2)
+  .filter((v) => v > 10)
+  .match({
+    Some: (v)  => 'Value: ' + v,
+    None: () => 'Invalid value'
+  })
 ```
 
-### monapt.Some / monapt.None
+### Monapt.Some / Monapt.None
 
 ```javascript
-monapt.Option('value') // Some('value')
-monapt.Option(null) // None
-monapt.Option(undefined) // None
-monapt.None // None
-monapt.None.get() // monapt.NoSuchElementError
-monapt.flatten([Monapt.None, new Monapt.Some(1)]) // [1]
+Monapt.Option('value') // Some('value')
+Monapt.Option(null) // None
+Monapt.Option(undefined) // None
+Monapt.None // None
+Monapt.None.get() // Monapt.NoSuchElementError
+Monapt.flatten([Monapt.None, Monapt.Option(1)]) // [1]
 ```
 
 ### Properties / Methods
 
 * `isDefined: boolean`
 * `isEmpty: boolean`
-* `get(): A`
-* `getOrElse(defaultValue: () => A): A`
+* `get(): T`
+* `getOrElse(defaultValue: () => T): T`
 * `orElse(alternative: () => Option<A>): Option<A>`
-* `match<B>(matcher: IOptionMatcher<A, B>): B`
-* `map<B>(f: (value: A) => B): Option<B>`
-* `flatMap<B>(f: (value: A) => Option<B>): Option<B>`
-* `filter(predicate: (value: A) => boolean): Option<A>`
-* `reject(predicate: (value: A) => boolean): Option<A>`
-* `foreach(f: (value: A) => void): void`
-* `equals(option: Option<A>): boolean`
+* `match<B>(matcher: { Some: (T) => U, None: () => U }): U`
+* `map<B>(f: (value: T) => U): Option<U>`
+* `flatMap<B>(f: (value: T) => Option<U>): Option<B>`
+* `filter(predicate: (value: T) => boolean): Option<U>`
+* `reject(predicate: (value: T) => boolean): Option<U>`
+* `foreach(f: (value: T) => void): void`
+* `equals(option: Option<T>): boolean`
 
-
-#### monapt.IOptionMatcher<A>
-
-```javascript
-interface IOptionMatcher<A, B> {
-    Some(value: A): B;
-    None(): B;
-}
-```
-
-## monapt.Try<T>
+## Monapt.Try<T>
 
 ```javascript
-var trier = monapt.Try(() => {
+var attempt = Monapt.Try(() => {
     return parse(aValue);
 });
-trier.getOrElse(() => 'defaultValue');
+attempt.getOrElse(() => 'defaultValue');
 ```
 
 ```javascript
-trier.match({
-    Success: (v) => console.log(v),
-    Failure: (e) => console.log(e.message)
+attempt.match({
+    Success: (v) => 'Awesome! ' + v,
+    Failure: (e) => 'Whoops!' + e.message
 });
-```
-
-### monapt.Success / monapt.Failure
-
-```javascript
-new monapt.Success('value')
-new monapt.Failure<string>(new Error());
 ```
 
 ### Properties / Methods
@@ -120,7 +103,7 @@ new monapt.Failure<string>(new Error());
 * `get(): T`
 * `getOrElse(defaultValue: () => T): T`
 * `orElse(alternative: () => Try<T>): Try<T>`
-* `match<U>(matcher: ITryMatcher<T, U>): U`
+* `match<U>(matcher: { Success: (T) => U, Failure: () => U }): U`
 * `map<U>(f: (value: T) => U): Try<U>`
 * `flatMap<U>(f: (value: T) => Try<U>): Try<U>`
 * `filter(predicate: (value: T) => boolean): Try<T>`
@@ -130,52 +113,53 @@ new monapt.Failure<string>(new Error());
 * `recoverWith(fn: (error: Error) => Try<T>): Try<T>`
 * `toOption(): Option<T>`
 
-## monapt.Future<T>
+## Monapt.Future<T>
 
 ```javascript
-monapt.future<string>((promise) => {
-    api.get((error, value) => {
-        if (error) {
-            promise.failure(error);
-        }
-        else {
-          promise.success(value);
-        }
-    });
-}).onComplete({
-    Success: (v) => console.log(v),
-    Failure: (e) => console.log(e)
+Monapt.future((promise) => {
+  api.get((error, value) => {
+    if (error) {
+      promise.failure(error);
+    }
+    else {
+      promise.success(value);
+    }
+  });
 })
+  .onComplete({
+    Success: (v) => 'Awesome! ' + v,
+    Failure: (e) => 'Whoops! ' + e.toString()
+  })
 ```
 
 Mix futures:
 ```javascript
-var macbook = monapt.future<string>((promise) => {
-    setTimeout(() => {
-        promise.success('MacBook');
-    }, 100);
+var macbook = Monapt.Future((promise) => {
+  setTimeout(() => {
+    promise.success('MacBook');
+  }, 100);
 });
 
-var pro = monapt.future<string>((promise) => {
-    setTimeout(() => {
-        promise.success('Pro');
-    }, 100);
+var pro = Monapt.future((promise) => {
+  setTimeout(() => {
+    promise.success('Pro');
+  }, 100);
 });
 
-var macbookPro = macbook.flatMap<string>((mb) => {
-    return pro.map<string>((pro, promise) => {
-        promise.success(mb + pro);
-    });
+var macbookPro = macbook.flatMap((mb) => {
+  return pro.map<string>((pro, promise) => {
+    promise.success(mb + pro);
+  });
 });
 
 macbookPro.onSuccess((v) => {
-    console.log(v); // MacBookPro
+  console.log(v); // MacBookPro
 });
 ```
 
 ### Properties / Methods
 
-* `onComplete(callback: ICompleteFunction<T>): void`
+* `onComplete(callback: { Success: (T) => void, Failure: () => void } => void): void`
 * `onSuccess(callback: (value: T) => void): void`
 * `onFailure(callback: (error: Error) => void): void`
 * `map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>`
