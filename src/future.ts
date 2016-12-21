@@ -83,12 +83,20 @@ module monapt {
             });
         }
 
-        map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U> {
+        map<U>(f: (value: T) => U): Future<U> {
             var promise = new Promise<U>();
             this.onComplete(r => {
                 r.match({
                     Failure: e => promise.failure(e),
-                    Success: v => f(v, F<U>(promise))
+                    Success: v => {
+                        try {
+                            var result = f(v);
+                            promise.success(result);
+                        }
+                        catch(e) {
+                            promise.failure(e);
+                        }
+                    }
                 });
             });
             return promise.future();
@@ -134,13 +142,13 @@ module monapt {
             return this.filter(v => !predicate(v));
         }
 
-        recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => void): Future<T> {
+        recover(fn: (e: Error) => T): Future<T> {
             var promise = new Promise<T>();
             this.onComplete(r => {
                 r.match({
                     Failure: error => {
                         try {
-                            fn(error, F<T>(promise));
+                            promise.success(fn(error))
                         }
                         catch(e) {
                             promise.failure(e);

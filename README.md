@@ -134,7 +134,7 @@ Monapt.future((promise) => {
 
 Mix futures:
 ```javascript
-var macbook = Monapt.Future((promise) => {
+var macbook = Monapt.future((promise) => {
   setTimeout(() => {
     promise.success('MacBook');
   }, 100);
@@ -147,8 +147,8 @@ var pro = Monapt.future((promise) => {
 });
 
 var macbookPro = macbook.flatMap((mb) => {
-  return pro.map<string>((pro, promise) => {
-    promise.success(mb + pro);
+  return pro.map((pro) => {
+    return mb + pro;
   });
 });
 
@@ -162,11 +162,11 @@ macbookPro.onSuccess((v) => {
 * `onComplete(callback: { Success: (T) => void, Failure: () => void } => void): void`
 * `onSuccess(callback: (value: T) => void): void`
 * `onFailure(callback: (error: Error) => void): void`
-* `map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>`
+* `map<U>(f: (value: T) => U): Future<U>`
 * `flatMap<U>(f: (value: T) => Future<U>): Future<U>`
 * `filter(predicate: (value: T) => boolean): Future<T>`
 * `reject(predicate: (value: T) => boolean): Future<T>`
-* `recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => T): Future<T>`
+* `recover(fn: (e: Error) => T): Future<T>`
 * `recoverWith(fn: (e: Error) => Future<T>): Future<T>`
 
 ## Credits

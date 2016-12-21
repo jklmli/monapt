@@ -91,17 +91,16 @@ module monapt.Spec {
 
             describe('#map', () => {
                 it('returns mixed Future that create by func', (ok) => {
-                    future.map<number>((v, promise) => {
-                        promise.success(100);
-                    }).onSuccess((v: number) => {
-                        v.should.equal(100);
-                        ok();    
-                    });
+                    future.map((v) => 100)
+                        .onSuccess((v: number) => {
+                            v.should.equal(100);
+                            ok();
+                        });
                 });
 
                 it('returns failed Future if func apply failure', (ok) => {
-                    future.map<number>((v, promise) => {
-                        promise.failure(new Error('Some error.'));
+                    future.map((v) => {
+                        throw new Error('Some error.');
                     }).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok();
@@ -111,7 +110,7 @@ module monapt.Spec {
 
             describe('#flatMap', () => {
                 it('returns mixed Future that create by func', (ok) => {
-                    var a = future.flatMap(v => new monapt.Future<number>(promise => promise.success(100)))
+                    var a = future.flatMap(v => new monapt.Future(promise => promise.success(100)))
                     .onSuccess(v => {
                         v.should.equal(100);
                         ok();
@@ -119,7 +118,7 @@ module monapt.Spec {
                 });
 
                 it('returns failed Future if new future fails', (ok) => {
-                    var a = future.flatMap(v => new monapt.Future<number>(promise => {
+                    var a = future.flatMap(v => new monapt.Future(promise => {
                         promise.failure(new Error('Some error.'));
                     })).onFailure(e => {
                         e.message.should.equal('Some error.');
@@ -133,8 +132,8 @@ module monapt.Spec {
                     });
                     setTimeout(() => {
                         var mixed = future.flatMap<string>(v => {
-                            return left.map<string>((lv, promise) => {
-                                promise.success(v + ' ' + lv);
+                            return left.map((lv) => {
+                                return v + ' ' + lv;
                             });
                         });
                         mixed.onSuccess(v => {
@@ -182,7 +181,7 @@ module monapt.Spec {
 
             describe('#recover', () => {
                 it('returns copied self', (ok) => {
-                    future.recover((error, promise) => promise.success('recovered')).onSuccess(v => {
+                    future.recover((error) => 'recovered').onSuccess(v => {
                         v.should.equal('value');
                         ok();
                     });;
@@ -265,7 +264,7 @@ module monapt.Spec {
 
             describe('#recover', () => {
                 it('returns Success thats result of applying func', (ok) => {
-                    future.recover((error, promise) => promise.success('recovered')).onSuccess(v => {
+                    future.recover((error) => 'recovered').onSuccess(v => {
                         v.should.equal('recovered');
                         ok();
                     });
