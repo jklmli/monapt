@@ -19,6 +19,7 @@
     "build": "webpack",
     "commit": "git-cz",
     "commitmsg": "validate-commit-msg",
+    "lint:ts": "tslint --force --format verbose --project ./tsconfig.json --type-check './src/**/*.ts'",
     "smoke:ts": "tsc --noEmit --pretty --project ./tsconfig.json",
     "watch": "webpack --watch"
   },
