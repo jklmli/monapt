@@ -1,0 +1,30 @@
+{
+  "name": "monapt",
+  "description": "Eliminate null/undefined errors in JS...and more!",
+  "author": {
+    "name": "Kevin Li",
+    "email": "jiawei.h.li+npm@gmail.com",
+    "url": "https://jiawei.li/"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/jiaweihli/monapt#readme",
+  "bugs": {
+    "url": "https://github.com/jiaweihli/monapt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiaweihli/monapt.git"
+  },
+  "keywords": [
+    "option",
+    "optional",
+    "future",
+    "try",
+    "monad",
+    "functional",
+    "util",
+    "scala",
+    "type",
+    "types"
+  ]
+}
