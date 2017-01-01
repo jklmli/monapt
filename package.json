@@ -23,8 +23,8 @@
     "smoke:ts": "tsc --noEmit --pretty --project ./tsconfig.json",
     "watch": "webpack --watch"
   },
-  "main": "dist/bundle.js",
-  "typings": "dist/src/bundle.d.ts",
+  "main": "dist/monapt.js",
+  "typings": "dist/src/monapt.d.ts",
   "files": [
     "dist/"
   ],
