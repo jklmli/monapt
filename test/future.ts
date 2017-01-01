@@ -226,8 +226,8 @@ module monapt.Spec {
 
             describe('#map', () => {
                 it('never do anything', (ok) => {
-                    future.map<number>((v, promise) => {
-                        promise.success(100);
+                    future.map<number>((v) => {
+                        return 100;
                     }).onFailure(e => {
                         e.message.should.equal('Some error.');
                         ok();    
