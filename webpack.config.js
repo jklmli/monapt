@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/monapt.ts',
   output: {
-    filename: 'bundle.js',
+    filename: 'monapt.js',
     library: 'Monapt',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist')
