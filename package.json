@@ -24,6 +24,7 @@
     "watch": "webpack --watch"
   },
   "main": "dist/bundle.js",
+  "typings": "dist/src/bundle.d.ts",
   "files": [
     "dist/"
   ],
