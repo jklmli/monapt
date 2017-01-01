@@ -16,9 +16,15 @@
     "url": "git+https://github.com/jiaweihli/monapt.git"
   },
   "scripts": {
+    "build": "webpack",
     "commit": "git-cz",
-    "commitmsg": "validate-commit-msg"
+    "commitmsg": "validate-commit-msg",
+    "watch": "webpack --watch"
   },
+  "main": "dist/bundle.js",
+  "files": [
+    "dist/"
+  ],
   "keywords": [
     "option",
     "optional",
