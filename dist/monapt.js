@@ -370,7 +370,15 @@ var monapt;
             this.onComplete(function (r) {
                 r.match({
                     Failure: function (e) { return promise.failure(e); },
-                    Success: function (v) { return f(v, F(promise)); }
+                    Success: function (v) {
+                        try {
+                            var result = f(v);
+                            promise.success(result);
+                        }
+                        catch (e) {
+                            promise.failure(e);
+                        }
+                    }
                 });
             });
             return promise.future();
@@ -423,7 +431,7 @@ var monapt;
                 r.match({
                     Failure: function (error) {
                         try {
-                            fn(error, F(promise));
+                            promise.success(fn(error));
                         }
                         catch (e) {
                             promise.failure(e);

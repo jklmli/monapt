@@ -144,11 +144,11 @@ declare module 'monapt' {
         onComplete(callback: ICompleteFunction<T>): void;
         onSuccess(callback: (value: T) => void): void;
         onFailure(callback: (error: Error) => void): void;
-        map<U>(f: (value: T, promise: IFuturePromiseLike<U>) => void): Future<U>;
+        map<U>(f: (value: T) => U): Future<U>;
         flatMap<U>(f: (value: T) => Future<U>): Future<U>;
         filter(predicate: (value: T) => boolean): Future<T>;
         reject(predicate: (value: T) => boolean): Future<T>;
-        recover(fn: (e: Error, promise: IFuturePromiseLike<T>) => void): Future<T>;
+        recover(fn: (e: Error) => T): Future<T>;
         recoverWith(fn: (e: Error) => Future<T>): Future<T>;
     }
     class Promise<T> extends Future<T> {
