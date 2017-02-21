@@ -18,7 +18,7 @@ module monapt {
         None(): B;
     }
 
-    export var Option = <T>(value: T | null | undefined): Option<T> => {
+    export function Option <T>(value: T | null | undefined): Option<T> {
         if (typeof value !== "undefined" && value !== null) {
             return new Some(value);
         }
