@@ -46,14 +46,16 @@ var monapt;
         return NoSuchElementError;
     }(Error));
     monapt.NoSuchElementError = NoSuchElementError;
-    monapt.Option = function (value) {
+    function Option(value) {
         if (typeof value !== "undefined" && value !== null) {
             return new Some(value);
         }
         else {
             return monapt.None;
         }
-    };
+    }
+    monapt.Option = Option;
+    ;
     var Some = (function () {
         function Some(value) {
             this.value = value;

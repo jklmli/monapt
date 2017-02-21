@@ -18,7 +18,7 @@ declare module 'monapt' {
         Some(value: A): B;
         None(): B;
     }
-    var Option: <T>(value: T) => Option<T>;
+    function Option<T>(value: T | null | undefined): Option<T>;
     interface Option<A> {
         isDefined: boolean;
         isEmpty: boolean;
