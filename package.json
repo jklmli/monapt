@@ -28,7 +28,8 @@
   "main": "dist/monapt.js",
   "typings": "dist/src/monapt.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
   ],
   "keywords": [
     "option",
