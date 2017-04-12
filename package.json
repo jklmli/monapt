@@ -16,12 +16,13 @@
     "url": "git+https://github.com/jiaweihli/monapt.git"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config build.webpack.config.js",
     "commit": "git-cz",
     "commitmsg": "validate-commit-msg",
-    "lint:ts": "tslint --force --format verbose --project ./tsconfig.json --type-check './src/**/*.ts'",
-    "smoke:ts": "tsc --noEmit --pretty --project ./tsconfig.json",
-    "watch": "webpack --watch"
+    "lint:ts": "tslint --format verbose --project ./src/tsconfig.json --type-check './src/**/*.ts' && tslint --format verbose --config ./test/tslint.json --project ./test/tsconfig.json --type-check --exclude './test/dist/**/*.ts' './test/**/*.ts'",
+    "smoke:ts": "tsc --noEmit --pretty --project ./src/tsconfig.json && tsc --noEmit --pretty --project ./test/tsconfig.json",
+    "test": "webpack --config test.webpack.config.js && ava --verbose",
+    "watch": "webpack --config build.webpack.config.js --watch"
   },
   "main": "dist/monapt.js",
   "typings": "dist/src/monapt.d.ts",
