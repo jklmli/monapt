@@ -54,6 +54,7 @@
     "cz-conventional-changelog": "2.0.0",
     "glob": "7.1.2",
     "husky": "0.14.1",
+    "istanbul-instrumenter-loader": "2.0.0",
     "nyc": "11.0.3",
     "semantic-release": "6.3.6",
     "ts-loader": "2.2.1",
