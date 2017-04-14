@@ -28,6 +28,7 @@
     "types"
   ],
   "devDependencies": {
+    "conventional-commit-types": "2.1.0",
     "husky": "0.14.1",
     "validate-commit-msg": "2.12.2"
   }
