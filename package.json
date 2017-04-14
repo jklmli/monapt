@@ -26,5 +26,8 @@
     "scala",
     "type",
     "types"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "0.14.1"
+  }
 }
