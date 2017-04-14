@@ -21,7 +21,7 @@
     "commitmsg": "validate-commit-msg",
     "lint:ts": "tslint --format verbose --project ./src/tsconfig.json --type-check './src/**/*.ts' && tslint --format verbose --config ./test/tslint.json --project ./test/tsconfig.json --type-check --exclude './test/dist/**/*.ts' './test/**/*.ts'",
     "smoke:ts": "tsc --noEmit --pretty --project ./src/tsconfig.json && tsc --noEmit --pretty --project ./test/tsconfig.json",
-    "test": "webpack --config test.webpack.config.js && ava --verbose",
+    "test": "webpack --config test.webpack.config.js && nyc ava --verbose",
     "watch": "webpack --config build.webpack.config.js --watch"
   },
   "main": "dist/monapt.js",

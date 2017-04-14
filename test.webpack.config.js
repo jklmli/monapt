@@ -12,10 +12,21 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader'
+        rules: [
+          {
+            loader: 'ts-loader'
+          },
+          {
+            exclude: /test\/.*\.ts$/,
+            enforce: 'post',
+            loader: 'istanbul-instrumenter-loader',
+          }
+        ]
       }
     ]
   },
+  // nyc/istanbul requires inline source maps in order to do line mappings.
+  devtool: 'inline-source-map',
   resolve: {
     modules: [
       'node_modules'
