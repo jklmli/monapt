@@ -41,6 +41,23 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "types": "conventional-commit-types",
+      "scope": {
+        "required": false,
+        "allowed": [
+          "*"
+        ],
+        "validate": true,
+        "multiple": false
+      },
+      "warnOnFail": true,
+      "maxSubjectLength": 100,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "subject does not match subject pattern!",
+      "helpMessage": "",
+      "autoFix": false
     }
   }
 }
