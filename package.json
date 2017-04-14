@@ -28,6 +28,7 @@
     "types"
   ],
   "devDependencies": {
-    "husky": "0.14.1"
+    "husky": "0.14.1",
+    "validate-commit-msg": "2.12.2"
   }
 }
