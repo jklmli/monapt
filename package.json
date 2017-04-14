@@ -15,6 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/jiaweihli/monapt.git"
   },
+  "scripts": {
+    "commit": "git-cz"
+  },
   "keywords": [
     "option",
     "optional",
