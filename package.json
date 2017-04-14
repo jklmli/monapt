@@ -16,7 +16,8 @@
     "url": "git+https://github.com/jiaweihli/monapt.git"
   },
   "scripts": {
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "commitmsg": "validate-commit-msg"
   },
   "keywords": [
     "option",
