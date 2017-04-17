@@ -37,6 +37,7 @@
     "conventional-commit-types": "2.1.0",
     "cz-conventional-changelog": "2.0.0",
     "husky": "0.14.1",
+    "semantic-release": "6.3.6",
     "validate-commit-msg": "2.12.2"
   },
   "config": {
