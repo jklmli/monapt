@@ -12,20 +12,20 @@ jobs:
           key: node-{{ .Branch }}-{{ checksum "package.json" }}
       - run:
           name: Installing JS dependencies
-          command: npm install
+          command: yarn
       - save_cache:
           key: node-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
       - run:
           name: Linting code
-          command: npm run lint:ts
+          command: yarn lint:ts
       - run:
           name: Running tests
-          command: npm run test
+          command: yarn test
       - run:
           name: Reporting code coverage to Coveralls
-          command: npm run coverage
+          command: yarn coverage
       - run:
           name: Publishing to npm (master only)
-          command: npm run semantic-release || true
+          command: yarn semantic-release || true
