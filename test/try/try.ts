@@ -1,7 +1,8 @@
 import { test, TestContext } from 'ava';
+
+import { Failure } from '../../src/try/failure';
 import { Success } from '../../src/try/success';
 import { Try } from '../../src/try/try';
-import { Failure } from '../../src/try/failure';
 
 test('Try::apply', (t: TestContext) => {
   t.deepEqual(

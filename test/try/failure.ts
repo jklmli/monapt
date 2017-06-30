@@ -1,4 +1,5 @@
 import { test, TestContext } from 'ava';
+
 import { Failure } from '../../src/try/failure';
 import { None } from '../../src/option/none';
 import { Success } from '../../src/try/success';

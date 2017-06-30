@@ -1,4 +1,5 @@
-import {test, TestContext} from 'ava';
+import { test, TestContext } from 'ava';
+
 import { Failure } from '../../src/try/failure';
 import { Some } from '../../src/option/some';
 import { Success } from '../../src/try/success';
