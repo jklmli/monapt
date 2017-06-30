@@ -22,6 +22,7 @@
     "commitmsg": "validate-commit-msg",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint:ts": "tslint --format verbose --config ./src/tslint.json --project ./src/tsconfig.json --type-check './src/**/*.ts' && tslint --format verbose --config ./test/tslint.json --project ./test/tsconfig.json --type-check './test/**/*.ts'",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "smoke:ts": "tsc --noEmit --pretty --project ./src/tsconfig.json && tsc --noEmit --pretty --project ./test/tsconfig.json",
     "test": "webpack --config test.webpack.config.js && nyc ava --verbose",
     "watch": "webpack --config build.webpack.config.js --watch"

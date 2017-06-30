@@ -26,3 +26,6 @@ jobs:
       - run:
           name: Reporting code coverage to Coveralls
           command: npm run coverage
+      - run:
+          name: Publishing to npm (master only)
+          command: npm run semantic-release || true
