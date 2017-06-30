@@ -1,7 +1,0 @@
-node_modules/
-components/
-compiled/
-public/
-.idea/
-.tscache/
-*/.baseDir.ts
