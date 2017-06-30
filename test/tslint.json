@@ -5,6 +5,7 @@
     "no-floating-promises": true,
     "no-magic-numbers": false,
     // AVA has a lot of functions that take in a type 'any'.
-    "no-unsafe-any": false
+    "no-unsafe-any": false,
+    "promise-function-async": true
   }
 }
