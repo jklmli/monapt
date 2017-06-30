@@ -18,6 +18,9 @@ jobs:
           paths:
             - "node_modules"
       - run:
+          name: Linting code
+          command: npm run lint:ts
+      - run:
           name: Running tests
           command: npm run test
       - run:
