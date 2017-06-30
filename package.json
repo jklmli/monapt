@@ -1,6 +1,6 @@
 {
   "name": "monapt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Eliminate null/undefined errors in JS...and more!",
   "author": {
     "name": "Kevin Li",
