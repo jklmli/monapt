@@ -28,4 +28,8 @@ jobs:
           command: yarn coverage
       - run:
           name: Publishing to npm (master only)
-          command: yarn semantic-release || true
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              yarn build
+              yarn semantic-release || true
+            fi
