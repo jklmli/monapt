@@ -1,0 +1,102 @@
+{
+  "name": "monapt",
+  "version": "1.0.0",
+  "description": "Eliminate null/undefined errors in JS...and more!",
+  "author": {
+    "name": "Kevin Li",
+    "email": "jiawei.h.li+npm@gmail.com",
+    "url": "https://jiawei.li/"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/jiaweihli/monapt#readme",
+  "bugs": {
+    "url": "https://github.com/jiaweihli/monapt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiaweihli/monapt.git"
+  },
+  "scripts": {
+    "build": "webpack --config build.webpack.config.js",
+    "commit": "git-cz",
+    "commitmsg": "validate-commit-msg",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint:ts": "tslint --format verbose --project ./src/tsconfig.json --type-check './src/**/*.ts' && tslint --format verbose --config ./test/tslint.json --project ./test/tsconfig.json --type-check --exclude './test/dist/**/*.ts' './test/**/*.ts'",
+    "smoke:ts": "tsc --noEmit --pretty --project ./src/tsconfig.json && tsc --noEmit --pretty --project ./test/tsconfig.json",
+    "test": "webpack --config test.webpack.config.js && nyc ava --verbose",
+    "watch": "webpack --config build.webpack.config.js --watch"
+  },
+  "main": "dist/monapt.js",
+  "typings": "dist/src/monapt.d.ts",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "keywords": [
+    "option",
+    "optional",
+    "future",
+    "try",
+    "monad",
+    "functional",
+    "util",
+    "scala",
+    "type",
+    "types"
+  ],
+  "dependencies": {
+    "when": "3.7.8"
+  },
+  "devDependencies": {
+    "@types/when": "2.4.29",
+    "ava": "0.20.0",
+    "commitizen": "2.9.6",
+    "conventional-changelog-cli": "1.3.1",
+    "conventional-commit-types": "2.1.0",
+    "coveralls": "2.13.1",
+    "cracks": "3.1.2",
+    "cz-conventional-changelog": "2.0.0",
+    "glob": "7.1.2",
+    "husky": "0.14.1",
+    "istanbul-instrumenter-loader": "2.0.0",
+    "nyc": "11.0.3",
+    "semantic-release": "6.3.6",
+    "ts-loader": "2.2.1",
+    "tslint": "5.1.0",
+    "typescript": "2.3.4",
+    "validate-commit-msg": "2.12.2",
+    "webpack": "2.6.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "types": "conventional-commit-types",
+      "scope": {
+        "required": false,
+        "allowed": [
+          "*"
+        ],
+        "validate": true,
+        "multiple": false
+      },
+      "warnOnFail": true,
+      "maxSubjectLength": 100,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "subject does not match subject pattern!",
+      "helpMessage": "",
+      "autoFix": false
+    }
+  },
+  "release": {
+    "verifyRelease": {
+      "path": "cracks",
+      "paths": [
+        "test",
+        "package.json"
+      ],
+      "silent": true
+    }
+  }
+}

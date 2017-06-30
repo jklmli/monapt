@@ -1,0 +1,10 @@
+{
+  "extends": "../tslint.json",
+  "rules": {
+    // AVA uses ES6.
+    "no-floating-promises": true,
+    "no-magic-numbers": false,
+    // AVA has a lot of functions that take in a type 'any'.
+    "no-unsafe-any": false
+  }
+}

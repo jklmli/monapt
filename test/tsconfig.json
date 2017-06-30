@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    // AVA requires us to support es2015 in order to use promises and async functions.
+    // :LINK: https://github.com/avajs/ava/tree/c01ac05ef610c87f5c264b1a3eb80f89b4fc0832#typescript-support
+    "target": "es2015",
+    "noImplicitAny": true,
+    // nyc/istanbul requires source maps in order to do line mappings.
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true
+  }
+}

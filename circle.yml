@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/monapt
+    docker:
+      - image: node:boron
+    environment:
+      - COVERALLS_REPO_TOKEN: "mMDS1eSfES0hTguOkxWQOLDHbLJdfZLAa"
+    steps:
+      - checkout
+      - restore_cache:
+          key: node-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Installing JS dependencies
+          command: npm install
+      - save_cache:
+          key: node-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - "node_modules"
+      - run:
+          name: Running tests
+          command: npm run test
+      - run:
+          name: Reporting code coverage to Coveralls
+          command: npm run coverage
