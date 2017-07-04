@@ -53,8 +53,8 @@ class Failure<A> implements Try<A> {
     return new Failure<B>(this.error);
   }
 
-  match<B>(matcher: { Success: (a: A) => B, Failure: () => B }): B {
-    return matcher.Failure();
+  match<B>(matcher: { Success: (a: A) => B, Failure: (e: Error) => B }): B {
+    return matcher.Failure(this.error);
   }
 
   orElse<B, A extends B>(this: Failure<A>, alternative: () => Try<B>): Try<B> {

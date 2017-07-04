@@ -54,7 +54,7 @@ class Success<A> implements Try<A> {
     return new Success(f(this.value));
   }
 
-  match<B>(matcher: { Success: (a: A) => B, Failure: () => B }): B {
+  match<B>(matcher: { Success: (a: A) => B, Failure: (e: Error) => B }): B {
     return matcher.Success(this.value);
   }
 
