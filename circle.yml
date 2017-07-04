@@ -18,6 +18,10 @@ jobs:
           paths:
             - "node_modules"
       - run:
+          # :TODO: Validate all commit messages, rather than the last one as a heuristic.
+          name: Validating last commit message
+          command: yarn validate-commit-msg "$(git log -1 --pretty=%B)"
+      - run:
           name: Linting code
           command: yarn lint:ts
       - run:
