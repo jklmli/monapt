@@ -78,16 +78,22 @@
       "scope": {
         "required": false,
         "allowed": [
-          "*"
+          "future",
+          "option",
+          "package",
+          "readme",
+          "try",
+          "tslint",
+          "webpack"
         ],
         "validate": true,
         "multiple": false
       },
-      "warnOnFail": true,
+      "warnOnFail": false,
       "maxSubjectLength": 100,
       "subjectPattern": ".+",
       "subjectPatternErrorMsg": "subject does not match subject pattern!",
-      "helpMessage": "",
+      "helpMessage": "%s\r\n\r\nThis commit message style is parsed to automatically create changelogs:\r\nhttps://github.com/conventional-changelog/conventional-changelog/blob/master/packages/conventional-changelog-angular/convention.md",
       "autoFix": false
     }
   },
