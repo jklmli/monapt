@@ -28,7 +28,7 @@ test('Success#filter', (t: TestContext) => {
   );
   t.deepEqual(
     success.filter((v: string) => v === 'world'),
-    new Failure<string>(new Error('asdf'))
+    new Failure<string>(new Error('Predicate does not hold for hello'))
   );
 });
 

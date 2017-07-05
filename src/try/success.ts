@@ -30,7 +30,7 @@ class Success<A> implements Try<A> {
       return this;
     }
     else {
-      return new Failure<A>(new Error('asdf'));
+      return new Failure<A>(new Error(`Predicate does not hold for ${this.value}`));
     }
   }
 
