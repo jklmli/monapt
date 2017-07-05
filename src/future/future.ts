@@ -95,6 +95,28 @@ class Future<A> {
     );
   }
 
+  flatMapP<B>(mapper: (a: A) => Promise<B>): Future<B> {
+    return new Future(
+      when.promise(
+        (resolve: (b: B) => void, reject: (error: Error) => void): void => {
+          this.promise
+            .then((value: A): void => {
+              mapper(value)
+                .then((b: B): void => {
+                  resolve(b);
+                })
+                .catch((error: Error) => {
+                  reject(error)
+                })
+            })
+            .catch((error: Error) => {
+              reject(error)
+            })
+        }
+      )
+    );
+  }
+
   foreach<B>(run: (a: A) => B): void {
     this.promise
       .then((value: A): void => {
