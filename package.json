@@ -19,6 +19,7 @@
   "scripts": {
     "build": "webpack --config build.webpack.config.js",
     "commit": "git-cz",
+    "commitmsg": "commitplease .git/COMMIT_EDITMSG",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint:ts": "tslint --format verbose --config ./src/tslint.json --project ./src/tsconfig.json --type-check './src/**/*.ts' && tslint --format verbose --config ./test/tslint.json --project ./test/tsconfig.json --type-check './test/**/*.ts'",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
@@ -51,6 +52,7 @@
     "@types/when": "2.4.29",
     "ava": "0.20.0",
     "commitizen": "2.9.6",
+    "commitplease": "2.7.10",
     "condition-circle": "1.5.0",
     "conventional-changelog-cli": "1.3.1",
     "conventional-commit-types": "2.1.0",
@@ -66,6 +68,22 @@
     "tslint": "5.1.0",
     "typescript": "2.3.4",
     "webpack": "2.6.1"
+  },
+  "commitplease": {
+    "nohook": true,
+    "style": "angular",
+    "types": [
+      "build",
+      "chore",
+      "ci",
+      "docs",
+      "feat",
+      "fix",
+      "perf",
+      "refactor",
+      "style",
+      "test"
+    ]
   },
   "config": {
     "commitizen": {
