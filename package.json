@@ -1,6 +1,6 @@
 {
   "name": "monapt",
-  "version": "1.0.1",
+  "version": "0.0.0-semantic-release",
   "description": "Eliminate null/undefined errors in JS...and more!",
   "author": {
     "name": "Kevin Li",
