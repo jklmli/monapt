@@ -15,7 +15,7 @@ interface Try<A> {
   get(): A;
   getOrElse<B, A extends B>(this: Try<A>, defaultValue: () => B): B;
   map<B>(f: (value: A) => B): Try<B>;
-  match<B>(matcher: { Success: (a: A) => B, Failure: () => B }): B;
+  match<B>(matcher: { Success: (a: A) => B, Failure: (e: Error) => B }): B;
   orElse<B, A extends B>(this: Try<A>, alternative: () => Try<B>): Try<B>;
   recover(fn: (error: Error) => A): Try<A>;
   recoverWith(fn: (error: Error) => Try<A>): Try<A>;
