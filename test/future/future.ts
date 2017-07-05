@@ -30,6 +30,18 @@ test('Future#flatMap', async(t: TestContext) => {
   await t.throws(failure.flatMap(() => success).promise);
 });
 
+test('Future#flatMapP', async(t: TestContext) => {
+  t.plan(3);
+
+  const successfulFlatMap: string = await success.flatMapP(() => Promise.resolve('world')).promise;
+  t.is(successfulFlatMap, 'world');
+
+  const failingFlatMap: when.Promise<void> = success.flatMapP(() => Promise.reject(new Error)).promise;
+  await t.throws(failingFlatMap);
+
+  await t.throws(failure.flatMapP(() => Promise.resolve("hello")).promise);
+});
+
 test('Future#foreach', async(t: TestContext) => {
   t.plan(2);
 
