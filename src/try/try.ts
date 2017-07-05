@@ -34,6 +34,7 @@ function Try<A>(fn: () => A): Try<A> {
 /* tslint:enable */
 
 /* tslint:disable:no-namespace */
+/* istanbul ignore next */
 namespace Try {
   /* tslint:disable:only-arrow-functions */
   export function flatten<A>(tries: Array<Try<A>>): Array<A> {

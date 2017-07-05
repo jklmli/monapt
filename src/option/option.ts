@@ -33,6 +33,7 @@ function Option<A>(value: A | null | undefined): Option<A> {
 /* tslint:enable */
 
 /* tslint:disable:no-namespace */
+/* istanbul ignore next */
 namespace Option {
   /**
    * This error is thrown when `None.get()` is called.
