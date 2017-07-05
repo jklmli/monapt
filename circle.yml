@@ -18,6 +18,9 @@ jobs:
           paths:
             - "node_modules"
       - run:
+          name: Validating commit messages
+          command: yarn commitplease master..HEAD
+      - run:
           name: Linting code
           command: yarn lint:ts
       - run:
