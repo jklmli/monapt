@@ -53,8 +53,10 @@ class Some<A> implements Option<A> {
     return this.value;
   }
 
-  getOrElse<B, A extends B>(this: Some<A>, defaultValue: () => B): B {
-    return this.value;
+  getOrElse<B, A extends B>(this: Option<A>, defaultValue: () => B): B {
+    const self: Some<A> = this as Some<A>;
+
+    return self.value;
   }
 
   map<B>(mapper: (value: A) => B): Option<B> {
@@ -65,8 +67,10 @@ class Some<A> implements Option<A> {
     return matcher.Some(this.value);
   }
 
-  orElse<B, A extends B>(this: Some<A>, alternative: () => Option<B>): Option<B> {
-    return this;
+  orElse<B, A extends B>(this: Option<A>, alternative: () => Option<B>): Option<B> {
+    const self: Some<A> = this as Some<A>;
+
+    return self;
   }
 }
 

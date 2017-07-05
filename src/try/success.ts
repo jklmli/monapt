@@ -46,8 +46,10 @@ class Success<A> implements Try<A> {
     return this.value;
   }
 
-  getOrElse<B, A extends B>(this: Success<A>, defaultValue: () => B): B {
-    return this.value;
+  getOrElse<B, A extends B>(this: Try<A>, defaultValue: () => B): B {
+    const self: Success<A> = this as Success<A>;
+
+    return self.value;
   }
 
   map<B>(f: (value: A) => B): Try<B> {
@@ -58,8 +60,10 @@ class Success<A> implements Try<A> {
     return matcher.Success(this.value);
   }
 
-  orElse<B, A extends B>(this: Success<A>, alternative: () => Try<B>): Try<B> {
-    return this;
+  orElse<B, A extends B>(this: Try<A>, alternative: () => Try<B>): Try<B> {
+    const self: Success<A> = this as Success<A>;
+
+    return self;
   }
 
   recover(fn: (error: Error) => A): Try<A> {

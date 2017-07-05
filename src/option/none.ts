@@ -47,7 +47,7 @@ class None_<A> implements Option<A> {
     throw new Option.NoSuchElementError();
   }
 
-  getOrElse<B, A extends B>(this: None_<A>, defaultValue: () => B): B {
+  getOrElse<B, A extends B>(this: Option<A>, defaultValue: () => B): B {
     return defaultValue();
   }
 
@@ -59,7 +59,7 @@ class None_<A> implements Option<A> {
     return matcher.None();
   }
 
-  orElse<B, A extends B>(this: None_<A>, alternative: () => Option<B>): Option<B> {
+  orElse<B, A extends B>(this: Option<A>, alternative: () => Option<B>): Option<B> {
     return alternative();
   }
 }
