@@ -4,6 +4,8 @@ import * as when from 'when';
 import { Future } from '../../src/future/future';
 import { Try } from '../../src/try/try';
 
+// :TODO: Update when.js type definitions to return PromiseLikes to avoid manually typecasting.
+
 const error: Error = new Error('sample error');
 
 const success: Future<string> = Future.create('hello');
@@ -15,7 +17,7 @@ test('Future#filter', async(t: TestContext) => {
   const successfulFilter: string = await success.filter((v: string) => v === 'hello').promise;
   t.is(successfulFilter, 'hello');
 
-  await t.throws(success.filter((v: string) => v === 'world').promise);
+  await t.throws(success.filter((v: string) => v === 'world').promise as PromiseLike<string>);
 });
 
 test('Future#flatMap', async(t: TestContext) => {
@@ -25,9 +27,9 @@ test('Future#flatMap', async(t: TestContext) => {
   t.is(successfulFlatMap, 'world');
 
   const failingFlatMap: when.Promise<void> = success.flatMap((): Future<void> => { throw error; }).promise;
-  await t.throws(failingFlatMap);
+  await t.throws(failingFlatMap as PromiseLike<void>);
 
-  await t.throws(failure.flatMap(() => success).promise);
+  await t.throws(failure.flatMap(() => success).promise as PromiseLike<string>);
 });
 
 test('Future#foreach', async(t: TestContext) => {
@@ -81,7 +83,7 @@ test('Future#map', async(t: TestContext) => {
   const successfulMap: string = await success.map((v: string) => `${v} world`).promise;
   t.is(successfulMap, 'hello world');
 
-  await t.throws(failure.map(() => 'world').promise);
+  await t.throws(failure.map(() => 'world').promise as PromiseLike<string>);
 });
 
 test('Future#onComplete', async(t: TestContext) => {
@@ -136,10 +138,10 @@ test('Future#recover', async(t: TestContext) => {
       else {
         throw error;
       }
-    }).promise
+    }).promise as PromiseLike<string>
   );
 
-  await t.throws(failure.recover((e: Error): string => { throw error; }).promise);
+  await t.throws(failure.recover((e: Error): string => { throw error; }).promise as PromiseLike<string>);
 });
 
 test('Future#recoverWith', async(t: TestContext) => {
@@ -173,8 +175,8 @@ test('Future#recoverWith', async(t: TestContext) => {
       else {
         throw error;
       }
-    }).promise
+    }).promise as PromiseLike<string>
   );
 
-  await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise);
+  await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise as PromiseLike<string>);
 });
