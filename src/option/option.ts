@@ -4,6 +4,8 @@ import { Some } from './some';
 /**
  * An Option represents a collection of size 0 or 1.  Traditionally it's used as a replacement for
  * `null` or `undefined` to explicitly encode if a value can be empty or not.
+ *
+ * :TODO: Narrow self-type in `getOrElse` and `orElse` interfaces.
  */
 interface Option<A> {
   isDefined: boolean;
@@ -15,10 +17,10 @@ interface Option<A> {
   flatMap<B>(flatMapper: (value: A) => Option<B>): Option<B>;
   foreach(run: (value: A) => void): void;
   get(): A;
-  getOrElse<B, A extends B>(this: Option<A>, defaultValue: () => B): B;
+  getOrElse<B>(defaultValue: () => B): B;
   map<B>(mapper: (value: A) => B): Option<B>;
   match<B>(matcher: { Some: (a: A) => B, None: () => B }): B;
-  orElse<B, A extends B>(this: Option<A>, alternative: () => Option<B>): Option<B>;
+  orElse<B>(alternative: () => Option<B>): Option<B>;
 }
 
 /* tslint:disable:no-null-keyword only-arrow-functions */

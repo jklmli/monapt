@@ -45,7 +45,7 @@ class Failure<A> implements Try<A> {
     throw this.error;
   }
 
-  getOrElse<B, A extends B>(this: Try<A>, defaultValue: () => B): B {
+  getOrElse<B, A extends B>(this: Failure<A>, defaultValue: () => B): B {
     return defaultValue();
   }
 
@@ -57,7 +57,7 @@ class Failure<A> implements Try<A> {
     return matcher.Failure(this.error);
   }
 
-  orElse<B, A extends B>(this: Try<A>, alternative: () => Try<B>): Try<B> {
+  orElse<B, A extends B>(this: Failure<A>, alternative: () => Try<B>): Try<B> {
     return alternative();
   }
 

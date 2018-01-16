@@ -4,6 +4,8 @@ import { Success } from './success';
 
 /**
  * A Try represents a computation that may or may not have succeeded.
+ *
+ * :TODO: Narrow self-type in `getOrElse` and `orElse` interfaces.
  */
 interface Try<A> {
   isFailure: boolean;
@@ -13,10 +15,10 @@ interface Try<A> {
   flatMap<B>(f: (value: A) => Try<B>): Try<B>;
   foreach(run: (value: A) => void): void;
   get(): A;
-  getOrElse<B, A extends B>(this: Try<A>, defaultValue: () => B): B;
+  getOrElse<B>(defaultValue: () => B): B;
   map<B>(f: (value: A) => B): Try<B>;
   match<B>(matcher: { Success: (a: A) => B, Failure: (e: Error) => B }): B;
-  orElse<B, A extends B>(this: Try<A>, alternative: () => Try<B>): Try<B>;
+  orElse<B>(alternative: () => Try<B>): Try<B>;
   recover(fn: (error: Error) => A): Try<A>;
   recoverWith(fn: (error: Error) => Try<A>): Try<A>;
   toOption(): Option<A>;
