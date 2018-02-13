@@ -46,10 +46,10 @@
     "types"
   ],
   "dependencies": {
+    "@types/when": "2.4.29",
     "when": "3.7.8"
   },
   "devDependencies": {
-    "@types/when": "2.4.29",
     "ava": "0.20.0",
     "commitizen": "2.9.6",
     "commitplease": "2.7.10",
