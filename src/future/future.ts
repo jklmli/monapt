@@ -20,7 +20,7 @@ class Future<A> {
     return new Future(
       when(value) as when.Promise<A>
     );
-}
+  }
 
   /* tslint:disable:variable-name */
   protected promise_: when.Promise<A>;
