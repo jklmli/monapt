@@ -45,10 +45,6 @@
     "type",
     "types"
   ],
-  "dependencies": {
-    "@types/when": "2.4.29",
-    "when": "3.7.8"
-  },
   "devDependencies": {
     "ava": "0.20.0",
     "commitizen": "2.9.6",
