@@ -52,7 +52,8 @@ to the tests.  The result is almost the same API, but more true to the original 
 ### Breaking Changes
 
 - All default exports have been removed [to avoid ambiguity](https://github.com/palantir/tslint/issues/1182#issue-151780453).
-- `Future` now depends on `when.Promise`, and uses it internally when representing promises.
+- `Future` now depends on native ES6 Promises, and uses them internally when representing promises.  Make sure to
+include a shim if you plan on using Futures.
 - `Future#onFailure` has been removed.
 - `Future#onSuccess` has been removed.
 - `Future#reject` has been removed.

@@ -7,6 +7,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "noEmitOnError": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "lib": ["es2015.promise", "es5", "dom"]
   }
 }
