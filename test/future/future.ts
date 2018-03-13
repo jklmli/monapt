@@ -1,15 +1,12 @@
 import { test, TestContext } from 'ava';
-import * as when from 'when';
 
 import { Future } from '../../src/future/future';
 import { Try } from '../../src/try/try';
 
-// :TODO: Update when.js type definitions to return PromiseLikes to avoid manually typecasting.
-
 const error: Error = new Error('sample error');
 
 const success: Future<string> = Future.create('hello');
-const failure: Future<string> = Future.create(when.lift(() => { throw error; })());
+const failure: Future<string> = Future.create(Promise.reject(error));
 
 test('Future#filter', async(t: TestContext) => {
   t.plan(2);
@@ -26,8 +23,8 @@ test('Future#flatMap', async(t: TestContext) => {
   const successfulFlatMap: string = await success.flatMap(() => Future.create('world')).promise;
   t.is(successfulFlatMap, 'world');
 
-  const failingFlatMap: when.Promise<void> = success.flatMap((): Future<void> => { throw error; }).promise;
-  await t.throws(failingFlatMap as PromiseLike<void>);
+  const failingFlatMap: PromiseLike<void> = success.flatMap((): Future<void> => { throw error; }).promise;
+  await t.throws(failingFlatMap);
 
   await t.throws(failure.flatMap(() => success).promise as PromiseLike<string>);
 });
@@ -65,7 +62,7 @@ test('Future#isCompleted', async(t: TestContext) => {
   t.plan(2);
 
   const delayedFuture: Future<void> = Future.create(
-    when.promise((resolve: (value: void) => void): void => {
+    new Promise((resolve: (value: void) => void): void => {
       setTimeout(resolve, 0);
     })
   );
