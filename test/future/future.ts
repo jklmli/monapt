@@ -1,6 +1,7 @@
 import { ExecutionContext, test } from 'ava';
 
 import { Future } from '../../src/future/future';
+import { Option } from '../../src/option/option';
 import { Try } from '../../src/try/try';
 
 const error: Error = new Error('sample error');
@@ -8,12 +9,28 @@ const error: Error = new Error('sample error');
 const success: Future<string> = Future.create('hello');
 const failure: Future<string> = Future.create(Promise.reject(error));
 
-test('Future#filter', async(t: ExecutionContext) => {
+test('Future::create', async(t: ExecutionContext) => {
   t.plan(2);
+
+  const value: string = 'hello';
+
+  const futureFromPromise: Future<string> = Future.create(Promise.resolve(value));
+  const futureFromValue: Future<string> = Future.create(value);
+
+  await futureFromPromise.promise;
+  t.deepEqual(futureFromPromise.value, Option(Try(() => value)));
+
+  await futureFromValue.promise;
+  t.deepEqual(futureFromValue.value, Option(Try(() => value)));
+});
+
+test('Future#filter', async(t: ExecutionContext) => {
+  t.plan(3);
 
   const successfulFilter: string = await success.filter((v: string) => v === 'hello').promise;
   t.is(successfulFilter, 'hello');
 
+  await t.throws(failure.filter((v: string) => v === 'hello').promise);
   await t.throws(success.filter((v: string) => v === 'world').promise);
 });
 
