@@ -46,7 +46,7 @@
     "types"
   ],
   "devDependencies": {
-    "ava": "0.20.0",
+    "ava": "1.0.0-beta.3",
     "commitizen": "2.9.6",
     "commitplease": "2.7.10",
     "condition-circle": "1.5.0",
