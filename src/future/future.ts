@@ -49,7 +49,7 @@ class Future<A> {
       .catch((error: Error): Promise<A> => {
         this.value_ = Option(Try(() => { throw error; }));
 
-        throw error;
+        return promise;
       });
   }
 
@@ -65,10 +65,8 @@ class Future<A> {
               reject(new Error('Future.filter predicate is not satisfied'));
             }
           })
-          .catch((error: Error): Promise<A> => {
+          .catch((error: Error): void => {
             reject(error);
-
-            throw error;
           });
       })
     );
@@ -89,10 +87,8 @@ class Future<A> {
               reject(error as Error);
             }
           })
-          .catch((error: Error): Promise<A> => {
+          .catch((error: Error): void => {
             reject(error);
-
-            throw error;
           });
       })
     );
@@ -102,6 +98,9 @@ class Future<A> {
     this.promise
       .then((value: A): void => {
         run(value);
+      })
+      .catch((error: Error): void => {
+        // Don't do anything on failure.
       });
   }
 
