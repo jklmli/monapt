@@ -1,4 +1,4 @@
-import { test, TestContext } from 'ava';
+import { ExecutionContext, test } from 'ava';
 
 import { Future } from '../../src/future/future';
 import { Try } from '../../src/try/try';
@@ -8,16 +8,16 @@ const error: Error = new Error('sample error');
 const success: Future<string> = Future.create('hello');
 const failure: Future<string> = Future.create(Promise.reject(error));
 
-test('Future#filter', async(t: TestContext) => {
+test('Future#filter', async(t: ExecutionContext) => {
   t.plan(2);
 
   const successfulFilter: string = await success.filter((v: string) => v === 'hello').promise;
   t.is(successfulFilter, 'hello');
 
-  await t.throws(success.filter((v: string) => v === 'world').promise as PromiseLike<string>);
+  await t.throws(success.filter((v: string) => v === 'world').promise);
 });
 
-test('Future#flatMap', async(t: TestContext) => {
+test('Future#flatMap', async(t: ExecutionContext) => {
   t.plan(3);
 
   const successfulFlatMap: string = await success.flatMap(() => Future.create('world')).promise;
@@ -26,10 +26,10 @@ test('Future#flatMap', async(t: TestContext) => {
   const failingFlatMap: PromiseLike<void> = success.flatMap((): Future<void> => { throw error; }).promise;
   await t.throws(failingFlatMap);
 
-  await t.throws(failure.flatMap(() => success).promise as PromiseLike<string>);
+  await t.throws(failure.flatMap(() => success).promise);
 });
 
-test('Future#foreach', async(t: TestContext) => {
+test('Future#foreach', async(t: ExecutionContext) => {
   t.plan(2);
 
   let executions: number = 0;
@@ -58,7 +58,7 @@ test('Future#foreach', async(t: TestContext) => {
   t.is(executions, 0);
 });
 
-test('Future#isCompleted', async(t: TestContext) => {
+test('Future#isCompleted', async(t: ExecutionContext) => {
   t.plan(2);
 
   const delayedFuture: Future<void> = Future.create(
@@ -74,16 +74,16 @@ test('Future#isCompleted', async(t: TestContext) => {
   t.is(delayedFuture.isCompleted, true);
 });
 
-test('Future#map', async(t: TestContext) => {
+test('Future#map', async(t: ExecutionContext) => {
   t.plan(2);
 
   const successfulMap: string = await success.map((v: string) => `${v} world`).promise;
   t.is(successfulMap, 'hello world');
 
-  await t.throws(failure.map(() => 'world').promise as PromiseLike<string>);
+  await t.throws(failure.map(() => 'world').promise);
 });
 
-test('Future#onComplete', async(t: TestContext) => {
+test('Future#onComplete', async(t: ExecutionContext) => {
   t.plan(2);
 
   success.onComplete((v: Try<string>) => {
@@ -104,7 +104,7 @@ test('Future#onComplete', async(t: TestContext) => {
   }
 });
 
-test('Future#recover', async(t: TestContext) => {
+test('Future#recover', async(t: ExecutionContext) => {
   t.plan(4);
 
   const passthroughRecover: string = await success.recover((e: Error) => {
@@ -135,13 +135,13 @@ test('Future#recover', async(t: TestContext) => {
       else {
         throw error;
       }
-    }).promise as PromiseLike<string>
+    }).promise
   );
 
-  await t.throws(failure.recover((e: Error): string => { throw error; }).promise as PromiseLike<string>);
+  await t.throws(failure.recover((e: Error): string => { throw error; }).promise);
 });
 
-test('Future#recoverWith', async(t: TestContext) => {
+test('Future#recoverWith', async(t: ExecutionContext) => {
   t.plan(4);
 
   const passthroughRecoverWith: string = await success.recoverWith((e: Error) => {
@@ -175,5 +175,5 @@ test('Future#recoverWith', async(t: TestContext) => {
     }).promise as PromiseLike<string>
   );
 
-  await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise as PromiseLike<string>);
+  await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise);
 });

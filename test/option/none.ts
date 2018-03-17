@@ -1,22 +1,22 @@
-import { test, TestContext } from 'ava';
+import { ExecutionContext, test } from 'ava';
 
 import { None } from '../../src/option/none';
 import { Option } from '../../src/option/option';
 
-test('None#isDefined', (t: TestContext) => {
+test('None#isDefined', (t: ExecutionContext) => {
   t.false(None.isDefined);
 });
 
-test('None#isEmpty', (t: TestContext) => {
+test('None#isEmpty', (t: ExecutionContext) => {
   t.true(None.isEmpty);
 });
 
-test('None#equals', (t: TestContext) => {
+test('None#equals', (t: ExecutionContext) => {
   t.true(None.equals(None));
   t.false(None.equals(Option(1)));
 });
 
-test('None#filter', (t: TestContext) => {
+test('None#filter', (t: ExecutionContext) => {
   t.is(
     None.filter(() => true),
     None
@@ -27,7 +27,7 @@ test('None#filter', (t: TestContext) => {
   );
 });
 
-test('None#filterNot', (t: TestContext) => {
+test('None#filterNot', (t: ExecutionContext) => {
   t.is(
     None.filterNot(() => true),
     None
@@ -38,14 +38,14 @@ test('None#filterNot', (t: TestContext) => {
   );
 });
 
-test('None#flatMap', (t: TestContext) => {
+test('None#flatMap', (t: ExecutionContext) => {
   t.deepEqual(
     None.flatMap(() => Option('hello')),
     None
   );
 });
 
-test('None#foreach', (t: TestContext) => {
+test('None#foreach', (t: ExecutionContext) => {
   let executions: number = 0;
 
   None.foreach(() => { executions += 1; });
@@ -53,25 +53,25 @@ test('None#foreach', (t: TestContext) => {
   t.is(executions, 0);
 });
 
-test('None#get', (t: TestContext) => {
-  t.throws(() => None.get(), (error: Error) => error instanceof Option.NoSuchElementError);
+test('None#get', (t: ExecutionContext) => {
+  t.throws((): never => None.get(), { instanceOf: Option.NoSuchElementError });
 });
 
-test('None#getOrElse', (t: TestContext) => {
+test('None#getOrElse', (t: ExecutionContext) => {
   t.is(
     None.getOrElse(() => 'hello'),
     'hello'
   );
 });
 
-test('None#map', (t: TestContext) => {
+test('None#map', (t: ExecutionContext) => {
   t.deepEqual(
     None.map((v: never) => 'hello'),
     None
   );
 });
 
-test('None#match', (t: TestContext) => {
+test('None#match', (t: ExecutionContext) => {
   t.is(
     None.match({
       Some: (): string => 'hello',
@@ -81,7 +81,7 @@ test('None#match', (t: TestContext) => {
   );
 });
 
-test('None#orElse', (t: TestContext) => {
+test('None#orElse', (t: ExecutionContext) => {
   t.deepEqual(
     None.orElse(() => Option('hello')),
     Option('hello')
