@@ -1,10 +1,10 @@
-import { test, TestContext } from 'ava';
+import { ExecutionContext, test } from 'ava';
 
 import { None } from '../../src/option/none';
 import { Option } from '../../src/option/option';
 import { Some } from '../../src/option/some';
 
-test('Option::apply', (t: TestContext) => {
+test('Option::apply', (t: ExecutionContext) => {
   t.deepEqual(
     Option('hello'),
     new Some('hello')
@@ -23,7 +23,7 @@ test('Option::apply', (t: TestContext) => {
   );
 });
 
-test('Option::flatten', (t: TestContext) => {
+test('Option::flatten', (t: ExecutionContext) => {
   t.deepEqual(
     Option.flatten([
       None,

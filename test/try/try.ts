@@ -1,10 +1,10 @@
-import { test, TestContext } from 'ava';
+import { ExecutionContext, test } from 'ava';
 
 import { Failure } from '../../src/try/failure';
 import { Success } from '../../src/try/success';
 import { Try } from '../../src/try/try';
 
-test('Try::apply', (t: TestContext) => {
+test('Try::apply', (t: ExecutionContext) => {
   t.deepEqual(
     Try(() => 'hello'),
     new Success('hello')
@@ -16,7 +16,7 @@ test('Try::apply', (t: TestContext) => {
   );
 });
 
-test('Try::flatten', (t: TestContext) => {
+test('Try::flatten', (t: ExecutionContext) => {
   t.deepEqual(
     Try.flatten([
       new Failure<never>(new Error()),
