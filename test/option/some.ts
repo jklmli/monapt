@@ -1,25 +1,25 @@
-import { test, TestContext } from 'ava';
+import { ExecutionContext, test } from 'ava';
 
 import { None } from '../../src/option/none';
 import { Option } from '../../src/option/option';
 
 const some: Option<string> = Option('hello');
 
-test('Some#isDefined', (t: TestContext) => {
+test('Some#isDefined', (t: ExecutionContext) => {
   t.true(some.isDefined);
 });
 
-test('Some#isEmpty', (t: TestContext) => {
+test('Some#isEmpty', (t: ExecutionContext) => {
   t.false(some.isEmpty);
 });
 
-test('Some#equals', (t: TestContext) => {
+test('Some#equals', (t: ExecutionContext) => {
   t.true(some.equals(Option('hello')));
   t.false(some.equals(Option(1)));
   t.false(some.equals(None));
 });
 
-test('Some#filter', (t: TestContext) => {
+test('Some#filter', (t: ExecutionContext) => {
   t.is(
     some.filter((v: string) => v === 'hello'),
     some
@@ -30,7 +30,7 @@ test('Some#filter', (t: TestContext) => {
   );
 });
 
-test('Some#filterNot', (t: TestContext) => {
+test('Some#filterNot', (t: ExecutionContext) => {
   t.is(
     some.filterNot((v: string) => v === 'hello'),
     None
@@ -41,14 +41,14 @@ test('Some#filterNot', (t: TestContext) => {
   );
 });
 
-test('Some#flatMap', (t: TestContext) => {
+test('Some#flatMap', (t: ExecutionContext) => {
   t.deepEqual(
     some.flatMap(() => Option('world')),
     Option('world')
   );
 });
 
-test('Some#foreach', (t: TestContext) => {
+test('Some#foreach', (t: ExecutionContext) => {
   let executions: number = 0;
 
   some.foreach(() => { executions += 1; });
@@ -56,7 +56,7 @@ test('Some#foreach', (t: TestContext) => {
   t.is(executions, 1);
 });
 
-test('Some#get', (t: TestContext) => {
+test('Some#get', (t: ExecutionContext) => {
   try {
     t.is(
       some.get(),
@@ -68,21 +68,21 @@ test('Some#get', (t: TestContext) => {
   }
 });
 
-test('Some#getOrElse', (t: TestContext) => {
+test('Some#getOrElse', (t: ExecutionContext) => {
   t.is(
     some.getOrElse(() => 'world'),
     'hello'
   );
 });
 
-test('Some#map', (t: TestContext) => {
+test('Some#map', (t: ExecutionContext) => {
   t.deepEqual(
     some.map((v: string) => `${v} world`),
     Option('hello world')
   );
 });
 
-test('Some#match', (t: TestContext) => {
+test('Some#match', (t: ExecutionContext) => {
   t.is(
     some.match({
       Some: (v: string): string => v,
@@ -92,7 +92,7 @@ test('Some#match', (t: TestContext) => {
   );
 });
 
-test('Some#orElse', (t: TestContext) => {
+test('Some#orElse', (t: ExecutionContext) => {
   t.deepEqual(
     some.orElse(() => Option('world')),
     Option('hello')
