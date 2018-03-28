@@ -4,8 +4,6 @@ jobs:
     working_directory: ~/monapt
     docker:
       - image: node:boron
-    environment:
-      - COVERALLS_REPO_TOKEN: "mMDS1eSfES0hTguOkxWQOLDHbLJdfZLAa"
     steps:
       - checkout
       - restore_cache:
