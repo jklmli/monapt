@@ -171,6 +171,10 @@ class Future<A> {
     );
   }
 
+  zip<B>(that: Future<B>): Future<[A, B]> {
+    return this.flatMap((value: A) => that.map((thatValue: B) => [value, thatValue] as [A, B]));
+  }
+
 }
 
 export { Future };

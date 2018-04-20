@@ -195,3 +195,14 @@ test('Future#recoverWith', async(t: ExecutionContext) => {
 
   await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise);
 });
+
+test('Future#zip', async(t: ExecutionContext) => {
+  t.plan(3);
+
+  const value: Future<number> = Future.create(10);
+  const successfulZip: [string, number] = await success.zip(value).promise;
+  t.deepEqual(successfulZip, ['hello', 10]);
+
+  await t.throws(failure.zip(value).promise);
+  await t.throws(value.zip(failure).promise);
+});
