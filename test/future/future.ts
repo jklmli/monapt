@@ -35,7 +35,7 @@ test('Future#filter', async(t: ExecutionContext) => {
 });
 
 test('Future#flatMap', async(t: ExecutionContext) => {
-  t.plan(3);
+  t.plan(4);
 
   const successfulFlatMap: string = await success.flatMap(() => Future.create('world')).promise;
   t.is(successfulFlatMap, 'world');
@@ -44,6 +44,7 @@ test('Future#flatMap', async(t: ExecutionContext) => {
   await t.throws(failingFlatMap);
 
   await t.throws(failure.flatMap(() => success).promise);
+  await t.throws(success.flatMap(() => failure).promise);
 });
 
 test('Future#foreach', async(t: ExecutionContext) => {
