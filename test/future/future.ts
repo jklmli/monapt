@@ -35,7 +35,7 @@ test('Future#filter', async(t: ExecutionContext) => {
 });
 
 test('Future#flatMap', async(t: ExecutionContext) => {
-  t.plan(3);
+  t.plan(4);
 
   const successfulFlatMap: string = await success.flatMap(() => Future.create('world')).promise;
   t.is(successfulFlatMap, 'world');
@@ -44,6 +44,7 @@ test('Future#flatMap', async(t: ExecutionContext) => {
   await t.throws(failingFlatMap);
 
   await t.throws(failure.flatMap(() => success).promise);
+  await t.throws(success.flatMap(() => failure).promise);
 });
 
 test('Future#foreach', async(t: ExecutionContext) => {
@@ -193,4 +194,15 @@ test('Future#recoverWith', async(t: ExecutionContext) => {
   );
 
   await t.throws(failure.recoverWith((e: Error): Future<string> => { throw error; }).promise);
+});
+
+test('Future#zip', async(t: ExecutionContext) => {
+  t.plan(3);
+
+  const value: Future<number> = Future.create(10);
+  const successfulZip: [string, number] = await success.zip(value).promise;
+  t.deepEqual(successfulZip, ['hello', 10]);
+
+  await t.throws(failure.zip(value).promise);
+  await t.throws(value.zip(failure).promise);
 });

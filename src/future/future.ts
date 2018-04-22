@@ -78,9 +78,12 @@ class Future<A> {
         this.promise
           .then((value: A): void => {
             try {
-              mapper(value)
-                .foreach((b: B): void => {
-                  resolve(b);
+              mapper(value).promise
+                .then((value: B): void => {
+                    resolve(value);
+                })
+                .catch((error: Error): void => {
+                    reject(error);
                 });
             }
             catch (error) {
@@ -167,6 +170,11 @@ class Future<A> {
       })
     );
   }
+
+  zip<B>(that: Future<B>): Future<[A, B]> {
+    return this.flatMap((value: A) => that.map((thatValue: B) => [value, thatValue] as [A, B]));
+  }
+
 }
 
 export { Future };
